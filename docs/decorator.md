@@ -1,10 +1,10 @@
-# 修饰器
+# 修飾器
 
-## 类的修饰
+## 類的修飾
 
-修饰器（Decorator）是一个函数，用来修改类的行为。这是ES7的一个[提案](https://github.com/wycats/javascript-decorators)，目前Babel转码器已经支持。
+修飾器（Decorator）是一個函式，用來修改類的行為。這是ES7的一個[提案](https://github.com/wycats/javascript-decorators)，目前Babel轉碼器已經支援。
 
-修饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，修饰器能在编译阶段运行代码。
+修飾器對類的行為的改變，是程式碼編譯時發生的，而不是在執行時。這意味著，修飾器能在編譯階段執行程式碼。
 
 ```javascript
 function testable(target) {
@@ -17,23 +17,23 @@ class MyTestableClass {}
 console.log(MyTestableClass.isTestable) // true
 ```
 
-上面代码中，`@testable`就是一个修饰器。它修改了`MyTestableClass`这个类的行为，为它加上了静态属性`isTestable`。
+上面程式碼中，`@testable`就是一個修飾器。它修改了`MyTestableClass`這個類的行為，為它加上了靜態屬性`isTestable`。
 
-基本上，修饰器的行为就是下面这样。
+基本上，修飾器的行為就是下面這樣。
 
 ```javascript
 @decorator
 class A {}
 
-// 等同于
+// 等同於
 
 class A {}
 A = decorator(A) || A;
 ```
 
-也就是说，修饰器本质就是编译时执行的函数。
+也就是說，修飾器本質就是編譯時執行的函式。
 
-修饰器函数的第一个参数，就是所要修饰的目标类。
+修飾器函式的第一個引數，就是所要修飾的目標類。
 
 ```javascript
 function testable(target) {
@@ -41,9 +41,9 @@ function testable(target) {
 }
 ```
 
-上面代码中，`testable`函数的参数`target`，就是会被修饰的类。
+上面程式碼中，`testable`函式的引數`target`，就是會被修飾的類。
 
-如果觉得一个参数不够用，可以在修饰器外面再封装一层函数。
+如果覺得一個引數不夠用，可以在修飾器外面再封裝一層函式。
 
 ```javascript
 function testable(isTestable) {
@@ -61,9 +61,9 @@ class MyClass {}
 MyClass.isTestable // false
 ```
 
-上面代码中，修饰器`testable`可以接受参数，这就等于可以修改修饰器的行为。
+上面程式碼中，修飾器`testable`可以接受引數，這就等於可以修改修飾器的行為。
 
-前面的例子是为类添加一个静态属性，如果想添加实例属性，可以通过目标类的`prototype`对象操作。
+前面的例子是為類新增一個靜態屬性，如果想新增例項屬性，可以通過目標類的`prototype`物件操作。
 
 ```javascript
 function testable(target) {
@@ -77,9 +77,9 @@ let obj = new MyTestableClass();
 obj.isTestable // true
 ```
 
-上面代码中，修饰器函数`testable`是在目标类的`prototype`对象上添加属性，因此就可以在实例上调用。
+上面程式碼中，修飾器函式`testable`是在目標類的`prototype`物件上新增屬性，因此就可以在例項上呼叫。
 
-下面是另外一个例子。
+下面是另外一個例子。
 
 ```javascript
 // mixins.js
@@ -103,7 +103,7 @@ let obj = new MyClass();
 obj.foo() // 'foo'
 ```
 
-上面代码通过修饰器`mixins`，把`Foo`类的方法添加到了`MyClass`的实例上面。可以用`Object.assign()`模拟这个功能。
+上面程式碼通過修飾器`mixins`，把`Foo`類的方法新增到了`MyClass`的例項上面。可以用`Object.assign()`模擬這個功能。
 
 ```javascript
 const Foo = {
@@ -118,9 +118,9 @@ let obj = new MyClass();
 obj.foo() // 'foo'
 ```
 
-## 方法的修饰
+## 方法的修飾
 
-修饰器不仅可以修饰类，还可以修饰类的属性。
+修飾器不僅可以修飾類，還可以修飾類的屬性。
 
 ```javascript
 class Person {
@@ -129,13 +129,13 @@ class Person {
 }
 ```
 
-上面代码中，修饰器`readonly`用来修饰“类”的`name`方法。
+上面程式碼中，修飾器`readonly`用來修飾“類”的`name`方法。
 
-此时，修饰器函数一共可以接受三个参数，第一个参数是所要修饰的目标对象，第二个参数是所要修饰的属性名，第三个参数是该属性的描述对象。
+此時，修飾器函式一共可以接受三個引數，第一個引數是所要修飾的目標物件，第二個引數是所要修飾的屬性名，第三個引數是該屬性的描述物件。
 
 ```javascript
 function readonly(target, name, descriptor){
-  // descriptor对象原来的值如下
+  // descriptor物件原來的值如下
   // {
   //   value: specifiedFunction,
   //   enumerable: false,
@@ -147,13 +147,13 @@ function readonly(target, name, descriptor){
 }
 
 readonly(Person.prototype, 'name', descriptor);
-// 类似于
+// 類似於
 Object.defineProperty(Person.prototype, 'name', descriptor);
 ```
 
-上面代码说明，修饰器（readonly）会修改属性的描述对象（descriptor），然后被修改的描述对象再用来定义属性。
+上面程式碼說明，修飾器（readonly）會修改屬性的描述物件（descriptor），然後被修改的描述物件再用來定義屬性。
 
-下面是另一个例子，修改属性描述对象的`enumerable`属性，使得该属性不可遍历。
+下面是另一個例子，修改屬性描述物件的`enumerable`屬性，使得該屬性不可遍歷。
 
 ```javascript
 class Person {
@@ -167,7 +167,7 @@ function nonenumerable(target, name, descriptor) {
 }
 ```
 
-下面的`@log`修饰器，可以起到输出日志的作用。
+下面的`@log`修飾器，可以起到輸出日誌的作用。
 
 ```javascript
 class Math {
@@ -194,9 +194,9 @@ const math = new Math();
 math.add(2, 4);
 ```
 
-上面代码中，`@log`修饰器的作用就是在执行原始的操作之前，执行一次`console.log`，从而达到输出日志的目的。
+上面程式碼中，`@log`修飾器的作用就是在執行原始的操作之前，執行一次`console.log`，從而達到輸出日誌的目的。
 
-修饰器有注释的作用。
+修飾器有註釋的作用。
 
 ```javascript
 @testable
@@ -207,9 +207,9 @@ class Person {
 }
 ```
 
-从上面代码中，我们一眼就能看出，`Person`类是可测试的，而`name`方法是只读和不可枚举的。
+從上面程式碼中，我們一眼就能看出，`Person`類是可測試的，而`name`方法是隻讀和不可列舉的。
 
-如果同一个方法有多个修饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行。
+如果同一個方法有多個修飾器，會像剝洋蔥一樣，先從外到內進入，然後由內向外執行。
 
 ```javascript
 function dec(id){
@@ -228,13 +228,13 @@ class Example {
 // executed 1
 ```
 
-上面代码中，外层修饰器`@dec(1)`先进入，但是内层修饰器`@dec(2)`先执行。
+上面程式碼中，外層修飾器`@dec(1)`先進入，但是內層修飾器`@dec(2)`先執行。
 
-除了注释，修饰器还能用来类型检查。所以，对于类来说，这项功能相当有用。从长期来看，它将是JavaScript代码静态分析的重要工具。
+除了註釋，修飾器還能用來型別檢查。所以，對於類來說，這項功能相當有用。從長期來看，它將是JavaScript程式碼靜態分析的重要工具。
 
-## 为什么修饰器不能用于函数？
+## 為什麼修飾器不能用於函式？
 
-修饰器只能用于类和类的方法，不能用于函数，因为存在函数提升。
+修飾器只能用於類和類的方法，不能用於函式，因為存在函式提升。
 
 ```javascript
 var counter = 0;
@@ -248,7 +248,7 @@ function foo() {
 }
 ```
 
-上面的代码，意图是执行后`counter`等于1，但是实际上结果是`counter`等于0。因为函数提升，使得实际执行的代码是下面这样。
+上面的程式碼，意圖是執行後`counter`等於1，但是實際上結果是`counter`等於0。因為函式提升，使得實際執行的程式碼是下面這樣。
 
 ```javascript
 @add
@@ -265,7 +265,7 @@ add = function () {
 };
 ```
 
-下面是另一个例子。
+下面是另一個例子。
 
 ```javascript
 var readOnly = require("some-decorator");
@@ -275,7 +275,7 @@ function foo() {
 }
 ```
 
-上面代码也有问题，因为实际执行是下面这样。
+上面程式碼也有問題，因為實際執行是下面這樣。
 
 ```javascript
 var readOnly;
@@ -287,15 +287,15 @@ function foo() {
 readOnly = require("some-decorator");
 ```
 
-总之，由于存在函数提升，使得修饰器不能用于函数。类是不会提升的，所以就没有这方面的问题。
+總之，由於存在函式提升，使得修飾器不能用於函式。類是不會提升的，所以就沒有這方面的問題。
 
 ## core-decorators.js
 
-[core-decorators.js](https://github.com/jayphelps/core-decorators.js)是一个第三方模块，提供了几个常见的修饰器，通过它可以更好地理解修饰器。
+[core-decorators.js](https://github.com/jayphelps/core-decorators.js)是一個第三方模組，提供了幾個常見的修飾器，通過它可以更好地理解修飾器。
 
 **（1）@autobind**
 
-`autobind`修饰器使得方法中的`this`对象，绑定原始对象。
+`autobind`修飾器使得方法中的`this`物件，繫結原始物件。
 
 ```javascript
 import { autobind } from 'core-decorators';
@@ -316,7 +316,7 @@ getPerson() === person;
 
 **（2）@readonly**
 
-`readonly`修饰器使得属性或方法不可写。
+`readonly`修飾器使得屬性或方法不可寫。
 
 ```javascript
 import { readonly } from 'core-decorators';
@@ -333,7 +333,7 @@ dinner.entree = 'salmon';
 
 **（3）@override**
 
-`override`修饰器检查子类的方法，是否正确覆盖了父类的同名方法，如果不正确会报错。
+`override`修飾器檢查子類的方法，是否正確覆蓋了父類的同名方法，如果不正確會報錯。
 
 ```javascript
 import { override } from 'core-decorators';
@@ -359,9 +359,9 @@ class Child extends Parent {
 }
 ```
 
-**（4）@deprecate (别名@deprecated)**
+**（4）@deprecate (別名@deprecated)**
 
-`deprecate`或`deprecated`修饰器在控制台显示一条警告，表示该方法将废除。
+`deprecate`或`deprecated`修飾器在控制檯顯示一條警告，表示該方法將廢除。
 
 ```javascript
 import { deprecate } from 'core-decorators';
@@ -394,7 +394,7 @@ person.facepalmHarder();
 
 **（5）@suppressWarnings**
 
-`suppressWarnings`修饰器抑制`decorated`修饰器导致的`console.warn()`调用。但是，异步代码发出的调用除外。
+`suppressWarnings`修飾器抑制`decorated`修飾器導致的`console.warn()`呼叫。但是，非同步程式碼發出的呼叫除外。
 
 ```javascript
 import { suppressWarnings } from 'core-decorators';
@@ -415,9 +415,9 @@ person.facepalmWithoutWarning();
 // no warning is logged
 ```
 
-## 使用修饰器实现自动发布事件
+## 使用修飾器實現自動釋出事件
 
-我们可以使用修饰器，使得对象的方法被调用时，自动发出一个事件。
+我們可以使用修飾器，使得物件的方法被呼叫時，自動發出一個事件。
 
 ```javascript
 import postal from "postal/lib/postal.lodash";
@@ -434,7 +434,7 @@ export default function publish(topic, channel) {
 }
 ```
 
-上面代码定义了一个名为`publish`的修饰器，它通过改写`descriptor.value`，使得原方法被调用时，会自动发出一个事件。它使用的事件“发布/订阅”库是[Postal.js](https://github.com/postaljs/postal.js)。
+上面程式碼定義了一個名為`publish`的修飾器，它通過改寫`descriptor.value`，使得原方法被呼叫時，會自動發出一個事件。它使用的事件“釋出/訂閱”庫是[Postal.js](https://github.com/postaljs/postal.js)。
 
 它的用法如下。
 
@@ -455,20 +455,20 @@ class FooComponent {
 }
 ```
 
-以后，只要调用`someMethod`或者`anotherMethod`，就会自动发出一个事件。
+以後，只要呼叫`someMethod`或者`anotherMethod`，就會自動發出一個事件。
 
 ```javascript
 let foo = new FooComponent();
 
-foo.someMethod() // 在"component"频道发布"foo.some.message"事件，附带的数据是{ my: "data" }
-foo.anotherMethod() // 在"/"频道发布"foo.some.other"事件，不附带数据
+foo.someMethod() // 在"component"頻道釋出"foo.some.message"事件，附帶的資料是{ my: "data" }
+foo.anotherMethod() // 在"/"頻道釋出"foo.some.other"事件，不附帶資料
 ```
 
 ## Mixin
 
-在修饰器的基础上，可以实现`Mixin`模式。所谓`Mixin`模式，就是对象继承的一种替代方案，中文译为“混入”（mix in），意为在一个对象之中混入另外一个对象的方法。
+在修飾器的基礎上，可以實現`Mixin`模式。所謂`Mixin`模式，就是物件繼承的一種替代方案，中文譯為“混入”（mix in），意為在一個物件之中混入另外一個物件的方法。
 
-请看下面的例子。
+請看下面的例子。
 
 ```javascript
 const Foo = {
@@ -483,9 +483,9 @@ let obj = new MyClass();
 obj.foo() // 'foo'
 ```
 
-上面代码之中，对象`Foo`有一个`foo`方法，通过`Object.assign`方法，可以将`foo`方法“混入”`MyClass`类，导致`MyClass`的实例`obj`对象都具有`foo`方法。这就是“混入”模式的一个简单实现。
+上面程式碼之中，物件`Foo`有一個`foo`方法，通過`Object.assign`方法，可以將`foo`方法“混入”`MyClass`類，導致`MyClass`的例項`obj`物件都具有`foo`方法。這就是“混入”模式的一個簡單實現。
 
-下面，我们部署一个通用脚本`mixins.js`，将mixin写成一个修饰器。
+下面，我們部署一個通用指令碼`mixins.js`，將mixin寫成一個修飾器。
 
 ```javascript
 export function mixins(...list) {
@@ -495,7 +495,7 @@ export function mixins(...list) {
 }
 ```
 
-然后，就可以使用上面这个修饰器，为类“混入”各种方法。
+然後，就可以使用上面這個修飾器，為類“混入”各種方法。
 
 ```javascript
 import { mixins } from './mixins';
@@ -511,9 +511,9 @@ let obj = new MyClass();
 obj.foo() // "foo"
 ```
 
-通过mixins这个修饰器，实现了在MyClass类上面“混入”Foo对象的`foo`方法。
+通過mixins這個修飾器，實現了在MyClass類上面“混入”Foo物件的`foo`方法。
 
-不过，上面的方法会改写`MyClass`类的`prototype`对象，如果不喜欢这一点，也可以通过类的继承实现mixin。
+不過，上面的方法會改寫`MyClass`類的`prototype`物件，如果不喜歡這一點，也可以通過類的繼承實現mixin。
 
 ```javascript
 class MyClass extends MyBaseClass {
@@ -521,7 +521,7 @@ class MyClass extends MyBaseClass {
 }
 ```
 
-上面代码中，`MyClass`继承了`MyBaseClass`。如果我们想在`MyClass`里面“混入”一个`foo`方法，一个办法是在`MyClass`和`MyBaseClass`之间插入一个混入类，这个类具有`foo`方法，并且继承了`MyBaseClass`的所有方法，然后`MyClass`再继承这个类。
+上面程式碼中，`MyClass`繼承了`MyBaseClass`。如果我們想在`MyClass`裡面“混入”一個`foo`方法，一個辦法是在`MyClass`和`MyBaseClass`之間插入一個混入類，這個類具有`foo`方法，並且繼承了`MyBaseClass`的所有方法，然後`MyClass`再繼承這個類。
 
 ```javascript
 let MyMixin = (superclass) => class extends superclass {
@@ -531,9 +531,9 @@ let MyMixin = (superclass) => class extends superclass {
 };
 ```
 
-上面代码中，`MyMixin`是一个混入类生成器，接受`superclass`作为参数，然后返回一个继承`superclass`的子类，该子类包含一个`foo`方法。
+上面程式碼中，`MyMixin`是一個混入類生成器，接受`superclass`作為引數，然後返回一個繼承`superclass`的子類，該子類包含一個`foo`方法。
 
-接着，目标类再去继承这个混入类，就达到了“混入”`foo`方法的目的。
+接著，目標類再去繼承這個混入類，就達到了“混入”`foo`方法的目的。
 
 ```javascript
 class MyClass extends MyMixin(MyBaseClass) {
@@ -544,7 +544,7 @@ let c = new MyClass();
 c.foo(); // "foo from MyMixin"
 ```
 
-如果需要“混入”多个方法，就生成多个混入类。
+如果需要“混入”多個方法，就生成多個混入類。
 
 ```javascript
 class MyClass extends Mixin1(Mixin2(MyBaseClass)) {
@@ -552,7 +552,7 @@ class MyClass extends Mixin1(Mixin2(MyBaseClass)) {
 }
 ```
 
-这种写法的一个好处，是可以调用`super`，因此可以避免在“混入”过程中覆盖父类的同名方法。
+這種寫法的一個好處，是可以呼叫`super`，因此可以避免在“混入”過程中覆蓋父類的同名方法。
 
 ```javascript
 let Mixin1 = (superclass) => class extends superclass {
@@ -583,7 +583,7 @@ class C extends Mixin1(Mixin2(S)) {
 }
 ```
 
-上面代码中，每一次`混入`发生时，都调用了父类的`super.foo`方法，导致父类的同名方法没有被覆盖，行为被保留了下来。
+上面程式碼中，每一次`混入`發生時，都呼叫了父類的`super.foo`方法，導致父類的同名方法沒有被覆蓋，行為被保留了下來。
 
 ```javascript
 new C().foo()
@@ -595,9 +595,9 @@ new C().foo()
 
 ## Trait
 
-Trait也是一种修饰器，效果与Mixin类似，但是提供更多功能，比如防止同名方法的冲突、排除混入某些方法、为混入的方法起别名等等。
+Trait也是一種修飾器，效果與Mixin類似，但是提供更多功能，比如防止同名方法的衝突、排除混入某些方法、為混入的方法起別名等等。
 
-下面采用[traits-decorator](https://github.com/CocktailJS/traits-decorator)这个第三方模块作为例子。这个模块提供的traits修饰器，不仅可以接受对象，还可以接受ES6类作为参数。
+下面採用[traits-decorator](https://github.com/CocktailJS/traits-decorator)這個第三方模組作為例子。這個模組提供的traits修飾器，不僅可以接受物件，還可以接受ES6類作為引數。
 
 ```javascript
 import { traits } from 'traits-decorator';
@@ -618,9 +618,9 @@ obj.foo() // foo
 obj.bar() // bar
 ```
 
-上面代码中，通过traits修饰器，在`MyClass`类上面“混入”了`TFoo`类的`foo`方法和`TBar`对象的`bar`方法。
+上面程式碼中，通過traits修飾器，在`MyClass`類上面“混入”了`TFoo`類的`foo`方法和`TBar`物件的`bar`方法。
 
-Trait不允许“混入”同名方法。
+Trait不允許“混入”同名方法。
 
 ```javascript
 import { traits } from 'traits-decorator';
@@ -636,15 +636,15 @@ const TBar = {
 
 @traits(TFoo, TBar)
 class MyClass { }
-// 报错
+// 報錯
 // throw new Error('Method named: ' + methodName + ' is defined twice.');
 //        ^
 // Error: Method named: foo is defined twice.
 ```
 
-上面代码中，TFoo和TBar都有foo方法，结果traits修饰器报错。
+上面程式碼中，TFoo和TBar都有foo方法，結果traits修飾器報錯。
 
-一种解决方法是排除TBar的foo方法。
+一種解決方法是排除TBar的foo方法。
 
 ```javascript
 import { traits, excludes } from 'traits-decorator';
@@ -666,9 +666,9 @@ obj.foo() // foo
 obj.bar() // bar
 ```
 
-上面代码使用绑定运算符（::）在TBar上排除foo方法，混入时就不会报错了。
+上面程式碼使用繫結運算子（::）在TBar上排除foo方法，混入時就不會報錯了。
 
-另一种方法是为TBar的foo方法起一个别名。
+另一種方法是為TBar的foo方法起一個別名。
 
 ```javascript
 import { traits, alias } from 'traits-decorator';
@@ -691,35 +691,35 @@ obj.aliasFoo() // foo
 obj.bar() // bar
 ```
 
-上面代码为TBar的foo方法起了别名aliasFoo，于是MyClass也可以混入TBar的foo方法了。
+上面程式碼為TBar的foo方法起了別名aliasFoo，於是MyClass也可以混入TBar的foo方法了。
 
-alias和excludes方法，可以结合起来使用。
+alias和excludes方法，可以結合起來使用。
 
 ```javascript
 @traits(TExample::excludes('foo','bar')::alias({baz:'exampleBaz'}))
 class MyClass {}
 ```
 
-上面代码排除了TExample的foo方法和bar方法，为baz方法起了别名exampleBaz。
+上面程式碼排除了TExample的foo方法和bar方法，為baz方法起了別名exampleBaz。
 
-as方法则为上面的代码提供了另一种写法。
+as方法則為上面的程式碼提供了另一種寫法。
 
 ```javascript
 @traits(TExample::as({excludes:['foo', 'bar'], alias: {baz: 'exampleBaz'}}))
 class MyClass {}
 ```
 
-## Babel转码器的支持
+## Babel轉碼器的支援
 
-目前，Babel转码器已经支持Decorator。
+目前，Babel轉碼器已經支援Decorator。
 
-首先，安装`babel-core`和`babel-plugin-transform-decorators`。由于后者包括在`babel-preset-stage-0`之中，所以改为安装`babel-preset-stage-0`亦可。
+首先，安裝`babel-core`和`babel-plugin-transform-decorators`。由於後者包括在`babel-preset-stage-0`之中，所以改為安裝`babel-preset-stage-0`亦可。
 
 ```bash
 $ npm install babel-core babel-plugin-transform-decorators
 ```
 
-然后，设置配置文件`.babelrc`。
+然後，設定配置檔案`.babelrc`。
 
 ```javascript
 {
@@ -727,12 +727,12 @@ $ npm install babel-core babel-plugin-transform-decorators
 }
 ```
 
-这时，Babel就可以对Decorator转码了。
+這時，Babel就可以對Decorator轉碼了。
 
-脚本中打开的命令如下。
+指令碼中開啟的命令如下。
 
 ```javascript
 babel.transform("code", {plugins: ["transform-decorators"]})
 ```
 
-Babel的官方网站提供一个[在线转码器](https://babeljs.io/repl/)，只要勾选Experimental，就能支持Decorator的在线转码。
+Babel的官方網站提供一個[線上轉碼器](https://babeljs.io/repl/)，只要勾選Experimental，就能支援Decorator的線上轉碼。

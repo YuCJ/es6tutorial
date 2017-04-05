@@ -2,14 +2,14 @@
 
 ## 概述
 
-`Reflect`对象与`Proxy`对象一样，也是 ES6 为了操作对象而提供的新 API。`Reflect`对象的设计目的有这样几个。
+`Reflect`物件與`Proxy`物件一樣，也是 ES6 為了操作物件而提供的新 API。`Reflect`物件的設計目的有這樣幾個。
 
-（1） 将`Object`对象的一些明显属于语言内部的方法（比如`Object.defineProperty`），放到`Reflect`对象上。现阶段，某些方法同时在`Object`和`Reflect`对象上部署，未来的新方法将只部署在`Reflect`对象上。也就是说，从`Reflect`对象上可以拿到语言内部的方法。
+（1） 將`Object`物件的一些明顯屬於語言內部的方法（比如`Object.defineProperty`），放到`Reflect`物件上。現階段，某些方法同時在`Object`和`Reflect`物件上部署，未來的新方法將只部署在`Reflect`物件上。也就是說，從`Reflect`物件上可以拿到語言內部的方法。
 
-（2） 修改某些`Object`方法的返回结果，让其变得更合理。比如，`Object.defineProperty(obj, name, desc)`在无法定义属性时，会抛出一个错误，而`Reflect.defineProperty(obj, name, desc)`则会返回`false`。
+（2） 修改某些`Object`方法的返回結果，讓其變得更合理。比如，`Object.defineProperty(obj, name, desc)`在無法定義屬性時，會丟擲一個錯誤，而`Reflect.defineProperty(obj, name, desc)`則會返回`false`。
 
 ```javascript
-// 老写法
+// 老寫法
 try {
   Object.defineProperty(target, property, attributes);
   // success
@@ -17,7 +17,7 @@ try {
   // failure
 }
 
-// 新写法
+// 新寫法
 if (Reflect.defineProperty(target, property, attributes)) {
   // success
 } else {
@@ -25,17 +25,17 @@ if (Reflect.defineProperty(target, property, attributes)) {
 }
 ```
 
-（3） 让`Object`操作都变成函数行为。某些`Object`操作是命令式，比如`name in obj`和`delete obj[name]`，而`Reflect.has(obj, name)`和`Reflect.deleteProperty(obj, name)`让它们变成了函数行为。
+（3） 讓`Object`操作都變成函式行為。某些`Object`操作是命令式，比如`name in obj`和`delete obj[name]`，而`Reflect.has(obj, name)`和`Reflect.deleteProperty(obj, name)`讓它們變成了函式行為。
 
 ```javascript
-// 老写法
+// 老寫法
 'assign' in Object // true
 
-// 新写法
+// 新寫法
 Reflect.has(Object, 'assign') // true
 ```
 
-（4）`Reflect`对象的方法与`Proxy`对象的方法一一对应，只要是`Proxy`对象的方法，就能在`Reflect`对象上找到对应的方法。这就让`Proxy`对象可以方便地调用对应的`Reflect`方法，完成默认行为，作为修改行为的基础。也就是说，不管`Proxy`怎么修改默认行为，你总可以在`Reflect`上获取默认行为。
+（4）`Reflect`物件的方法與`Proxy`物件的方法一一對應，只要是`Proxy`物件的方法，就能在`Reflect`物件上找到對應的方法。這就讓`Proxy`物件可以方便地呼叫對應的`Reflect`方法，完成預設行為，作為修改行為的基礎。也就是說，不管`Proxy`怎麼修改預設行為，你總可以在`Reflect`上獲取預設行為。
 
 ```javascript
 Proxy(target, {
@@ -49,9 +49,9 @@ Proxy(target, {
 });
 ```
 
-上面代码中，`Proxy`方法拦截`target`对象的属性赋值行为。它采用`Reflect.set`方法将值赋值给对象的属性，确保完成原有的行为，然后再部署额外的功能。
+上面程式碼中，`Proxy`方法攔截`target`物件的屬性賦值行為。它採用`Reflect.set`方法將值賦值給物件的屬性，確保完成原有的行為，然後再部署額外的功能。
 
-下面是另一个例子。
+下面是另一個例子。
 
 ```javascript
 var loggedObj = new Proxy(obj, {
@@ -70,21 +70,21 @@ var loggedObj = new Proxy(obj, {
 });
 ```
 
-上面代码中，每一个`Proxy`对象的拦截操作（`get`、`delete`、`has`），内部都调用对应的`Reflect`方法，保证原生行为能够正常执行。添加的工作，就是将每一个操作输出一行日志。
+上面程式碼中，每一個`Proxy`物件的攔截操作（`get`、`delete`、`has`），內部都呼叫對應的`Reflect`方法，保證原生行為能夠正常執行。新增的工作，就是將每一個操作輸出一行日誌。
 
-有了`Reflect`对象以后，很多操作会更易读。
+有了`Reflect`物件以後，很多操作會更易讀。
 
 ```javascript
-// 老写法
+// 老寫法
 Function.prototype.apply.call(Math.floor, undefined, [1.75]) // 1
 
-// 新写法
+// 新寫法
 Reflect.apply(Math.floor, undefined, [1.75]) // 1
 ```
 
-## 静态方法
+## 靜態方法
 
-`Reflect`对象一共有13个静态方法。
+`Reflect`物件一共有13個靜態方法。
 
 - Reflect.apply(target,thisArg,args)
 - Reflect.construct(target,args)
@@ -100,11 +100,11 @@ Reflect.apply(Math.floor, undefined, [1.75]) // 1
 - Reflect.getPrototypeOf(target)
 - Reflect.setPrototypeOf(target, prototype)
 
-上面这些方法的作用，大部分与`Object`对象的同名方法的作用都是相同的，而且它与`Proxy`对象的方法是一一对应的。下面是对它们的解释。
+上面這些方法的作用，大部分與`Object`物件的同名方法的作用都是相同的，而且它與`Proxy`物件的方法是一一對應的。下面是對它們的解釋。
 
 ### Reflect.get(target, name, receiver)
 
-`Reflect.get`方法查找并返回`target`对象的`name`属性，如果没有该属性，则返回`undefined`。
+`Reflect.get`方法查詢並返回`target`物件的`name`屬性，如果沒有該屬性，則返回`undefined`。
 
 ```javascript
 var myObject = {
@@ -120,7 +120,7 @@ Reflect.get(myObject, 'bar') // 2
 Reflect.get(myObject, 'baz') // 3
 ```
 
-如果`name`属性部署了读取函数（getter），则读取函数的`this`绑定`receiver`。
+如果`name`屬性部署了讀取函式（getter），則讀取函式的`this`繫結`receiver`。
 
 ```javascript
 var myObject = {
@@ -139,16 +139,16 @@ var myReceiverObject = {
 Reflect.get(myObject, 'baz', myReceiverObject) // 8
 ```
 
-如果第一个参数不是对象，`Reflect.get`方法会报错。
+如果第一個引數不是物件，`Reflect.get`方法會報錯。
 
 ```javascript
-Reflect.get(1, 'foo') // 报错
-Reflect.get(false, 'foo') // 报错
+Reflect.get(1, 'foo') // 報錯
+Reflect.get(false, 'foo') // 報錯
 ```
 
 ### Reflect.set(target, name, value, receiver)
 
-`Reflect.set`方法设置`target`对象的`name`属性等于`value`。
+`Reflect.set`方法設定`target`物件的`name`屬性等於`value`。
 
 ```javascript
 var myObject = {
@@ -167,7 +167,7 @@ Reflect.set(myObject, 'bar', 3)
 myObject.foo // 3
 ```
 
-如果`name`属性设置了赋值函数，则赋值函数的`this`绑定`receiver`。
+如果`name`屬性設定了賦值函式，則賦值函式的`this`繫結`receiver`。
 
 ```javascript
 var myObject = {
@@ -186,14 +186,14 @@ myObject.foo // 4
 myReceiverObject.foo // 1
 ```
 
-如果第一个参数不是对象，`Reflect.set`会报错。
+如果第一個引數不是物件，`Reflect.set`會報錯。
 
 ```javascript
-Reflect.set(1, 'foo', {}) // 报错
-Reflect.set(false, 'foo', {}) // 报错
+Reflect.set(1, 'foo', {}) // 報錯
+Reflect.set(false, 'foo', {}) // 報錯
 ```
 
-注意，`Reflect.set`会触发`Proxy.defineProperty`拦截。
+注意，`Reflect.set`會觸發`Proxy.defineProperty`攔截。
 
 ```javascript
 let p = {
@@ -217,94 +217,94 @@ obj.a = 'A';
 // defineProperty
 ```
 
-上面代码中，`Proxy.set`拦截中使用了`Reflect.set`，导致触发`Proxy.defineProperty`拦截。
+上面程式碼中，`Proxy.set`攔截中使用了`Reflect.set`，導致觸發`Proxy.defineProperty`攔截。
 
 ### Reflect.has(obj, name)
 
-`Reflect.has`方法对应`name in obj`里面的`in`运算符。
+`Reflect.has`方法對應`name in obj`裡面的`in`運算子。
 
 ```javascript
 var myObject = {
   foo: 1,
 };
 
-// 旧写法
+// 舊寫法
 'foo' in myObject // true
 
-// 新写法
+// 新寫法
 Reflect.has(myObject, 'foo') // true
 ```
 
-如果第一个参数不是对象，`Reflect.has`和`in`运算符都会报错。
+如果第一個引數不是物件，`Reflect.has`和`in`運算子都會報錯。
 
 ### Reflect.deleteProperty(obj, name)
 
-`Reflect.deleteProperty`方法等同于`delete obj[name]`，用于删除对象的属性。
+`Reflect.deleteProperty`方法等同於`delete obj[name]`，用於刪除物件的屬性。
 
 ```javascript
 const myObj = { foo: 'bar' };
 
-// 旧写法
+// 舊寫法
 delete myObj.foo;
 
-// 新写法
+// 新寫法
 Reflect.deleteProperty(myObj, 'foo');
 ```
 
-该方法返回一个布尔值。如果删除成功，或者被删除的属性不存在，返回`true`；删除失败，被删除的属性依然存在，返回`false`。
+該方法返回一個布林值。如果刪除成功，或者被刪除的屬性不存在，返回`true`；刪除失敗，被刪除的屬性依然存在，返回`false`。
 
 ### Reflect.construct(target, args)
 
-`Reflect.construct`方法等同于`new target(...args)`，这提供了一种不使用`new`，来调用构造函数的方法。
+`Reflect.construct`方法等同於`new target(...args)`，這提供了一種不使用`new`，來呼叫建構函式的方法。
 
 ```javascript
 function Greeting(name) {
   this.name = name;
 }
 
-// new 的写法
-const instance = new Greeting('张三');
+// new 的寫法
+const instance = new Greeting('張三');
 
-// Reflect.construct 的写法
-const instance = Reflect.construct(Greeting, ['张三']);
+// Reflect.construct 的寫法
+const instance = Reflect.construct(Greeting, ['張三']);
 ```
 
 ### Reflect.getPrototypeOf(obj)
 
-`Reflect.getPrototypeOf`方法用于读取对象的`__proto__`属性，对应`Object.getPrototypeOf(obj)`。
+`Reflect.getPrototypeOf`方法用於讀取物件的`__proto__`屬性，對應`Object.getPrototypeOf(obj)`。
 
 ```javascript
 const myObj = new FancyThing();
 
-// 旧写法
+// 舊寫法
 Object.getPrototypeOf(myObj) === FancyThing.prototype;
 
-// 新写法
+// 新寫法
 Reflect.getPrototypeOf(myObj) === FancyThing.prototype;
 ```
 
-`Reflect.getPrototypeOf`和`Object.getPrototypeOf`的一个区别是，如果参数不是对象，`Object.getPrototypeOf`会将这个参数转为对象，然后再运行，而`Reflect.getPrototypeOf`会报错。
+`Reflect.getPrototypeOf`和`Object.getPrototypeOf`的一個區別是，如果引數不是物件，`Object.getPrototypeOf`會將這個引數轉為物件，然後再執行，而`Reflect.getPrototypeOf`會報錯。
 
 ```javascript
 Object.getPrototypeOf(1) // Number {[[PrimitiveValue]]: 0}
-Reflect.getPrototypeOf(1) // 报错
+Reflect.getPrototypeOf(1) // 報錯
 ```
 
 ### Reflect.setPrototypeOf(obj, newProto)
 
-`Reflect.setPrototypeOf`方法用于设置对象的`__proto__`属性，返回第一个参数对象，对应`Object.setPrototypeOf(obj, newProto)`。
+`Reflect.setPrototypeOf`方法用於設定物件的`__proto__`屬性，返回第一個引數物件，對應`Object.setPrototypeOf(obj, newProto)`。
 
 ```javascript
 const myObj = new FancyThing();
 
-// 旧写法
+// 舊寫法
 Object.setPrototypeOf(myObj, OtherThing.prototype);
 
-// 新写法
+// 新寫法
 Reflect.setPrototypeOf(myObj, OtherThing.prototype);
 ```
 
-如果第一个参数不是对象，`Object.setPrototypeOf`会返回第一个参数本身，而`Reflect.setPrototypeOf`会报错。
+如果第一個引數不是物件，`Object.setPrototypeOf`會返回第一個引數本身，而`Reflect.setPrototypeOf`會報錯。
 
 ```javascript
 Object.setPrototypeOf(1, {})
@@ -314,7 +314,7 @@ Reflect.setPrototypeOf(1, {})
 // TypeError: Reflect.setPrototypeOf called on non-object
 ```
 
-如果第一个参数是`undefined`或`null`，`Object.setPrototypeOf`和`Reflect.setPrototypeOf`都会报错。
+如果第一個引數是`undefined`或`null`，`Object.setPrototypeOf`和`Reflect.setPrototypeOf`都會報錯。
 
 ```javascript
 Object.setPrototypeOf(null, {})
@@ -326,19 +326,19 @@ Reflect.setPrototypeOf(null, {})
 
 ### Reflect.apply(func, thisArg, args)
 
-`Reflect.apply`方法等同于`Function.prototype.apply.call(func, thisArg, args)`，用于绑定`this`对象后执行给定函数。
+`Reflect.apply`方法等同於`Function.prototype.apply.call(func, thisArg, args)`，用於繫結`this`物件後執行給定函式。
 
-一般来说，如果要绑定一个函数的`this`对象，可以这样写`fn.apply(obj, args)`，但是如果函数定义了自己的`apply`方法，就只能写成`Function.prototype.apply.call(fn, obj, args)`，采用`Reflect`对象可以简化这种操作。
+一般來說，如果要繫結一個函式的`this`物件，可以這樣寫`fn.apply(obj, args)`，但是如果函式定義了自己的`apply`方法，就只能寫成`Function.prototype.apply.call(fn, obj, args)`，採用`Reflect`物件可以簡化這種操作。
 
 ```javascript
 const ages = [11, 33, 12, 54, 18, 96];
 
-// 旧写法
+// 舊寫法
 const youngest = Math.min.apply(Math, ages);
 const oldest = Math.max.apply(Math, ages);
 const type = Object.prototype.toString.call(youngest);
 
-// 新写法
+// 新寫法
 const youngest = Reflect.apply(Math.min, Math, ages);
 const oldest = Reflect.apply(Math.max, Math, ages);
 const type = Reflect.apply(Object.prototype.toString, youngest, []);
@@ -346,29 +346,29 @@ const type = Reflect.apply(Object.prototype.toString, youngest, []);
 
 ### Reflect.defineProperty(target, propertyKey, attributes)
 
-`Reflect.defineProperty`方法基本等同于`Object.defineProperty`，用来为对象定义属性。未来，后者会被逐渐废除，请从现在开始就使用`Reflect.defineProperty`代替它。
+`Reflect.defineProperty`方法基本等同於`Object.defineProperty`，用來為物件定義屬性。未來，後者會被逐漸廢除，請從現在開始就使用`Reflect.defineProperty`代替它。
 
 ```javascript
 function MyDate() {
   /*…*/
 }
 
-// 旧写法
+// 舊寫法
 Object.defineProperty(MyDate, 'now', {
   value: () => new Date.now()
 });
 
-// 新写法
+// 新寫法
 Reflect.defineProperty(MyDate, 'now', {
   value: () => new Date.now()
 });
 ```
 
-如果`Reflect.defineProperty`的第一个参数不是对象，就会抛出错误，比如`Reflect.defineProperty(1, 'foo')`。
+如果`Reflect.defineProperty`的第一個引數不是物件，就會丟擲錯誤，比如`Reflect.defineProperty(1, 'foo')`。
 
 ### Reflect.getOwnPropertyDescriptor(target, propertyKey)
 
-`Reflect.getOwnPropertyDescriptor`基本等同于`Object.getOwnPropertyDescriptor`，用于得到指定属性的描述对象，将来会替代掉后者。
+`Reflect.getOwnPropertyDescriptor`基本等同於`Object.getOwnPropertyDescriptor`，用於得到指定屬性的描述物件，將來會替代掉後者。
 
 ```javascript
 var myObject = {};
@@ -377,66 +377,66 @@ Object.defineProperty(myObject, 'hidden', {
   enumerable: false,
 });
 
-// 旧写法
+// 舊寫法
 var theDescriptor = Object.getOwnPropertyDescriptor(myObject, 'hidden');
 
-// 新写法
+// 新寫法
 var theDescriptor = Reflect.getOwnPropertyDescriptor(myObject, 'hidden');
 ```
 
-`Reflect.getOwnPropertyDescriptor`和`Object.getOwnPropertyDescriptor`的一个区别是，如果第一个参数不是对象，`Object.getOwnPropertyDescriptor(1, 'foo')`不报错，返回`undefined`，而`Reflect.getOwnPropertyDescriptor(1, 'foo')`会抛出错误，表示参数非法。
+`Reflect.getOwnPropertyDescriptor`和`Object.getOwnPropertyDescriptor`的一個區別是，如果第一個引數不是物件，`Object.getOwnPropertyDescriptor(1, 'foo')`不報錯，返回`undefined`，而`Reflect.getOwnPropertyDescriptor(1, 'foo')`會丟擲錯誤，表示引數非法。
 
 ### Reflect.isExtensible (target)
 
-`Reflect.isExtensible`方法对应`Object.isExtensible`，返回一个布尔值，表示当前对象是否可扩展。
+`Reflect.isExtensible`方法對應`Object.isExtensible`，返回一個布林值，表示當前物件是否可擴充套件。
 
 ```javascript
 const myObject = {};
 
-// 旧写法
+// 舊寫法
 Object.isExtensible(myObject) // true
 
-// 新写法
+// 新寫法
 Reflect.isExtensible(myObject) // true
 ```
 
-如果参数不是对象，`Object.isExtensible`会返回`false`，因为非对象本来就是不可扩展的，而`Reflect.isExtensible`会报错。
+如果引數不是物件，`Object.isExtensible`會返回`false`，因為非物件本來就是不可擴充套件的，而`Reflect.isExtensible`會報錯。
 
 ```javascript
 Object.isExtensible(1) // false
-Reflect.isExtensible(1) // 报错
+Reflect.isExtensible(1) // 報錯
 ```
 
 ### Reflect.preventExtensions(target)
 
-`Reflect.preventExtensions`对应`Object.preventExtensions`方法，用于让一个对象变为不可扩展。它返回一个布尔值，表示是否操作成功。
+`Reflect.preventExtensions`對應`Object.preventExtensions`方法，用於讓一個物件變為不可擴充套件。它返回一個布林值，表示是否操作成功。
 
 ```javascript
 var myObject = {};
 
-// 旧写法
+// 舊寫法
 Object.isExtensible(myObject) // true
 
-// 新写法
+// 新寫法
 Reflect.preventExtensions(myObject) // true
 ```
 
-如果参数不是对象，`Object.isExtensible`在 ES5 环境报错，在 ES6 环境返回这个参数，而`Reflect.preventExtensions`会报错。
+如果引數不是物件，`Object.isExtensible`在 ES5 環境報錯，在 ES6 環境返回這個引數，而`Reflect.preventExtensions`會報錯。
 
 ```javascript
 // ES5
-Object.preventExtensions(1) // 报错
+Object.preventExtensions(1) // 報錯
 
 // ES6
 Object.preventExtensions(1) // 1
 
-// 新写法
-Reflect.preventExtensions(1) // 报错
+// 新寫法
+Reflect.preventExtensions(1) // 報錯
 ```
 
 ### Reflect.ownKeys (target)
 
-`Reflect.ownKeys`方法用于返回对象的所有属性，基本等同于`Object.getOwnPropertyNames`与`Object.getOwnPropertySymbols`之和。
+`Reflect.ownKeys`方法用於返回物件的所有屬性，基本等同於`Object.getOwnPropertyNames`與`Object.getOwnPropertySymbols`之和。
 
 ```javascript
 var myObject = {
@@ -446,25 +446,25 @@ var myObject = {
   [Symbol.for('bing')]: 4,
 };
 
-// 旧写法
+// 舊寫法
 Object.getOwnPropertyNames(myObject)
 // ['foo', 'bar']
 
 Object.getOwnPropertySymbols(myObject)
 //[Symbol.for('baz'), Symbol.for('bing')]
 
-// 新写法
+// 新寫法
 Reflect.ownKeys(myObject)
 // ['foo', 'bar', Symbol.for('baz'), Symbol.for('bing')]
 ```
 
-## 实例：使用 Proxy 实现观察者模式
+## 例項：使用 Proxy 實現觀察者模式
 
-观察者模式（Observer mode）指的是函数自动观察数据对象，一旦对象有变化，函数就会自动执行。
+觀察者模式（Observer mode）指的是函式自動觀察資料物件，一旦物件有變化，函式就會自動執行。
 
 ```javascript
 const person = observable({
-  name: '张三',
+  name: '張三',
   age: 20
 });
 
@@ -474,13 +474,13 @@ function print() {
 
 observe(print);
 person.name = '李四';
-// 输出
+// 輸出
 // 李四, 20
 ```
 
-上面代码中，数据对象`person`是观察目标，函数`print`是观察者。一旦数据对象发生变化，`print`就会自动执行。
+上面程式碼中，資料物件`person`是觀察目標，函式`print`是觀察者。一旦資料物件發生變化，`print`就會自動執行。
 
-下面，使用 Proxy 写一个观察者模式的最简单实现，即实现`observable`和`observe`这两个函数。思路是`observable`函数返回一个原始对象的 Proxy 代理，拦截赋值操作，触发充当观察者的各个函数。
+下面，使用 Proxy 寫一個觀察者模式的最簡單實現，即實現`observable`和`observe`這兩個函式。思路是`observable`函式返回一個原始物件的 Proxy 代理，攔截賦值操作，觸發充當觀察者的各個函式。
 
 ```javascript
 const queuedObservers = new Set();
@@ -495,5 +495,5 @@ function set(target, key, value, receiver) {
 }
 ```
 
-上面代码中，先定义了一个`Set`集合，所有观察者函数都放进这个集合。然后，`observable`函数返回原始对象的代理，拦截赋值操作。拦截函数`set`之中，会自动执行所有观察者。
+上面程式碼中，先定義了一個`Set`集合，所有觀察者函式都放進這個集合。然後，`observable`函式返回原始物件的代理，攔截賦值操作。攔截函式`set`之中，會自動執行所有觀察者。
 

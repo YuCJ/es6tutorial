@@ -1,12 +1,12 @@
-# async 函数
+# async 函式
 
-## 含义
+## 含義
 
-ES2017 标准引入了 async 函数，使得异步操作变得更加方便。
+ES2017 標準引入了 async 函式，使得非同步操作變得更加方便。
 
-async 函数是什么？一句话，它就是 Generator 函数的语法糖。
+async 函式是什麼？一句話，它就是 Generator 函式的語法糖。
 
-前文有一个 Generator 函数，依次读取两个文件。
+前文有一個 Generator 函式，依次讀取兩個檔案。
 
 ```javascript
 var fs = require('fs');
@@ -28,7 +28,7 @@ var gen = function* () {
 };
 ```
 
-写成`async`函数，就是下面这样。
+寫成`async`函式，就是下面這樣。
 
 ```javascript
 var asyncReadFile = async function () {
@@ -39,41 +39,41 @@ var asyncReadFile = async function () {
 };
 ```
 
-一比较就会发现，`async`函数就是将 Generator 函数的星号（`*`）替换成`async`，将`yield`替换成`await`，仅此而已。
+一比較就會發現，`async`函式就是將 Generator 函式的星號（`*`）替換成`async`，將`yield`替換成`await`，僅此而已。
 
-`async`函数对 Generator 函数的改进，体现在以下四点。
+`async`函式對 Generator 函式的改進，體現在以下四點。
 
-（1）内置执行器。
+（1）內建執行器。
 
-Generator 函数的执行必须靠执行器，所以才有了`co`模块，而`async`函数自带执行器。也就是说，`async`函数的执行，与普通函数一模一样，只要一行。
+Generator 函式的執行必須靠執行器，所以才有了`co`模組，而`async`函式自帶執行器。也就是說，`async`函式的執行，與普通函式一模一樣，只要一行。
 
 ```javascript
 var result = asyncReadFile();
 ```
 
-上面的代码调用了`asyncReadFile`函数，然后它就会自动执行，输出最后结果。这完全不像 Generator 函数，需要调用`next`方法，或者用`co`模块，才能真正执行，得到最后结果。
+上面的程式碼呼叫了`asyncReadFile`函式，然後它就會自動執行，輸出最後結果。這完全不像 Generator 函式，需要呼叫`next`方法，或者用`co`模組，才能真正執行，得到最後結果。
 
-（2）更好的语义。
+（2）更好的語義。
 
-`async`和`await`，比起星号和`yield`，语义更清楚了。`async`表示函数里有异步操作，`await`表示紧跟在后面的表达式需要等待结果。
+`async`和`await`，比起星號和`yield`，語義更清楚了。`async`表示函式裡有非同步操作，`await`表示緊跟在後面的表示式需要等待結果。
 
-（3）更广的适用性。
+（3）更廣的適用性。
 
-`co`模块约定，`yield`命令后面只能是 Thunk 函数或 Promise 对象，而`async`函数的`await`命令后面，可以是Promise 对象和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）。
+`co`模組約定，`yield`命令後面只能是 Thunk 函式或 Promise 物件，而`async`函式的`await`命令後面，可以是Promise 物件和原始型別的值（數值、字串和布林值，但這時等同於同步操作）。
 
 （4）返回值是 Promise。
 
-`async`函数的返回值是 Promise 对象，这比 Generator 函数的返回值是 Iterator 对象方便多了。你可以用`then`方法指定下一步的操作。
+`async`函式的返回值是 Promise 物件，這比 Generator 函式的返回值是 Iterator 物件方便多了。你可以用`then`方法指定下一步的操作。
 
-进一步说，`async`函数完全可以看作多个异步操作，包装成的一个 Promise 对象，而`await`命令就是内部`then`命令的语法糖。
+進一步說，`async`函式完全可以看作多個非同步操作，包裝成的一個 Promise 物件，而`await`命令就是內部`then`命令的語法糖。
 
 ## 用法
 
 ### 基本用法
 
-`async`函数返回一个 Promise 对象，可以使用`then`方法添加回调函数。当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
+`async`函式返回一個 Promise 物件，可以使用`then`方法添加回調函式。當函式執行的時候，一旦遇到`await`就會先返回，等到非同步操作完成，再接著執行函式體內後面的語句。
 
-下面是一个例子。
+下面是一個例子。
 
 ```javascript
 async function getStockPriceByName(name) {
@@ -87,9 +87,9 @@ getStockPriceByName('goog').then(function (result) {
 });
 ```
 
-上面代码是一个获取股票报价的函数，函数前面的`async`关键字，表明该函数内部有异步操作。调用该函数时，会立即返回一个`Promise`对象。
+上面程式碼是一個獲取股票報價的函式，函式前面的`async`關鍵字，表明該函式內部有非同步操作。呼叫該函式時，會立即返回一個`Promise`物件。
 
-下面是另一个例子，指定多少毫秒后输出一个值。
+下面是另一個例子，指定多少毫秒後輸出一個值。
 
 ```javascript
 function timeout(ms) {
@@ -106,9 +106,9 @@ async function asyncPrint(value, ms) {
 asyncPrint('hello world', 50);
 ```
 
-上面代码指定50毫秒以后，输出`hello world`。
+上面程式碼指定50毫秒以後，輸出`hello world`。
 
-由于`async`函数返回的是 Promise 对象，可以作为`await`命令的参数。所以，上面的例子也可以写成下面的形式。
+由於`async`函式返回的是 Promise 物件，可以作為`await`命令的引數。所以，上面的例子也可以寫成下面的形式。
 
 ```javascript
 async function timeout(ms) {
@@ -125,16 +125,16 @@ async function asyncPrint(value, ms) {
 asyncPrint('hello world', 50);
 ```
 
-async 函数有多种使用形式。
+async 函式有多種使用形式。
 
 ```javascript
-// 函数声明
+// 函式宣告
 async function foo() {}
 
-// 函数表达式
+// 函式表示式
 const foo = async function () {};
 
-// 对象的方法
+// 物件的方法
 let obj = { async foo() {} };
 obj.foo().then(...)
 
@@ -153,19 +153,19 @@ class Storage {
 const storage = new Storage();
 storage.getAvatar('jake').then(…);
 
-// 箭头函数
+// 箭頭函式
 const foo = async () => {};
 ```
 
-## 语法
+## 語法
 
-`async`函数的语法规则总体上比较简单，难点是错误处理机制。
+`async`函式的語法規則總體上比較簡單，難點是錯誤處理機制。
 
-### 返回 Promise 对象
+### 返回 Promise 物件
 
-`async`函数返回一个 Promise 对象。
+`async`函式返回一個 Promise 物件。
 
-`async`函数内部`return`语句返回的值，会成为`then`方法回调函数的参数。
+`async`函式內部`return`語句返回的值，會成為`then`方法回撥函式的引數。
 
 ```javascript
 async function f() {
@@ -176,27 +176,27 @@ f().then(v => console.log(v))
 // "hello world"
 ```
 
-上面代码中，函数`f`内部`return`命令返回的值，会被`then`方法回调函数接收到。
+上面程式碼中，函式`f`內部`return`命令返回的值，會被`then`方法回撥函式接收到。
 
-`async`函数内部抛出错误，会导致返回的 Promise 对象变为`reject`状态。抛出的错误对象会被`catch`方法回调函数接收到。
+`async`函式內部丟擲錯誤，會導致返回的 Promise 物件變為`reject`狀態。丟擲的錯誤物件會被`catch`方法回撥函式接收到。
 
 ```javascript
 async function f() {
-  throw new Error('出错了');
+  throw new Error('出錯了');
 }
 
 f().then(
   v => console.log(v),
   e => console.log(e)
 )
-// Error: 出错了
+// Error: 出錯了
 ```
 
-### Promise 对象的状态变化
+### Promise 物件的狀態變化
 
-`async`函数返回的 Promise 对象，必须等到内部所有`await`命令后面的 Promise 对象执行完，才会发生状态改变，除非遇到`return`语句或者抛出错误。也就是说，只有`async`函数内部的异步操作执行完，才会执行`then`方法指定的回调函数。
+`async`函式返回的 Promise 物件，必須等到內部所有`await`命令後面的 Promise 物件執行完，才會發生狀態改變，除非遇到`return`語句或者丟擲錯誤。也就是說，只有`async`函式內部的非同步操作執行完，才會執行`then`方法指定的回撥函式。
 
-下面是一个例子。
+下面是一個例子。
 
 ```javascript
 async function getTitle(url) {
@@ -208,11 +208,11 @@ getTitle('https://tc39.github.io/ecma262/').then(console.log)
 // "ECMAScript 2017 Language Specification"
 ```
 
-上面代码中，函数`getTitle`内部有三个操作：抓取网页、取出文本、匹配页面标题。只有这三个操作全部完成，才会执行`then`方法里面的`console.log`。
+上面程式碼中，函式`getTitle`內部有三個操作：抓取網頁、取出文字、匹配頁面標題。只有這三個操作全部完成，才會執行`then`方法裡面的`console.log`。
 
 ### await 命令
 
-正常情况下，`await`命令后面是一个 Promise 对象。如果不是，会被转成一个立即`resolve`的 Promise 对象。
+正常情況下，`await`命令後面是一個 Promise 物件。如果不是，會被轉成一個立即`resolve`的 Promise 物件。
 
 ```javascript
 async function f() {
@@ -223,40 +223,40 @@ f().then(v => console.log(v))
 // 123
 ```
 
-上面代码中，`await`命令的参数是数值`123`，它被转成 Promise 对象，并立即`resolve`。
+上面程式碼中，`await`命令的引數是數值`123`，它被轉成 Promise 物件，並立即`resolve`。
 
-`await`命令后面的 Promise 对象如果变为`reject`状态，则`reject`的参数会被`catch`方法的回调函数接收到。
+`await`命令後面的 Promise 物件如果變為`reject`狀態，則`reject`的引數會被`catch`方法的回撥函式接收到。
 
 ```javascript
 async function f() {
-  await Promise.reject('出错了');
+  await Promise.reject('出錯了');
 }
 
 f()
 .then(v => console.log(v))
 .catch(e => console.log(e))
-// 出错了
+// 出錯了
 ```
 
-注意，上面代码中，`await`语句前面没有`return`，但是`reject`方法的参数依然传入了`catch`方法的回调函数。这里如果在`await`前面加上`return`，效果是一样的。
+注意，上面程式碼中，`await`語句前面沒有`return`，但是`reject`方法的引數依然傳入了`catch`方法的回撥函式。這裡如果在`await`前面加上`return`，效果是一樣的。
 
-只要一个`await`语句后面的 Promise 变为`reject`，那么整个`async`函数都会中断执行。
+只要一個`await`語句後面的 Promise 變為`reject`，那麼整個`async`函式都會中斷執行。
 
 ```javascript
 async function f() {
-  await Promise.reject('出错了');
-  await Promise.resolve('hello world'); // 不会执行
+  await Promise.reject('出錯了');
+  await Promise.resolve('hello world'); // 不會執行
 }
 ```
 
-上面代码中，第二个`await`语句是不会执行的，因为第一个`await`语句状态变成了`reject`。
+上面程式碼中，第二個`await`語句是不會執行的，因為第一個`await`語句狀態變成了`reject`。
 
-有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时可以将第一个`await`放在`try...catch`结构里面，这样不管这个异步操作是否成功，第二个`await`都会执行。
+有時，我們希望即使前一個非同步操作失敗，也不要中斷後面的非同步操作。這時可以將第一個`await`放在`try...catch`結構裡面，這樣不管這個非同步操作是否成功，第二個`await`都會執行。
 
 ```javascript
 async function f() {
   try {
-    await Promise.reject('出错了');
+    await Promise.reject('出錯了');
   } catch(e) {
   }
   return await Promise.resolve('hello world');
@@ -267,47 +267,47 @@ f()
 // hello world
 ```
 
-另一种方法是`await`后面的 Promise 对象再跟一个`catch`方法，处理前面可能出现的错误。
+另一種方法是`await`後面的 Promise 物件再跟一個`catch`方法，處理前面可能出現的錯誤。
 
 ```javascript
 async function f() {
-  await Promise.reject('出错了')
+  await Promise.reject('出錯了')
     .catch(e => console.log(e));
   return await Promise.resolve('hello world');
 }
 
 f()
 .then(v => console.log(v))
-// 出错了
+// 出錯了
 // hello world
 ```
 
-### 错误处理
+### 錯誤處理
 
-如果`await`后面的异步操作出错，那么等同于`async`函数返回的 Promise 对象被`reject`。
+如果`await`後面的非同步操作出錯，那麼等同於`async`函式返回的 Promise 物件被`reject`。
 
 ```javascript
 async function f() {
   await new Promise(function (resolve, reject) {
-    throw new Error('出错了');
+    throw new Error('出錯了');
   });
 }
 
 f()
 .then(v => console.log(v))
 .catch(e => console.log(e))
-// Error：出错了
+// Error：出錯了
 ```
 
-上面代码中，`async`函数`f`执行后，`await`后面的 Promise 对象会抛出一个错误对象，导致`catch`方法的回调函数被调用，它的参数就是抛出的错误对象。具体的执行机制，可以参考后文的“async 函数的实现原理”。
+上面程式碼中，`async`函式`f`執行後，`await`後面的 Promise 物件會丟擲一個錯誤物件，導致`catch`方法的回撥函式被呼叫，它的引數就是丟擲的錯誤物件。具體的執行機制，可以參考後文的“async 函式的實現原理”。
 
-防止出错的方法，也是将其放在`try...catch`代码块之中。
+防止出錯的方法，也是將其放在`try...catch`程式碼塊之中。
 
 ```javascript
 async function f() {
   try {
     await new Promise(function (resolve, reject) {
-      throw new Error('出错了');
+      throw new Error('出錯了');
     });
   } catch(e) {
   }
@@ -315,7 +315,7 @@ async function f() {
 }
 ```
 
-如果有多个`await`命令，可以统一放在`try...catch`结构中。
+如果有多個`await`命令，可以統一放在`try...catch`結構中。
 
 ```javascript
 async function main() {
@@ -332,7 +332,7 @@ async function main() {
 }
 ```
 
-下面的例子使用`try...catch`结构，实现多次重复尝试。
+下面的例子使用`try...catch`結構，實現多次重複嘗試。
 
 ```javascript
 const superagent = require('superagent');
@@ -352,11 +352,11 @@ async function test() {
 test();
 ```
 
-上面代码中，如果`await`操作成功，就会使用`break`语句退出循环；如果失败，会被`catch`语句捕捉，然后进入下一轮循环。
+上面程式碼中，如果`await`操作成功，就會使用`break`語句退出迴圈；如果失敗，會被`catch`語句捕捉，然後進入下一輪迴圈。
 
-### 使用注意点
+### 使用注意點
 
-第一点，前面已经说过，`await`命令后面的`Promise`对象，运行结果可能是`rejected`，所以最好把`await`命令放在`try...catch`代码块中。
+第一點，前面已經說過，`await`命令後面的`Promise`物件，執行結果可能是`rejected`，所以最好把`await`命令放在`try...catch`程式碼塊中。
 
 ```javascript
 async function myFunction() {
@@ -367,7 +367,7 @@ async function myFunction() {
   }
 }
 
-// 另一种写法
+// 另一種寫法
 
 async function myFunction() {
   await somethingThatReturnsAPromise()
@@ -377,55 +377,55 @@ async function myFunction() {
 }
 ```
 
-第二点，多个`await`命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。
+第二點，多個`await`命令後面的非同步操作，如果不存在繼發關係，最好讓它們同時觸發。
 
 ```javascript
 let foo = await getFoo();
 let bar = await getBar();
 ```
 
-上面代码中，`getFoo`和`getBar`是两个独立的异步操作（即互不依赖），被写成继发关系。这样比较耗时，因为只有`getFoo`完成以后，才会执行`getBar`，完全可以让它们同时触发。
+上面程式碼中，`getFoo`和`getBar`是兩個獨立的非同步操作（即互不依賴），被寫成繼發關係。這樣比較耗時，因為只有`getFoo`完成以後，才會執行`getBar`，完全可以讓它們同時觸發。
 
 ```javascript
-// 写法一
+// 寫法一
 let [foo, bar] = await Promise.all([getFoo(), getBar()]);
 
-// 写法二
+// 寫法二
 let fooPromise = getFoo();
 let barPromise = getBar();
 let foo = await fooPromise;
 let bar = await barPromise;
 ```
 
-上面两种写法，`getFoo`和`getBar`都是同时触发，这样就会缩短程序的执行时间。
+上面兩種寫法，`getFoo`和`getBar`都是同時觸發，這樣就會縮短程式的執行時間。
 
-第三点，`await`命令只能用在`async`函数之中，如果用在普通函数，就会报错。
+第三點，`await`命令只能用在`async`函式之中，如果用在普通函式，就會報錯。
 
 ```javascript
 async function dbFuc(db) {
   let docs = [{}, {}, {}];
 
-  // 报错
+  // 報錯
   docs.forEach(function (doc) {
     await db.post(doc);
   });
 }
 ```
 
-上面代码会报错，因为`await`用在普通函数之中了。但是，如果将`forEach`方法的参数改成`async`函数，也有问题。
+上面程式碼會報錯，因為`await`用在普通函式之中了。但是，如果將`forEach`方法的引數改成`async`函式，也有問題。
 
 ```javascript
-function dbFuc(db) { //这里不需要 async
+function dbFuc(db) { //這裡不需要 async
   let docs = [{}, {}, {}];
 
-  // 可能得到错误结果
+  // 可能得到錯誤結果
   docs.forEach(async function (doc) {
     await db.post(doc);
   });
 }
 ```
 
-上面代码可能不会正常工作，原因是这时三个`db.post`操作将是并发执行，也就是同时执行，而不是继发执行。正确的写法是采用`for`循环。
+上面程式碼可能不會正常工作，原因是這時三個`db.post`操作將是併發執行，也就是同時執行，而不是繼發執行。正確的寫法是採用`for`迴圈。
 
 ```javascript
 async function dbFuc(db) {
@@ -437,7 +437,7 @@ async function dbFuc(db) {
 }
 ```
 
-如果确实希望多个请求并发执行，可以使用`Promise.all`方法。
+如果確實希望多個請求併發執行，可以使用`Promise.all`方法。
 
 ```javascript
 async function dbFuc(db) {
@@ -448,7 +448,7 @@ async function dbFuc(db) {
   console.log(results);
 }
 
-// 或者使用下面的写法
+// 或者使用下面的寫法
 
 async function dbFuc(db) {
   let docs = [{}, {}, {}];
@@ -462,16 +462,16 @@ async function dbFuc(db) {
 }
 ```
 
-## async 函数的实现原理
+## async 函式的實現原理
 
-async 函数的实现原理，就是将 Generator 函数和自动执行器，包装在一个函数里。
+async 函式的實現原理，就是將 Generator 函式和自動執行器，包裝在一個函式裡。
 
 ```javascript
 async function fn(args) {
   // ...
 }
 
-// 等同于
+// 等同於
 
 function fn(args) {
   return spawn(function* () {
@@ -480,9 +480,9 @@ function fn(args) {
 }
 ```
 
-所有的`async`函数都可以写成上面的第二种形式，其中的`spawn`函数就是自动执行器。
+所有的`async`函式都可以寫成上面的第二種形式，其中的`spawn`函式就是自動執行器。
 
-下面给出`spawn`函数的实现，基本就是前文自动执行器的翻版。
+下面給出`spawn`函式的實現，基本就是前文自動執行器的翻版。
 
 ```javascript
 function spawn(genF) {
@@ -508,24 +508,24 @@ function spawn(genF) {
 }
 ```
 
-## 与其他异步处理方法的比较
+## 與其他非同步處理方法的比較
 
-我们通过一个例子，来看 async 函数与 Promise、Generator 函数的比较。
+我們通過一個例子，來看 async 函式與 Promise、Generator 函式的比較。
 
-假定某个 DOM 元素上面，部署了一系列的动画，前一个动画结束，才能开始后一个。如果当中有一个动画出错，就不再往下执行，返回上一个成功执行的动画的返回值。
+假定某個 DOM 元素上面，部署了一系列的動畫，前一個動畫結束，才能開始後一個。如果當中有一個動畫出錯，就不再往下執行，返回上一個成功執行的動畫的返回值。
 
-首先是 Promise 的写法。
+首先是 Promise 的寫法。
 
 ```javascript
 function chainAnimationsPromise(elem, animations) {
 
-  // 变量ret用来保存上一个动画的返回值
+  // 變數ret用來儲存上一個動畫的返回值
   var ret = null;
 
-  // 新建一个空的Promise
+  // 新建一個空的Promise
   var p = Promise.resolve();
 
-  // 使用then方法，添加所有动画
+  // 使用then方法，新增所有動畫
   for(var anim of animations) {
     p = p.then(function(val) {
       ret = val;
@@ -533,9 +533,9 @@ function chainAnimationsPromise(elem, animations) {
     });
   }
 
-  // 返回一个部署了错误捕捉机制的Promise
+  // 返回一個部署了錯誤捕捉機制的Promise
   return p.catch(function(e) {
-    /* 忽略错误，继续执行 */
+    /* 忽略錯誤，繼續執行 */
   }).then(function() {
     return ret;
   });
@@ -543,9 +543,9 @@ function chainAnimationsPromise(elem, animations) {
 }
 ```
 
-虽然 Promise 的写法比回调函数的写法大大改进，但是一眼看上去，代码完全都是 Promise 的 API（`then`、`catch`等等），操作本身的语义反而不容易看出来。
+雖然 Promise 的寫法比回撥函式的寫法大大改進，但是一眼看上去，程式碼完全都是 Promise 的 API（`then`、`catch`等等），操作本身的語義反而不容易看出來。
 
-接着是 Generator 函数的写法。
+接著是 Generator 函式的寫法。
 
 ```javascript
 function chainAnimationsGenerator(elem, animations) {
@@ -557,7 +557,7 @@ function chainAnimationsGenerator(elem, animations) {
         ret = yield anim(elem);
       }
     } catch(e) {
-      /* 忽略错误，继续执行 */
+      /* 忽略錯誤，繼續執行 */
     }
     return ret;
   });
@@ -565,9 +565,9 @@ function chainAnimationsGenerator(elem, animations) {
 }
 ```
 
-上面代码使用 Generator 函数遍历了每个动画，语义比 Promise 写法更清晰，用户定义的操作全部都出现在`spawn`函数的内部。这个写法的问题在于，必须有一个任务运行器，自动执行 Generator 函数，上面代码的`spawn`函数就是自动执行器，它返回一个 Promise 对象，而且必须保证`yield`语句后面的表达式，必须返回一个 Promise。
+上面程式碼使用 Generator 函式遍歷了每個動畫，語義比 Promise 寫法更清晰，使用者定義的操作全部都出現在`spawn`函式的內部。這個寫法的問題在於，必須有一個任務執行器，自動執行 Generator 函式，上面程式碼的`spawn`函式就是自動執行器，它返回一個 Promise 物件，而且必須保證`yield`語句後面的表示式，必須返回一個 Promise。
 
-最后是 async 函数的写法。
+最後是 async 函式的寫法。
 
 ```javascript
 async function chainAnimationsAsync(elem, animations) {
@@ -577,28 +577,28 @@ async function chainAnimationsAsync(elem, animations) {
       ret = await anim(elem);
     }
   } catch(e) {
-    /* 忽略错误，继续执行 */
+    /* 忽略錯誤，繼續執行 */
   }
   return ret;
 }
 ```
 
-可以看到Async函数的实现最简洁，最符合语义，几乎没有语义不相关的代码。它将Generator写法中的自动执行器，改在语言层面提供，不暴露给用户，因此代码量最少。如果使用Generator写法，自动执行器需要用户自己提供。
+可以看到Async函式的實現最簡潔，最符合語義，幾乎沒有語義不相關的程式碼。它將Generator寫法中的自動執行器，改在語言層面提供，不暴露給使用者，因此程式碼量最少。如果使用Generator寫法，自動執行器需要使用者自己提供。
 
-## 实例：按顺序完成异步操作
+## 例項：按順序完成非同步操作
 
-实际开发中，经常遇到一组异步操作，需要按照顺序完成。比如，依次远程读取一组 URL，然后按照读取的顺序输出结果。
+實際開發中，經常遇到一組非同步操作，需要按照順序完成。比如，依次遠端讀取一組 URL，然後按照讀取的順序輸出結果。
 
-Promise 的写法如下。
+Promise 的寫法如下。
 
 ```javascript
 function logInOrder(urls) {
-  // 远程读取所有URL
+  // 遠端讀取所有URL
   const textPromises = urls.map(url => {
     return fetch(url).then(response => response.text());
   });
 
-  // 按次序输出
+  // 按次序輸出
   textPromises.reduce((chain, textPromise) => {
     return chain.then(() => textPromise)
       .then(text => console.log(text));
@@ -606,9 +606,9 @@ function logInOrder(urls) {
 }
 ```
 
-上面代码使用`fetch`方法，同时远程读取一组 URL。每个`fetch`操作都返回一个 Promise 对象，放入`textPromises`数组。然后，`reduce`方法依次处理每个 Promise 对象，然后使用`then`，将所有 Promise 对象连起来，因此就可以依次输出结果。
+上面程式碼使用`fetch`方法，同時遠端讀取一組 URL。每個`fetch`操作都返回一個 Promise 物件，放入`textPromises`陣列。然後，`reduce`方法依次處理每個 Promise 物件，然後使用`then`，將所有 Promise 物件連起來，因此就可以依次輸出結果。
 
-这种写法不太直观，可读性比较差。下面是 async 函数实现。
+這種寫法不太直觀，可讀性比較差。下面是 async 函式實現。
 
 ```javascript
 async function logInOrder(urls) {
@@ -619,36 +619,36 @@ async function logInOrder(urls) {
 }
 ```
 
-上面代码确实大大简化，问题是所有远程操作都是继发。只有前一个URL返回结果，才会去读取下一个URL，这样做效率很差，非常浪费时间。我们需要的是并发发出远程请求。
+上面程式碼確實大大簡化，問題是所有遠端操作都是繼發。只有前一個URL返回結果，才會去讀取下一個URL，這樣做效率很差，非常浪費時間。我們需要的是併發發出遠端請求。
 
 ```javascript
 async function logInOrder(urls) {
-  // 并发读取远程URL
+  // 併發讀取遠端URL
   const textPromises = urls.map(async url => {
     const response = await fetch(url);
     return response.text();
   });
 
-  // 按次序输出
+  // 按次序輸出
   for (const textPromise of textPromises) {
     console.log(await textPromise);
   }
 }
 ```
 
-上面代码中，虽然`map`方法的参数是`async`函数，但它是并发执行的，因为只有`async`函数内部是继发执行，外部不受影响。后面的`for..of`循环内部使用了`await`，因此实现了按顺序输出。
+上面程式碼中，雖然`map`方法的引數是`async`函式，但它是併發執行的，因為只有`async`函式內部是繼發執行，外部不受影響。後面的`for..of`迴圈內部使用了`await`，因此實現了按順序輸出。
 
-## 异步遍历器
+## 非同步遍歷器
 
-《遍历器》一章说过，Iterator 接口是一种数据遍历的协议，只要调用遍历器对象的`next`方法，就会得到一个对象，表示当前遍历指针所在的那个位置的信息。`next`方法返回的对象的结构是`{value, done}`，其中`value`表示当前的数据的值，`done`是一个布尔值，表示遍历是否结束。
+《遍歷器》一章說過，Iterator 介面是一種資料遍歷的協議，只要呼叫遍歷器物件的`next`方法，就會得到一個物件，表示當前遍歷指標所在的那個位置的資訊。`next`方法返回的物件的結構是`{value, done}`，其中`value`表示當前的資料的值，`done`是一個布林值，表示遍歷是否結束。
 
-这里隐含着一个规定，`next`方法必须是同步的，只要调用就必须立刻返回值。也就是说，一旦执行`next`方法，就必须同步地得到`value`和`done`这两个属性。如果遍历指针正好指向同步操作，当然没有问题，但对于异步操作，就不太合适了。目前的解决方法是，Generator 函数里面的异步操作，返回一个 Thunk 函数或者 Promise 对象，即`value`属性是一个 Thunk 函数或者 Promise 对象，等待以后返回真正的值，而`done`属性则还是同步产生的。
+這裡隱含著一個規定，`next`方法必須是同步的，只要呼叫就必須立刻返回值。也就是說，一旦執行`next`方法，就必須同步地得到`value`和`done`這兩個屬性。如果遍歷指標正好指向同步操作，當然沒有問題，但對於非同步操作，就不太合適了。目前的解決方法是，Generator 函式裡面的非同步操作，返回一個 Thunk 函式或者 Promise 物件，即`value`屬性是一個 Thunk 函式或者 Promise 物件，等待以後返回真正的值，而`done`屬性則還是同步產生的。
 
-目前，有一个[提案](https://github.com/tc39/proposal-async-iteration)，为异步操作提供原生的遍历器接口，即`value`和`done`这两个属性都是异步产生，这称为”异步遍历器“（Async Iterator）。
+目前，有一個[提案](https://github.com/tc39/proposal-async-iteration)，為非同步操作提供原生的遍歷器介面，即`value`和`done`這兩個屬性都是非同步產生，這稱為”非同步遍歷器“（Async Iterator）。
 
-### 异步遍历的接口
+### 非同步遍歷的介面
 
-异步遍历器的最大的语法特点，就是调用遍历器的`next`方法，返回的是一个 Promise 对象。
+非同步遍歷器的最大的語法特點，就是呼叫遍歷器的`next`方法，返回的是一個 Promise 物件。
 
 ```javascript
 asyncIterator
@@ -658,11 +658,11 @@ asyncIterator
   );
 ```
 
-上面代码中，`asyncIterator`是一个异步遍历器，调用`next`方法以后，返回一个 Promise 对象。因此，可以使用`then`方法指定，这个 Promise 对象的状态变为`resolve`以后的回调函数。回调函数的参数，则是一个具有`value`和`done`两个属性的对象，这个跟同步遍历器是一样的。
+上面程式碼中，`asyncIterator`是一個非同步遍歷器，呼叫`next`方法以後，返回一個 Promise 物件。因此，可以使用`then`方法指定，這個 Promise 物件的狀態變為`resolve`以後的回撥函式。回撥函式的引數，則是一個具有`value`和`done`兩個屬性的物件，這個跟同步遍歷器是一樣的。
 
-我们知道，一个对象的同步遍历器的接口，部署在`Symbol.iterator`属性上面。同样地，对象的异步遍历器接口，部署在`Symbol.asyncIterator`属性上面。不管是什么样的对象，只要它的`Symbol.asyncIterator`属性有值，就表示应该对它进行异步遍历。
+我們知道，一個物件的同步遍歷器的介面，部署在`Symbol.iterator`屬性上面。同樣地，物件的非同步遍歷器介面，部署在`Symbol.asyncIterator`屬性上面。不管是什麼樣的物件，只要它的`Symbol.asyncIterator`屬性有值，就表示應該對它進行非同步遍歷。
 
-下面是一个异步遍历器的例子。
+下面是一個非同步遍歷器的例子。
 
 ```javascript
 const asyncIterable = createAsyncIterable(['a', 'b']);
@@ -683,9 +683,9 @@ asyncIterator
 });
 ```
 
-上面代码中，异步遍历器其实返回了两次值。第一次调用的时候，返回一个 Promise 对象；等到 Promise 对象`resolve`了，再返回一个表示当前数据成员信息的对象。这就是说，异步遍历器与同步遍历器最终行为是一致的，只是会先返回 Promise 对象，作为中介。
+上面程式碼中，非同步遍歷器其實返回了兩次值。第一次呼叫的時候，返回一個 Promise 物件；等到 Promise 物件`resolve`了，再返回一個表示當前資料成員資訊的物件。這就是說，非同步遍歷器與同步遍歷器最終行為是一致的，只是會先返回 Promise 物件，作為中介。
 
-由于异步遍历器的`next`方法，返回的是一个 Promise 对象。因此，可以把它放在`await`命令后面。
+由於非同步遍歷器的`next`方法，返回的是一個 Promise 物件。因此，可以把它放在`await`命令後面。
 
 ```javascript
 async function f() {
@@ -700,9 +700,9 @@ async function f() {
 }
 ```
 
-上面代码中，`next`方法用`await`处理以后，就不必使用`then`方法了。整个流程已经很接近同步处理了。
+上面程式碼中，`next`方法用`await`處理以後，就不必使用`then`方法了。整個流程已經很接近同步處理了。
 
-注意，异步遍历器的`next`方法是可以连续调用的，不必等到上一步产生的Promise对象`resolve`以后再调用。这种情况下，`next`方法会累积起来，自动按照每一步的顺序运行下去。下面是一个例子，把所有的`next`方法放在`Promise.all`方法里面。
+注意，非同步遍歷器的`next`方法是可以連續呼叫的，不必等到上一步產生的Promise物件`resolve`以後再呼叫。這種情況下，`next`方法會累積起來，自動按照每一步的順序執行下去。下面是一個例子，把所有的`next`方法放在`Promise.all`方法裡面。
 
 ```javascript
 const asyncGenObj = createAsyncIterable(['a', 'b']);
@@ -713,7 +713,7 @@ const [{value: v1}, {value: v2}] = await Promise.all([
 console.log(v1, v2); // a b
 ```
 
-另一种用法是一次性调用所有的`next`方法，然后`await`最后一步操作。
+另一種用法是一次性呼叫所有的`next`方法，然後`await`最後一步操作。
 
 ```javascript
 const writer = openFile('someFile.txt');
@@ -724,7 +724,7 @@ await writer.return();
 
 ### for await...of
 
-前面介绍过，`for...of`循环用于遍历同步的 Iterator 接口。新引入的`for await...of`循环，则是用于遍历异步的 Iterator 接口。
+前面介紹過，`for...of`迴圈用於遍歷同步的 Iterator 介面。新引入的`for await...of`迴圈，則是用於遍歷非同步的 Iterator 介面。
 
 ```javascript
 async function f() {
@@ -736,9 +736,9 @@ async function f() {
 // b
 ```
 
-上面代码中，`createAsyncIterable()`返回一个异步遍历器，`for...of`循环自动调用这个遍历器的`next`方法，会得到一个Promise对象。`await`用来处理这个Promise对象，一旦`resolve`，就把得到的值（`x`）传入`for...of`的循环体。
+上面程式碼中，`createAsyncIterable()`返回一個非同步遍歷器，`for...of`迴圈自動呼叫這個遍歷器的`next`方法，會得到一個Promise物件。`await`用來處理這個Promise物件，一旦`resolve`，就把得到的值（`x`）傳入`for...of`的迴圈體。
 
-`for await...of`循环的一个用途，是部署了 asyncIterable 操作的异步接口，可以直接放入这个循环。
+`for await...of`迴圈的一個用途，是部署了 asyncIterable 操作的非同步介面，可以直接放入這個迴圈。
 
 ```javascript
 let body = '';
@@ -747,9 +747,9 @@ const parsed = JSON.parse(body);
 console.log('got', parsed);
 ```
 
-上面代码中，`req`是一个 asyncIterable 对象，用来异步读取数据。可以看到，使用`for await...of`循环以后，代码会非常简洁。
+上面程式碼中，`req`是一個 asyncIterable 物件，用來非同步讀取資料。可以看到，使用`for await...of`迴圈以後，程式碼會非常簡潔。
 
-如果`next`方法返回的Promise对象被`reject`，那么就要用`try...catch`捕捉。
+如果`next`方法返回的Promise物件被`reject`，那麼就要用`try...catch`捕捉。
 
 ```javascript
 async function () {
@@ -763,7 +763,7 @@ async function () {
 }
 ```
 
-注意，`for await...of`循环也可以用于同步遍历器。
+注意，`for await...of`迴圈也可以用於同步遍歷器。
 
 ```javascript
 (async function () {
@@ -775,11 +775,11 @@ async function () {
 // b
 ```
 
-### 异步Generator函数
+### 非同步Generator函式
 
-就像 Generator 函数返回一个同步遍历器对象一样，异步 Generator 函数的作用，是返回一个异步遍历器对象。
+就像 Generator 函式返回一個同步遍歷器物件一樣，非同步 Generator 函式的作用，是返回一個非同步遍歷器物件。
 
-在语法上，异步 Generator 函数就是`async`函数与 Generator 函数的结合。
+在語法上，非同步 Generator 函式就是`async`函式與 Generator 函式的結合。
 
 ```javascript
 async function* readLines(path) {
@@ -795,9 +795,9 @@ async function* readLines(path) {
 }
 ```
 
-上面代码中，异步操作前面使用`await`关键字标明，即`await`后面的操作，应该返回Promise对象。凡是使用`yield`关键字的地方，就是`next`方法的停下来的地方，它后面的表达式的值（即`await file.readLine()`的值），会作为`next()`返回对象的`value`属性，这一点是于同步Generator函数一致的。
+上面程式碼中，非同步操作前面使用`await`關鍵字標明，即`await`後面的操作，應該返回Promise物件。凡是使用`yield`關鍵字的地方，就是`next`方法的停下來的地方，它後面的表示式的值（即`await file.readLine()`的值），會作為`next()`返回物件的`value`屬性，這一點是於同步Generator函式一致的。
 
-可以像下面这样，使用上面代码定义的异步Generator函数。
+可以像下面這樣，使用上面程式碼定義的非同步Generator函式。
 
 ```javascript
 for await (const line of readLines(filePath)) {
@@ -805,7 +805,7 @@ for await (const line of readLines(filePath)) {
 }
 ```
 
-异步 Generator 函数可以与`for await...of`循环结合起来使用。
+非同步 Generator 函式可以與`for await...of`迴圈結合起來使用。
 
 ```javascript
 async function* prefixLines(asyncIterable) {
@@ -815,7 +815,7 @@ async function* prefixLines(asyncIterable) {
 }
 ```
 
-`yield`命令依然是立刻返回的，但是返回的是一个Promise对象。
+`yield`命令依然是立刻返回的，但是返回的是一個Promise物件。
 
 ```javascript
 async function* asyncGenerator() {
@@ -826,9 +826,9 @@ async function* asyncGenerator() {
 }
 ```
 
-上面代码中，调用`next`方法以后，会在`B`处暂停执行，`yield`命令立刻返回一个Promise对象。这个Promise对象不同于`A`处`await`命令后面的那个 Promise 对象。主要有两点不同，一是`A`处的Promise对象`resolve`以后产生的值，会放入`result`变量；二是`B`处的Promise对象`resolve`以后产生的值，是表达式`'Result： ' + result`的值；二是`A`处的 Promise 对象一定先于`B`处的 Promise 对象`resolve`。
+上面程式碼中，呼叫`next`方法以後，會在`B`處暫停執行，`yield`命令立刻返回一個Promise物件。這個Promise物件不同於`A`處`await`命令後面的那個 Promise 物件。主要有兩點不同，一是`A`處的Promise物件`resolve`以後產生的值，會放入`result`變數；二是`B`處的Promise物件`resolve`以後產生的值，是表示式`'Result： ' + result`的值；二是`A`處的 Promise 物件一定先於`B`處的 Promise 物件`resolve`。
 
-如果异步 Generator 函数抛出错误，会被 Promise 对象`reject`，然后抛出的错误被`catch`方法捕获。
+如果非同步 Generator 函式丟擲錯誤，會被 Promise 物件`reject`，然後丟擲的錯誤被`catch`方法捕獲。
 
 ```javascript
 async function* asyncGenerator() {
@@ -840,7 +840,7 @@ asyncGenerator()
 .catch(err => console.log(err)); // Error: Problem!
 ```
 
-注意，普通的 async 函数返回的是一个 Promise 对象，而异步 Generator 函数返回的是一个异步Iterator对象。基本上，可以这样理解，`async`函数和异步 Generator 函数，是封装异步操作的两种方法，都用来达到同一种目的。区别在于，前者自带执行器，后者通过`for await...of`执行，或者自己编写执行器。下面就是一个异步 Generator 函数的执行器。
+注意，普通的 async 函式返回的是一個 Promise 物件，而非同步 Generator 函式返回的是一個非同步Iterator物件。基本上，可以這樣理解，`async`函式和非同步 Generator 函式，是封裝非同步操作的兩種方法，都用來達到同一種目的。區別在於，前者自帶執行器，後者通過`for await...of`執行，或者自己編寫執行器。下面就是一個非同步 Generator 函式的執行器。
 
 ```javascript
 async function takeAsync(asyncIterable, count=Infinity) {
@@ -855,9 +855,9 @@ async function takeAsync(asyncIterable, count=Infinity) {
 }
 ```
 
-上面代码中，异步Generator函数产生的异步遍历器，会通过`while`循环自动执行，每当`await iterator.next()`完成，就会进入下一轮循环。
+上面程式碼中，非同步Generator函式產生的非同步遍歷器，會通過`while`迴圈自動執行，每當`await iterator.next()`完成，就會進入下一輪迴圈。
 
-下面是这个自动执行器的一个使用实例。
+下面是這個自動執行器的一個使用例項。
 
 ```javascript
 async function f() {
@@ -875,9 +875,9 @@ f().then(function (result) {
 })
 ```
 
-异步 Generator 函数出现以后，JavaScript就有了四种函数形式：普通函数、async 函数、Generator 函数和异步 Generator 函数。请注意区分每种函数的不同之处。
+非同步 Generator 函數出現以後，JavaScript就有了四種函式形式：普通函式、async 函式、Generator 函式和非同步 Generator 函式。請注意區分每種函式的不同之處。
 
-最后，同步的数据结构，也可以使用异步 Generator 函数。
+最後，同步的資料結構，也可以使用非同步 Generator 函式。
 
 ```javascript
 async function* createAsyncIterable(syncIterable) {
@@ -887,11 +887,11 @@ async function* createAsyncIterable(syncIterable) {
 }
 ```
 
-上面代码中，由于没有异步操作，所以也就没有使用`await`关键字。
+上面程式碼中，由於沒有非同步操作，所以也就沒有使用`await`關鍵字。
 
-### yield* 语句
+### yield* 語句
 
-`yield*`语句也可以跟一个异步遍历器。
+`yield*`語句也可以跟一個非同步遍歷器。
 
 ```javascript
 async function* gen1() {
@@ -905,9 +905,9 @@ async function* gen2() {
 }
 ```
 
-上面代码中，`gen2`函数里面的`result`变量，最后的值是`2`。
+上面程式碼中，`gen2`函式裡面的`result`變數，最後的值是`2`。
 
-与同步Generator函数一样，`for await...of`循环会展开`yield*`。
+與同步Generator函式一樣，`for await...of`迴圈會展開`yield*`。
 
 ```javascript
 (async function () {

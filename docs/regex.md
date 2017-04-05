@@ -1,55 +1,55 @@
-# 正则的扩展
+# 正則的擴充套件
 
-## RegExp构造函数
+## RegExp建構函式
 
-在ES5中，RegExp构造函数的参数有两种情况。
+在ES5中，RegExp建構函式的引數有兩種情況。
 
-第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。
+第一種情況是，引數是字串，這時第二個引數表示正則表示式的修飾符（flag）。
 
 ```javascript
 var regex = new RegExp('xyz', 'i');
-// 等价于
+// 等價於
 var regex = /xyz/i;
 ```
 
-第二种情况是，参数是一个正则表示式，这时会返回一个原有正则表达式的拷贝。
+第二種情況是，引數是一個正則表示式，這時會返回一個原有正則表示式的拷貝。
 
 ```javascript
 var regex = new RegExp(/xyz/i);
-// 等价于
+// 等價於
 var regex = /xyz/i;
 ```
 
-但是，ES5不允许此时使用第二个参数，添加修饰符，否则会报错。
+但是，ES5不允許此時使用第二個引數，新增修飾符，否則會報錯。
 
 ```javascript
 var regex = new RegExp(/xyz/, 'i');
 // Uncaught TypeError: Cannot supply flags when constructing one RegExp from another
 ```
 
-ES6改变了这种行为。如果RegExp构造函数第一个参数是一个正则对象，那么可以使用第二个参数指定修饰符。而且，返回的正则表达式会忽略原有的正则表达式的修饰符，只使用新指定的修饰符。
+ES6改變了這種行為。如果RegExp建構函式第一個引數是一個正則物件，那麼可以使用第二個引數指定修飾符。而且，返回的正則表示式會忽略原有的正則表示式的修飾符，只使用新指定的修飾符。
 
 ```javascript
 new RegExp(/abc/ig, 'i').flags
 // "i"
 ```
 
-上面代码中，原有正则对象的修饰符是`ig`，它会被第二个参数`i`覆盖。
+上面程式碼中，原有正則物件的修飾符是`ig`，它會被第二個引數`i`覆蓋。
 
-## 字符串的正则方法
+## 字串的正則方法
 
-字符串对象共有4个方法，可以使用正则表达式：`match()`、`replace()`、`search()`和`split()`。
+字串物件共有4個方法，可以使用正則表示式：`match()`、`replace()`、`search()`和`split()`。
 
-ES6将这4个方法，在语言内部全部调用RegExp的实例方法，从而做到所有与正则相关的方法，全都定义在RegExp对象上。
+ES6將這4個方法，在語言內部全部呼叫RegExp的例項方法，從而做到所有與正則相關的方法，全都定義在RegExp物件上。
 
-- `String.prototype.match` 调用 `RegExp.prototype[Symbol.match]`
-- `String.prototype.replace` 调用 `RegExp.prototype[Symbol.replace]`
-- `String.prototype.search` 调用 `RegExp.prototype[Symbol.search]`
-- `String.prototype.split` 调用 `RegExp.prototype[Symbol.split]`
+- `String.prototype.match` 呼叫 `RegExp.prototype[Symbol.match]`
+- `String.prototype.replace` 呼叫 `RegExp.prototype[Symbol.replace]`
+- `String.prototype.search` 呼叫 `RegExp.prototype[Symbol.search]`
+- `String.prototype.split` 呼叫 `RegExp.prototype[Symbol.split]`
 
-## u修饰符
+## u修飾符
 
-ES6对正则表达式添加了`u`修饰符，含义为“Unicode模式”，用来正确处理大于`\uFFFF`的Unicode字符。也就是说，会正确处理四个字节的UTF-16编码。
+ES6對正則表示式添加了`u`修飾符，含義為“Unicode模式”，用來正確處理大於`\uFFFF`的Unicode字元。也就是說，會正確處理四個位元組的UTF-16編碼。
 
 ```javascript
 /^\uD83D/u.test('\uD83D\uDC2A')
@@ -58,13 +58,13 @@ ES6对正则表达式添加了`u`修饰符，含义为“Unicode模式”，用�
 // true
 ```
 
-上面代码中，`\uD83D\uDC2A`是一个四个字节的UTF-16编码，代表一个字符。但是，ES5不支持四个字节的UTF-16编码，会将其识别为两个字符，导致第二行代码结果为`true`。加了`u`修饰符以后，ES6就会识别其为一个字符，所以第一行代码结果为`false`。
+上面程式碼中，`\uD83D\uDC2A`是一個四個位元組的UTF-16編碼，代表一個字元。但是，ES5不支援四個位元組的UTF-16編碼，會將其識別為兩個字元，導致第二行程式碼結果為`true`。加了`u`修飾符以後，ES6就會識別其為一個字元，所以第一行程式碼結果為`false`。
 
-一旦加上`u`修饰符号，就会修改下面这些正则表达式的行为。
+一旦加上`u`修飾符號，就會修改下面這些正則表示式的行為。
 
-**（1）点字符**
+**（1）點字元**
 
-点（`.`）字符在正则表达式中，含义是除了换行符以外的任意单个字符。对于码点大于`0xFFFF`的Unicode字符，点字符不能识别，必须加上`u`修饰符。
+點（`.`）字元在正則表示式中，含義是除了換行符以外的任意單個字元。對於碼點大於`0xFFFF`的Unicode字元，點字元不能識別，必須加上`u`修飾符。
 
 ```javascript
 var s = '𠮷';
@@ -73,11 +73,11 @@ var s = '𠮷';
 /^.$/u.test(s) // true
 ```
 
-上面代码表示，如果不添加`u`修饰符，正则表达式就会认为字符串为两个字符，从而匹配失败。
+上面程式碼表示，如果不新增`u`修飾符，正則表示式就會認為字串為兩個字元，從而匹配失敗。
 
-**（2）Unicode字符表示法**
+**（2）Unicode字元表示法**
 
-ES6新增了使用大括号表示Unicode字符，这种表示法在正则表达式中必须加上`u`修饰符，才能识别。
+ES6新增了使用大括號表示Unicode字元，這種表示法在正則表示式中必須加上`u`修飾符，才能識別。
 
 ```javascript
 /\u{61}/.test('a') // false
@@ -85,11 +85,11 @@ ES6新增了使用大括号表示Unicode字符，这种表示法在正则表达�
 /\u{20BB7}/u.test('𠮷') // true
 ```
 
-上面代码表示，如果不加`u`修饰符，正则表达式无法识别`\u{61}`这种表示法，只会认为这匹配61个连续的`u`。
+上面程式碼表示，如果不加`u`修飾符，正則表示式無法識別`\u{61}`這種表示法，只會認為這匹配61個連續的`u`。
 
-**（3）量词**
+**（3）量詞**
 
-使用`u`修饰符后，所有量词都会正确识别码点大于`0xFFFF`的Unicode字符。
+使用`u`修飾符後，所有量詞都會正確識別碼點大於`0xFFFF`的Unicode字元。
 
 ```javascript
 /a{2}/.test('aa') // true
@@ -98,26 +98,26 @@ ES6新增了使用大括号表示Unicode字符，这种表示法在正则表达�
 /𠮷{2}/u.test('𠮷𠮷') // true
 ```
 
-另外，只有在使用`u`修饰符的情况下，Unicode表达式当中的大括号才会被正确解读，否则会被解读为量词。
+另外，只有在使用`u`修飾符的情況下，Unicode表示式當中的大括號才會被正確解讀，否則會被解讀為量詞。
 
 ```javascript
 /^\u{3}$/.test('uuu') // true
 ```
 
-上面代码中，由于正则表达式没有`u`修饰符，所以大括号被解读为量词。加上`u`修饰符，就会被解读为Unicode表达式。
+上面程式碼中，由於正則表示式沒有`u`修飾符，所以大括號被解讀為量詞。加上`u`修飾符，就會被解讀為Unicode表示式。
 
-**（4）预定义模式**
+**（4）預定義模式**
 
-`u`修饰符也影响到预定义模式，能否正确识别码点大于`0xFFFF`的Unicode字符。
+`u`修飾符也影響到預定義模式，能否正確識別碼點大於`0xFFFF`的Unicode字元。
 
 ```javascript
 /^\S$/.test('𠮷') // false
 /^\S$/u.test('𠮷') // true
 ```
 
-上面代码的`\S`是预定义模式，匹配所有不是空格的字符。只有加了`u`修饰符，它才能正确匹配码点大于`0xFFFF`的Unicode字符。
+上面程式碼的`\S`是預定義模式，匹配所有不是空格的字元。只有加了`u`修飾符，它才能正確匹配碼點大於`0xFFFF`的Unicode字元。
 
-利用这一点，可以写出一个正确返回字符串长度的函数。
+利用這一點，可以寫出一個正確返回字串長度的函式。
 
 ```javascript
 function codePointLength(text) {
@@ -131,22 +131,22 @@ s.length // 4
 codePointLength(s) // 2
 ```
 
-**（5）i修饰符**
+**（5）i修飾符**
 
-有些Unicode字符的编码不同，但是字型很相近，比如，`\u004B`与`\u212A`都是大写的`K`。
+有些Unicode字元的編碼不同，但是字型很相近，比如，`\u004B`與`\u212A`都是大寫的`K`。
 
 ```javascript
 /[a-z]/i.test('\u212A') // false
 /[a-z]/iu.test('\u212A') // true
 ```
 
-上面代码中，不加`u`修饰符，就无法识别非规范的K字符。
+上面程式碼中，不加`u`修飾符，就無法識別非規範的K字元。
 
-## y 修饰符
+## y 修飾符
 
-除了`u`修饰符，ES6还为正则表达式添加了`y`修饰符，叫做“粘连”（sticky）修饰符。
+除了`u`修飾符，ES6還為正則表示式添加了`y`修飾符，叫做“粘連”（sticky）修飾符。
 
-`y`修饰符的作用与`g`修饰符类似，也是全局匹配，后一次匹配都从上一次匹配成功的下一个位置开始。不同之处在于，`g`修饰符只要剩余位置中存在匹配就可，而`y`修饰符确保匹配必须从剩余的第一个位置开始，这也就是“粘连”的涵义。
+`y`修飾符的作用與`g`修飾符類似，也是全域性匹配，後一次匹配都從上一次匹配成功的下一個位置開始。不同之處在於，`g`修飾符只要剩餘位置中存在匹配就可，而`y`修飾符確保匹配必須從剩餘的第一個位置開始，這也就是“粘連”的涵義。
 
 ```javascript
 var s = 'aaa_aa_a';
@@ -160,9 +160,9 @@ r1.exec(s) // ["aa"]
 r2.exec(s) // null
 ```
 
-上面代码有两个正则表达式，一个使用`g`修饰符，另一个使用`y`修饰符。这两个正则表达式各执行了两次，第一次执行的时候，两者行为相同，剩余字符串都是`_aa_a`。由于`g`修饰没有位置要求，所以第二次执行会返回结果，而`y`修饰符要求匹配必须从头部开始，所以返回`null`。
+上面程式碼有兩個正則表示式，一個使用`g`修飾符，另一個使用`y`修飾符。這兩個正則表示式各執行了兩次，第一次執行的時候，兩者行為相同，剩餘字串都是`_aa_a`。由於`g`修飾沒有位置要求，所以第二次執行會返回結果，而`y`修飾符要求匹配必須從頭部開始，所以返回`null`。
 
-如果改一下正则表达式，保证每次都能头部匹配，`y`修饰符就会返回结果了。
+如果改一下正則表示式，保證每次都能頭部匹配，`y`修飾符就會返回結果了。
 
 ```javascript
 var s = 'aaa_aa_a';
@@ -172,73 +172,73 @@ r.exec(s) // ["aaa_"]
 r.exec(s) // ["aa_"]
 ```
 
-上面代码每次匹配，都是从剩余字符串的头部开始。
+上面程式碼每次匹配，都是從剩餘字串的頭部開始。
 
-使用`lastIndex`属性，可以更好地说明`y`修饰符。
+使用`lastIndex`屬性，可以更好地說明`y`修飾符。
 
 ```javascript
 const REGEX = /a/g;
 
-// 指定从2号位置（y）开始匹配
+// 指定從2號位置（y）開始匹配
 REGEX.lastIndex = 2;
 
 // 匹配成功
 const match = REGEX.exec('xaya');
 
-// 在3号位置匹配成功
+// 在3號位置匹配成功
 match.index // 3
 
-// 下一次匹配从4号位开始
+// 下一次匹配從4號位開始
 REGEX.lastIndex // 4
 
-// 4号位开始匹配失败
+// 4號位開始匹配失敗
 REGEX.exec('xaxa') // null
 ```
 
-上面代码中，`lastIndex`属性指定每次搜索的开始位置，`g`修饰符从这个位置开始向后搜索，直到发现匹配为止。
+上面程式碼中，`lastIndex`屬性指定每次搜尋的開始位置，`g`修飾符從這個位置開始向後搜尋，直到發現匹配為止。
 
-`y`修饰符同样遵守`lastIndex`属性，但是要求必须在`lastIndex`指定的位置发现匹配。
+`y`修飾符同樣遵守`lastIndex`屬性，但是要求必須在`lastIndex`指定的位置發現匹配。
 
 ```javascript
 const REGEX = /a/y;
 
-// 指定从2号位置开始匹配
+// 指定從2號位置開始匹配
 REGEX.lastIndex = 2;
 
-// 不是粘连，匹配失败
+// 不是粘連，匹配失敗
 REGEX.exec('xaya') // null
 
-// 指定从3号位置开始匹配
+// 指定從3號位置開始匹配
 REGEX.lastIndex = 3;
 
-// 3号位置是粘连，匹配成功
+// 3號位置是粘連，匹配成功
 const match = REGEX.exec('xaxa');
 match.index // 3
 REGEX.lastIndex // 4
 ```
 
-进一步说，`y`修饰符号隐含了头部匹配的标志`^`。
+進一步說，`y`修飾符號隱含了頭部匹配的標誌`^`。
 
 ```javascript
 /b/y.exec('aba')
 // null
 ```
 
-上面代码由于不能保证头部匹配，所以返回`null`。`y`修饰符的设计本意，就是让头部匹配的标志`^`在全局匹配中都有效。
+上面程式碼由於不能保證頭部匹配，所以返回`null`。`y`修飾符的設計本意，就是讓頭部匹配的標誌`^`在全域性匹配中都有效。
 
-在`split`方法中使用`y`修饰符，原字符串必须以分隔符开头。这也意味着，只要匹配成功，数组的第一个成员肯定是空字符串。
+在`split`方法中使用`y`修飾符，原字串必須以分隔符開頭。這也意味著，只要匹配成功，陣列的第一個成員肯定是空字串。
 
 ```javascript
-// 没有找到匹配
+// 沒有找到匹配
 'x##'.split(/#/y)
 // [ 'x##' ]
 
-// 找到两个匹配
+// 找到兩個匹配
 '##x'.split(/#/y)
 // [ '', '', 'x' ]
 ```
 
-后续的分隔符只有紧跟前面的分隔符，才会被识别。
+後續的分隔符只有緊跟前面的分隔符，才會被識別。
 
 ```javascript
 '#x#'.split(/#/y)
@@ -248,23 +248,23 @@ REGEX.lastIndex // 4
 // [ '', '', '' ]
 ```
 
-下面是字符串对象的`replace`方法的例子。
+下面是字串物件的`replace`方法的例子。
 
 ```javascript
 const REGEX = /a/gy;
 'aaxa'.replace(REGEX, '-') // '--xa'
 ```
 
-上面代码中，最后一个`a`因为不是出现下一次匹配的头部，所以不会被替换。
+上面程式碼中，最後一個`a`因為不是出現下一次匹配的頭部，所以不會被替換。
 
-单单一个`y`修饰符对`match`方法，只能返回第一个匹配，必须与`g`修饰符联用，才能返回所有匹配。
+單單一個`y`修飾符對`match`方法，只能返回第一個匹配，必須與`g`修飾符聯用，才能返回所有匹配。
 
 ```javascript
 'a1a2a3'.match(/a\d/y) // ["a1"]
 'a1a2a3'.match(/a\d/gy) // ["a1", "a2", "a3"]
 ```
 
-`y`修饰符的一个应用，是从字符串提取token（词元），`y`修饰符确保了匹配之间不会有漏掉的字符。
+`y`修飾符的一個應用，是從字串提取token（詞元），`y`修飾符確保了匹配之間不會有漏掉的字元。
 
 ```javascript
 const TOKEN_Y = /\s*(\+|[0-9]+)\s*/y;
@@ -285,7 +285,7 @@ function tokenize(TOKEN_REGEX, str) {
 }
 ```
 
-上面代码中，如果字符串里面没有非法字符，`y`修饰符与`g`修饰符的提取结果是一样的。但是，一旦出现非法字符，两者的行为就不一样了。
+上面程式碼中，如果字串裡面沒有非法字元，`y`修飾符與`g`修飾符的提取結果是一樣的。但是，一旦出現非法字元，兩者的行為就不一樣了。
 
 ```javascript
 tokenize(TOKEN_Y, '3x + 4')
@@ -294,36 +294,36 @@ tokenize(TOKEN_G, '3x + 4')
 // [ '3', '+', '4' ]
 ```
 
-上面代码中，`g`修饰符会忽略非法字符，而`y`修饰符不会，这样就很容易发现错误。
+上面程式碼中，`g`修飾符會忽略非法字元，而`y`修飾符不會，這樣就很容易發現錯誤。
 
-## sticky属性
+## sticky屬性
 
-与`y`修饰符相匹配，ES6的正则对象多了`sticky`属性，表示是否设置了`y`修饰符。
+與`y`修飾符相匹配，ES6的正則物件多了`sticky`屬性，表示是否設定了`y`修飾符。
 
 ```javascript
 var r = /hello\d/y;
 r.sticky // true
 ```
 
-## flags属性
+## flags屬性
 
-ES6为正则表达式新增了`flags`属性，会返回正则表达式的修饰符。
+ES6為正則表示式新增了`flags`屬性，會返回正則表示式的修飾符。
 
 ```javascript
-// ES5的source属性
-// 返回正则表达式的正文
+// ES5的source屬性
+// 返回正則表示式的正文
 /abc/ig.source
 // "abc"
 
-// ES6的flags属性
-// 返回正则表达式的修饰符
+// ES6的flags屬性
+// 返回正則表示式的修飾符
 /abc/ig.flags
 // 'gi'
 ```
 
 ## RegExp.escape()
 
-字符串必须转义，才能作为正则模式。
+字串必須轉義，才能作為正則模式。
 
 ```javascript
 function escapeRegExp(str) {
@@ -335,9 +335,9 @@ escapeRegExp(str)
 // "\/path\/to\/resource\.html\?search=query"
 ```
 
-上面代码中，`str`是一个正常字符串，必须使用反斜杠对其中的特殊字符转义，才能用来作为一个正则匹配的模式。
+上面程式碼中，`str`是一個正常字串，必須使用反斜槓對其中的特殊字元轉義，才能用來作為一個正則匹配的模式。
 
-已经有[提议](https://esdiscuss.org/topic/regexp-escape)将这个需求标准化，作为RegExp对象的静态方法[RegExp.escape()](https://github.com/benjamingr/RexExp.escape)，放入ES7。2015年7月31日，TC39认为，这个方法有安全风险，又不愿这个方法变得过于复杂，没有同意将其列入ES7，但这不失为一个真实的需求。
+已經有[提議](https://esdiscuss.org/topic/regexp-escape)將這個需求標準化，作為RegExp物件的靜態方法[RegExp.escape()](https://github.com/benjamingr/RexExp.escape)，放入ES7。2015年7月31日，TC39認為，這個方法有安全風險，又不願這個方法變得過於複雜，沒有同意將其列入ES7，但這不失為一個真實的需求。
 
 ```javascript
 RegExp.escape('The Quick Brown Fox');
@@ -350,7 +350,7 @@ RegExp.escape('(*.*)');
 // "\(\*\.\*\)"
 ```
 
-字符串转义以后，可以使用RegExp构造函数生成正则模式。
+字串轉義以後，可以使用RegExp建構函式生成正則模式。
 
 ```javascript
 var str = 'hello. how are you?';
@@ -358,7 +358,7 @@ var regex = new RegExp(RegExp.escape(str), 'g');
 assert.equal(String(regex), '/hello\. how are you\?/g');
 ```
 
-目前，该方法可以用上文的`escapeRegExp`函数或者垫片模块[regexp.escape](https://github.com/ljharb/regexp.escape)实现。
+目前，該方法可以用上文的`escapeRegExp`函式或者墊片模組[regexp.escape](https://github.com/ljharb/regexp.escape)實現。
 
 ```javascript
 var escape = require('regexp.escape');
@@ -366,14 +366,14 @@ escape('hi. how are you?');
 // "hi\\. how are you\\?"
 ```
 
-## s 修饰符：dotAll 模式
+## s 修飾符：dotAll 模式
 
-正则表达式中，点（`.`）是一个特殊字符，代表任意的单个字符，但是行终止符（line terminator character）除外。
+正則表示式中，點（`.`）是一個特殊字元，代表任意的單個字元，但是行終止符（line terminator character）除外。
 
-以下四个字符属于”行终止符“。
+以下四個字元屬於”行終止符“。
 
-- U+000A 换行符（`\n`）
-- U+000D 回车符（`\r`）
+- U+000A 換行符（`\n`）
+- U+000D 回車符（`\r`）
 - U+2028 行分隔符（line separator）
 - U+2029 段分隔符（paragraph separator）
 
@@ -382,26 +382,26 @@ escape('hi. how are you?');
 // false
 ```
 
-上面代码中，因为`.`不匹配`\n`，所以正则表达式返回`false`。
+上面程式碼中，因為`.`不匹配`\n`，所以正則表示式返回`false`。
 
-但是，很多时候我们希望匹配的是任意单个字符，这时有一种变通的写法。
+但是，很多時候我們希望匹配的是任意單個字元，這時有一種變通的寫法。
 
 ```javascript
 /foo[^]bar/.test('foo\nbar')
 // true
 ```
 
-这种解决方案毕竟不太符合直觉，所以现在有一个[提案](https://github.com/mathiasbynens/es-regexp-dotall-flag)，引入`/s`修饰符，使得`.`可以匹配任意单个字符。
+這種解決方案畢竟不太符合直覺，所以現在有一個[提案](https://github.com/mathiasbynens/es-regexp-dotall-flag)，引入`/s`修飾符，使得`.`可以匹配任意單個字元。
 
 ```javascript
 /foo.bar/s.test('foo\nbar') // true
 ```
 
-这被称为`dotAll`模式，即点（dot）代表一切字符。所以，正则表达式还引入了一个`dotAll`属性，返回一个布尔值，表示该正则表达式是否处在`dotAll`模式。
+這被稱為`dotAll`模式，即點（dot）代表一切字元。所以，正則表示式還引入了一個`dotAll`屬性，返回一個布林值，表示該正則表示式是否處在`dotAll`模式。
 
 ```javascript
 const re = /foo.bar/s;
-// 另一种写法
+// 另一種寫法
 // const re = new RegExp('foo.bar', 's');
 
 re.test('foo\nbar') // true
@@ -409,92 +409,92 @@ re.dotAll // true
 re.flags // 's'
 ```
 
-`/s`修饰符和多行修饰符`/m`不冲突，两者一起使用的情况下，`.`匹配所有字符，而`^`和`$`匹配每一行的行首和行尾。
+`/s`修飾符和多行修飾符`/m`不衝突，兩者一起使用的情況下，`.`匹配所有字元，而`^`和`$`匹配每一行的行首和行尾。
 
-## 后行断言
+## 後行斷言
 
-JavaScript 语言的正则表达式，只支持先行断言（lookahead）和先行否定断言（negative lookahead），不支持后行断言（lookbehind）和后行否定断言（negative lookbehind）。
+JavaScript 語言的正則表示式，只支援先行斷言（lookahead）和先行否定斷言（negative lookahead），不支援後行斷言（lookbehind）和後行否定斷言（negative lookbehind）。
 
-目前，有一个[提案](https://github.com/goyakin/es-regexp-lookbehind)，引入后行断言。V8 引擎4.9版已经支持，Chrome 浏览器49版打开”experimental JavaScript features“开关（地址栏键入`about:flags`），就可以使用这项功能。
+目前，有一個[提案](https://github.com/goyakin/es-regexp-lookbehind)，引入後行斷言。V8 引擎4.9版已經支援，Chrome 瀏覽器49版開啟”experimental JavaScript features“開關（位址列鍵入`about:flags`），就可以使用這項功能。
 
-”先行断言“指的是，`x`只有在`y`前面才匹配，必须写成`/x(?=y)/`。比如，只匹配百分号之前的数字，要写成`/\d+(?=%)/`。”先行否定断言“指的是，`x`只有不在`y`前面才匹配，必须写成`/x(?!y)/`。比如，只匹配不在百分号之前的数字，要写成`/\d+(?!%)/`。
+”先行斷言“指的是，`x`只有在`y`前面才匹配，必須寫成`/x(?=y)/`。比如，只匹配百分號之前的數字，要寫成`/\d+(?=%)/`。”先行否定斷言“指的是，`x`只有不在`y`前面才匹配，必須寫成`/x(?!y)/`。比如，只匹配不在百分號之前的數字，要寫成`/\d+(?!%)/`。
 
 ```javascript
 /\d+(?=%)/.exec('100% of US presidents have been male')  // ["100"]
 /\d+(?!%)/.exec('that’s all 44 of them')                 // ["44"]
 ```
 
-上面两个字符串，如果互换正则表达式，就会匹配失败。另外，还可以看到，”先行断言“括号之中的部分（`(?=%)`），是不计入返回结果的。
+上面兩個字串，如果互換正則表示式，就會匹配失敗。另外，還可以看到，”先行斷言“括號之中的部分（`(?=%)`），是不計入返回結果的。
 
-“后行断言”正好与“先行断言”相反，`x`只有在`y`后面才匹配，必须写成`/(?<=y)x/`。比如，只匹配美元符号之后的数字，要写成`/(?<=\$)\d+/`。”后行否定断言“则与”先行否定断言“相反，`x`只有不在`y`后面才匹配，必须写成`/(?<!y)x/`。比如，只匹配不在美元符号后面的数字，要写成`/(?<!\$)\d+/`。
+“後行斷言”正好與“先行斷言”相反，`x`只有在`y`後面才匹配，必須寫成`/(?<=y)x/`。比如，只匹配美元符號之後的數字，要寫成`/(?<=\$)\d+/`。”後行否定斷言“則與”先行否定斷言“相反，`x`只有不在`y`後面才匹配，必須寫成`/(?<!y)x/`。比如，只匹配不在美元符號後面的數字，要寫成`/(?<!\$)\d+/`。
 
 ```javascript
 /(?<=\$)\d+/.exec('Benjamin Franklin is on the $100 bill')  // ["100"]
 /(?<!\$)\d+/.exec('it’s is worth about €90')                // ["90"]
 ```
 
-上面的例子中，“后行断言”的括号之中的部分（`(?<=\$)`），也是不计入返回结果。
+上面的例子中，“後行斷言”的括號之中的部分（`(?<=\$)`），也是不計入返回結果。
 
-“后行断言”的实现，需要先匹配`/(?<=y)x/`的`x`，然后再回到左边，匹配`y`的部分。这种“先右后左”的执行顺序，与所有其他正则操作相反，导致了一些不符合预期的行为。
+“後行斷言”的實現，需要先匹配`/(?<=y)x/`的`x`，然後再回到左邊，匹配`y`的部分。這種“先右後左”的執行順序，與所有其他正則操作相反，導致了一些不符合預期的行為。
 
-首先，”后行断言“的组匹配，与正常情况下结果是不一样的。
+首先，”後行斷言“的組匹配，與正常情況下結果是不一樣的。
 
 ```javascript
 /(?<=(\d+)(\d+))$/.exec('1053') // ["", "1", "053"]
 /^(\d+)(\d+)$/.exec('1053') // ["1053", "105", "3"]
 ```
 
-上面代码中，需要捕捉两个组匹配。没有"后行断言"时，第一个括号是贪婪模式，第二个括号只能捕获一个字符，所以结果是`105`和`3`。而"后行断言"时，由于执行顺序是从右到左，第二个括号是贪婪模式，第一个括号只能捕获一个字符，所以结果是`1`和`053`。
+上面程式碼中，需要捕捉兩個組匹配。沒有"後行斷言"時，第一個括號是貪婪模式，第二個括號只能捕獲一個字元，所以結果是`105`和`3`。而"後行斷言"時，由於執行順序是從右到左，第二個括號是貪婪模式，第一個括號只能捕獲一個字元，所以結果是`1`和`053`。
 
-其次，"后行断言"的反斜杠引用，也与通常的顺序相反，必须放在对应的那个括号之前。
+其次，"後行斷言"的反斜槓引用，也與通常的順序相反，必須放在對應的那個括號之前。
 
 ```javascript
 /(?<=(o)d\1)r/.exec('hodor')  // null
 /(?<=\1d(o))r/.exec('hodor')  // ["r", "o"]
 ```
 
-上面代码中，如果后行断言的反斜杠引用（`\1`）放在括号的后面，就不会得到匹配结果，必须放在前面才可以。
+上面程式碼中，如果後行斷言的反斜槓引用（`\1`）放在括號的後面，就不會得到匹配結果，必須放在前面才可以。
 
-## Unicode属性类
+## Unicode屬性類
 
-目前，有一个[提案](https://github.com/mathiasbynens/es-regexp-unicode-property-escapes)，引入了一种新的类的写法`\p{...}`和`\P{...}`，允许正则表达式匹配符合Unicode某种属性的所有字符。
+目前，有一個[提案](https://github.com/mathiasbynens/es-regexp-unicode-property-escapes)，引入了一種新的類的寫法`\p{...}`和`\P{...}`，允許正則表示式匹配符合Unicode某種屬性的所有字元。
 
 ```javascript
 const regexGreekSymbol = /\p{Script=Greek}/u;
 regexGreekSymbol.test('π') // u
 ```
 
-上面代码中，`\p{Script=Greek}`指定匹配一个希腊文字母，所以匹配`π`成功。
+上面程式碼中，`\p{Script=Greek}`指定匹配一個希臘文字母，所以匹配`π`成功。
 
-Unicode属性类要指定属性名和属性值。
+Unicode屬性類要指定屬性名和屬性值。
 
 ```javascript
 \p{UnicodePropertyName=UnicodePropertyValue}
 ```
 
-对于某些属性，可以只写属性名。
+對於某些屬性，可以只寫屬性名。
 
 ```javascript
 \p{UnicodePropertyName}
 ```
 
-`\P{…}`是`\p{…}`的反向匹配，即匹配不满足条件的字符。
+`\P{…}`是`\p{…}`的反向匹配，即匹配不滿足條件的字元。
 
-注意，这两种类只对Unicode有效，所以使用的时候一定要加上`u`修饰符。如果不加`u`修饰符，正则表达式使用`\p`和`\P`会报错，ECMAScript预留了这两个类。
+注意，這兩種類只對Unicode有效，所以使用的時候一定要加上`u`修飾符。如果不加`u`修飾符，正則表示式使用`\p`和`\P`會報錯，ECMAScript預留了這兩個類。
 
-由于Unicode的各种属性非常多，所以这种新的类的表达能力非常强。
+由於Unicode的各種屬性非常多，所以這種新的類的表達能力非常強。
 
 ```javascript
 const regex = /^\p{Decimal_Number}+$/u;
 regex.test('𝟏𝟐𝟑𝟜𝟝𝟞𝟩𝟪𝟫𝟬𝟭𝟮𝟯𝟺𝟻𝟼') // true
 ```
 
-上面代码中，属性类指定匹配所有十进制字符，可以看到各种字型的十进制字符都会匹配成功。
+上面程式碼中，屬性類指定匹配所有十進位制字元，可以看到各種字型的十進位制字元都會匹配成功。
 
-`\p{Number}`甚至能匹配罗马数字。
+`\p{Number}`甚至能匹配羅馬數字。
 
 ```javascript
-// 匹配所有数字
+// 匹配所有數字
 const regex = /^\p{Number}+$/u;
 regex.test('²³¹¼½¾') // true
 regex.test('㉛㉜㉝') // true
@@ -504,13 +504,13 @@ regex.test('ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ') // true
 下面是其他一些例子。
 
 ```javascript
-// 匹配各种文字的所有字母，等同于Unicode版的\w
+// 匹配各種文字的所有字母，等同於Unicode版的\w
 [\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]
 
-// 匹配各种文字的所有非字母的字符，等同于Unicode版的\W
+// 匹配各種文字的所有非字母的字元，等同於Unicode版的\W
 [^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]
 
-// 匹配所有的箭头字符
+// 匹配所有的箭頭字元
 const regexArrows = /^\p{Block=Arrows}+$/u;
 regexArrows.test('←↑→↓↔↕↖↗↘↙⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇧⇩') // true
 ```

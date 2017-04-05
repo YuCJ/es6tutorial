@@ -1,12 +1,12 @@
-# Set和Map数据结构
+# Set和Map資料結構
 
 ## Set
 
 ### 基本用法
 
-ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+ES6 提供了新的資料結構 Set。它類似於陣列，但是成員的值都是唯一的，沒有重複的值。
 
-Set 本身是一个构造函数，用来生成 Set 数据结构。
+Set 本身是一個建構函式，用來生成 Set 資料結構。
 
 ```javascript
 const s = new Set();
@@ -19,9 +19,9 @@ for (let i of s) {
 // 2 3 5 4
 ```
 
-上面代码通过`add`方法向 Set 结构加入成员，结果表明 Set 结构不会添加重复的值。
+上面程式碼通過`add`方法向 Set 結構加入成員，結果表明 Set 結構不會新增重複的值。
 
-Set 函数可以接受一个数组（或类似数组的对象）作为参数，用来初始化。
+Set 函式可以接受一個數組（或類似陣列的物件）作為引數，用來初始化。
 
 ```javascript
 // 例一
@@ -41,21 +41,21 @@ function divs () {
 var set = new Set(divs());
 set.size // 56
 
-// 类似于
+// 類似於
 divs().forEach(div => set.add(div));
 set.size // 56
 ```
 
-上面代码中，例一和例二都是`Set`函数接受数组作为参数，例三是接受类似数组的对象作为参数。
+上面程式碼中，例一和例二都是`Set`函式接受陣列作為引數，例三是接受類似陣列的物件作為引數。
 
-上面代码中，也展示了一种去除数组重复成员的方法。
+上面程式碼中，也展示了一種去除陣列重複成員的方法。
 
 ```javascript
-// 去除数组的重复成员
+// 去除陣列的重複成員
 [...new Set(array)]
 ```
 
-向Set加入值的时候，不会发生类型转换，所以`5`和`"5"`是两个不同的值。Set内部判断两个值是否不同，使用的算法叫做“Same-value equality”，它类似于精确相等运算符（`===`），主要的区别是`NaN`等于自身，而精确相等运算符认为`NaN`不等于自身。
+向Set加入值的時候，不會發生型別轉換，所以`5`和`"5"`是兩個不同的值。Set內部判斷兩個值是否不同，使用的演算法叫做“Same-value equality”，它類似於精確相等運算子（`===`），主要的區別是`NaN`等於自身，而精確相等運算子認為`NaN`不等於自身。
 
 ```javascript
 let set = new Set();
@@ -66,9 +66,9 @@ set.add(b);
 set // Set {NaN}
 ```
 
-上面代码向Set实例添加了两个`NaN`，但是只能加入一个。这表明，在Set内部，两个`NaN`是相等。
+上面程式碼向Set例項添加了兩個`NaN`，但是隻能加入一個。這表明，在Set內部，兩個`NaN`是相等。
 
-另外，两个对象总是不相等的。
+另外，兩個物件總是不相等的。
 
 ```javascript
 let set = new Set();
@@ -80,27 +80,27 @@ set.add({});
 set.size // 2
 ```
 
-上面代码表示，由于两个空对象不相等，所以它们被视为两个值。
+上面程式碼表示，由於兩個空物件不相等，所以它們被視為兩個值。
 
-### Set实例的属性和方法
+### Set例項的屬性和方法
 
-Set结构的实例有以下属性。
+Set結構的例項有以下屬性。
 
-- `Set.prototype.constructor`：构造函数，默认就是`Set`函数。
-- `Set.prototype.size`：返回`Set`实例的成员总数。
+- `Set.prototype.constructor`：建構函式，預設就是`Set`函式。
+- `Set.prototype.size`：返回`Set`例項的成員總數。
 
-Set实例的方法分为两大类：操作方法（用于操作数据）和遍历方法（用于遍历成员）。下面先介绍四个操作方法。
+Set例項的方法分為兩大類：操作方法（用於操作資料）和遍歷方法（用於遍歷成員）。下面先介紹四個操作方法。
 
-- `add(value)`：添加某个值，返回Set结构本身。
-- `delete(value)`：删除某个值，返回一个布尔值，表示删除是否成功。
-- `has(value)`：返回一个布尔值，表示该值是否为`Set`的成员。
-- `clear()`：清除所有成员，没有返回值。
+- `add(value)`：新增某個值，返回Set結構本身。
+- `delete(value)`：刪除某個值，返回一個布林值，表示刪除是否成功。
+- `has(value)`：返回一個布林值，表示該值是否為`Set`的成員。
+- `clear()`：清除所有成員，沒有返回值。
 
-上面这些属性和方法的实例如下。
+上面這些屬性和方法的例項如下。
 
 ```javascript
 s.add(1).add(2).add(2);
-// 注意2被加入了两次
+// 注意2被加入了兩次
 
 s.size // 2
 
@@ -112,10 +112,10 @@ s.delete(2);
 s.has(2) // false
 ```
 
-下面是一个对比，看看在判断是否包括一个键上面，`Object`结构和`Set`结构的写法不同。
+下面是一個對比，看看在判斷是否包括一個鍵上面，`Object`結構和`Set`結構的寫法不同。
 
 ```javascript
-// 对象的写法
+// 物件的寫法
 var properties = {
   'width': 1,
   'height': 1
@@ -125,7 +125,7 @@ if (properties[someName]) {
   // do something
 }
 
-// Set的写法
+// Set的寫法
 var properties = new Set();
 
 properties.add('width');
@@ -136,14 +136,14 @@ if (properties.has(someName)) {
 }
 ```
 
-`Array.from`方法可以将Set结构转为数组。
+`Array.from`方法可以將Set結構轉為陣列。
 
 ```javascript
 var items = new Set([1, 2, 3, 4, 5]);
 var array = Array.from(items);
 ```
 
-这就提供了去除数组重复成员的另一种方法。
+這就提供了去除陣列重複成員的另一種方法。
 
 ```javascript
 function dedupe(array) {
@@ -153,20 +153,20 @@ function dedupe(array) {
 dedupe([1, 1, 2, 3]) // [1, 2, 3]
 ```
 
-### 遍历操作
+### 遍歷操作
 
-Set结构的实例有四个遍历方法，可以用于遍历成员。
+Set結構的例項有四個遍歷方法，可以用於遍歷成員。
 
-- `keys()`：返回键名的遍历器
-- `values()`：返回键值的遍历器
-- `entries()`：返回键值对的遍历器
-- `forEach()`：使用回调函数遍历每个成员
+- `keys()`：返回鍵名的遍歷器
+- `values()`：返回鍵值的遍歷器
+- `entries()`：返回鍵值對的遍歷器
+- `forEach()`：使用回撥函式遍歷每個成員
 
-需要特别指出的是，`Set`的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用Set保存一个回调函数列表，调用时就能保证按照添加顺序调用。
+需要特別指出的是，`Set`的遍歷順序就是插入順序。這個特性有時非常有用，比如使用Set儲存一個回撥函式列表，呼叫時就能保證按照新增順序呼叫。
 
 **（1）`keys()`，`values()`，`entries()`**
 
-`keys`方法、`values`方法、`entries`方法返回的都是遍历器对象（详见《Iterator 对象》一章）。由于 Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以`keys`方法和`values`方法的行为完全一致。
+`keys`方法、`values`方法、`entries`方法返回的都是遍歷器物件（詳見《Iterator 物件》一章）。由於 Set 結構沒有鍵名，只有鍵值（或者說鍵名和鍵值是同一個值），所以`keys`方法和`values`方法的行為完全一致。
 
 ```javascript
 let set = new Set(['red', 'green', 'blue']);
@@ -193,16 +193,16 @@ for (let item of set.entries()) {
 // ["blue", "blue"]
 ```
 
-上面代码中，`entries`方法返回的遍历器，同时包括键名和键值，所以每次输出一个数组，它的两个成员完全相等。
+上面程式碼中，`entries`方法返回的遍歷器，同時包括鍵名和鍵值，所以每次輸出一個數組，它的兩個成員完全相等。
 
-Set结构的实例默认可遍历，它的默认遍历器生成函数就是它的`values`方法。
+Set結構的例項預設可遍歷，它的預設遍歷器生成函式就是它的`values`方法。
 
 ```javascript
 Set.prototype[Symbol.iterator] === Set.prototype.values
 // true
 ```
 
-这意味着，可以省略`values`方法，直接用`for...of`循环遍历Set。
+這意味著，可以省略`values`方法，直接用`for...of`迴圈遍歷Set。
 
 ```javascript
 let set = new Set(['red', 'green', 'blue']);
@@ -217,7 +217,7 @@ for (let x of set) {
 
 **（2）`forEach()`**
 
-Set结构的实例的`forEach`方法，用于对每个成员执行某种操作，没有返回值。
+Set結構的例項的`forEach`方法，用於對每個成員執行某種操作，沒有返回值。
 
 ```javascript
 let set = new Set([1, 2, 3]);
@@ -227,11 +227,11 @@ set.forEach((value, key) => console.log(value * 2) )
 // 6
 ```
 
-上面代码说明，`forEach`方法的参数就是一个处理函数。该函数的参数依次为键值、键名、集合本身（上例省略了该参数）。另外，`forEach`方法还可以有第二个参数，表示绑定的this对象。
+上面程式碼說明，`forEach`方法的引數就是一個處理函式。該函式的引數依次為鍵值、鍵名、集合本身（上例省略了該引數）。另外，`forEach`方法還可以有第二個引數，表示繫結的this物件。
 
-**（3）遍历的应用**
+**（3）遍歷的應用**
 
-扩展运算符（`...`）内部使用`for...of`循环，所以也可以用于Set结构。
+擴充套件運算子（`...`）內部使用`for...of`迴圈，所以也可以用於Set結構。
 
 ```javascript
 let set = new Set(['red', 'green', 'blue']);
@@ -239,7 +239,7 @@ let arr = [...set];
 // ['red', 'green', 'blue']
 ```
 
-扩展运算符和Set结构相结合，就可以去除数组的重复成员。
+擴充套件運算子和Set結構相結合，就可以去除陣列的重複成員。
 
 ```javascript
 let arr = [3, 5, 2, 2, 5, 5];
@@ -247,25 +247,25 @@ let unique = [...new Set(arr)];
 // [3, 5, 2]
 ```
 
-而且，数组的`map`和`filter`方法也可以用于Set了。
+而且，陣列的`map`和`filter`方法也可以用於Set了。
 
 ```javascript
 let set = new Set([1, 2, 3]);
 set = new Set([...set].map(x => x * 2));
-// 返回Set结构：{2, 4, 6}
+// 返回Set結構：{2, 4, 6}
 
 let set = new Set([1, 2, 3, 4, 5]);
 set = new Set([...set].filter(x => (x % 2) == 0));
-// 返回Set结构：{2, 4}
+// 返回Set結構：{2, 4}
 ```
 
-因此使用Set可以很容易地实现并集（Union）、交集（Intersect）和差集（Difference）。
+因此使用Set可以很容易地實現並集（Union）、交集（Intersect）和差集（Difference）。
 
 ```javascript
 let a = new Set([1, 2, 3]);
 let b = new Set([4, 3, 2]);
 
-// 并集
+// 並集
 let union = new Set([...a, ...b]);
 // Set {1, 2, 3, 4}
 
@@ -278,7 +278,7 @@ let difference = new Set([...a].filter(x => !b.has(x)));
 // Set {1}
 ```
 
-如果想在遍历操作中，同步改变原来的Set结构，目前没有直接的方法，但有两种变通方法。一种是利用原Set结构映射出一个新的结构，然后赋值给原来的Set结构；另一种是利用`Array.from`方法。
+如果想在遍歷操作中，同步改變原來的Set結構，目前沒有直接的方法，但有兩種變通方法。一種是利用原Set結構映射出一個新的結構，然後賦值給原來的Set結構；另一種是利用`Array.from`方法。
 
 ```javascript
 // 方法一
@@ -292,15 +292,15 @@ set = new Set(Array.from(set, val => val * 2));
 // set的值是2, 4, 6
 ```
 
-上面代码提供了两种方法，直接在遍历操作中改变原来的Set结构。
+上面程式碼提供了兩種方法，直接在遍歷操作中改變原來的Set結構。
 
 ## WeakSet
 
-WeakSet结构与Set类似，也是不重复的值的集合。但是，它与Set有两个区别。
+WeakSet結構與Set類似，也是不重複的值的集合。但是，它與Set有兩個區別。
 
-首先，WeakSet的成员只能是对象，而不能是其他类型的值。
+首先，WeakSet的成員只能是物件，而不能是其他型別的值。
 
-其次，WeakSet中的对象都是弱引用，即垃圾回收机制不考虑WeakSet对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于WeakSet之中。这个特点意味着，无法引用WeakSet的成员，因此WeakSet是不可遍历的。
+其次，WeakSet中的物件都是弱引用，即垃圾回收機制不考慮WeakSet對該物件的引用，也就是說，如果其他物件都不再引用該物件，那麼垃圾回收機制會自動回收該物件所佔用的記憶體，不考慮該物件還存在於WeakSet之中。這個特點意味著，無法引用WeakSet的成員，因此WeakSet是不可遍歷的。
 
 ```javascript
 var ws = new WeakSet();
@@ -310,24 +310,24 @@ ws.add(Symbol())
 // TypeError: invalid value used in weak set
 ```
 
-上面代码试图向WeakSet添加一个数值和`Symbol`值，结果报错，因为WeakSet只能放置对象。
+上面程式碼試圖向WeakSet新增一個數值和`Symbol`值，結果報錯，因為WeakSet只能放置物件。
 
-WeakSet是一个构造函数，可以使用`new`命令，创建WeakSet数据结构。
+WeakSet是一個建構函式，可以使用`new`命令，建立WeakSet資料結構。
 
 ```javascript
 var ws = new WeakSet();
 ```
 
-作为构造函数，WeakSet可以接受一个数组或类似数组的对象作为参数。（实际上，任何具有iterable接口的对象，都可以作为WeakSet的参数。）该数组的所有成员，都会自动成为WeakSet实例对象的成员。
+作為建構函式，WeakSet可以接受一個數組或類似陣列的物件作為引數。（實際上，任何具有iterable介面的物件，都可以作為WeakSet的引數。）該陣列的所有成員，都會自動成為WeakSet例項物件的成員。
 
 ```javascript
 var a = [[1,2], [3,4]];
 var ws = new WeakSet(a);
 ```
 
-上面代码中，`a`是一个数组，它有两个成员，也都是数组。将`a`作为WeakSet构造函数的参数，`a`的成员会自动成为WeakSet的成员。
+上面程式碼中，`a`是一個數組，它有兩個成員，也都是陣列。將`a`作為WeakSet建構函式的引數，`a`的成員會自動成為WeakSet的成員。
 
-注意，是`a`数组的成员成为WeakSet的成员，而不是`a`数组本身。这意味着，数组的成员只能是对象。
+注意，是`a`陣列的成員成為WeakSet的成員，而不是`a`陣列本身。這意味著，陣列的成員只能是物件。
 
 ```javascript
 var b = [3, 4];
@@ -335,15 +335,15 @@ var ws = new WeakSet(b);
 // Uncaught TypeError: Invalid value used in weak set(…)
 ```
 
-上面代码中，数组`b`的成员不是对象，加入WeaKSet就会报错。
+上面程式碼中，陣列`b`的成員不是物件，加入WeaKSet就會報錯。
 
-WeakSet结构有以下三个方法。
+WeakSet結構有以下三個方法。
 
-- **WeakSet.prototype.add(value)**：向WeakSet实例添加一个新成员。
-- **WeakSet.prototype.delete(value)**：清除WeakSet实例的指定成员。
-- **WeakSet.prototype.has(value)**：返回一个布尔值，表示某个值是否在WeakSet实例之中。
+- **WeakSet.prototype.add(value)**：向WeakSet例項新增一個新成員。
+- **WeakSet.prototype.delete(value)**：清除WeakSet例項的指定成員。
+- **WeakSet.prototype.has(value)**：返回一個布林值，表示某個值是否在WeakSet例項之中。
 
-下面是一个例子。
+下面是一個例子。
 
 ```javascript
 var ws = new WeakSet();
@@ -360,7 +360,7 @@ ws.delete(window);
 ws.has(window);    // false
 ```
 
-WeakSet没有`size`属性，没有办法遍历它的成员。
+WeakSet沒有`size`屬性，沒有辦法遍歷它的成員。
 
 ```javascript
 ws.size // undefined
@@ -370,11 +370,11 @@ ws.forEach(function(item){ console.log('WeakSet has ' + item)})
 // TypeError: undefined is not a function
 ```
 
-上面代码试图获取`size`和`forEach`属性，结果都不能成功。
+上面程式碼試圖獲取`size`和`forEach`屬性，結果都不能成功。
 
-WeakSet不能遍历，是因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。WeakSet的一个用处，是储存DOM节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+WeakSet不能遍歷，是因為成員都是弱引用，隨時可能消失，遍歷機制無法保證成員的存在，很可能剛剛遍歷結束，成員就取不到了。WeakSet的一個用處，是儲存DOM節點，而不用擔心這些節點從文件移除時，會引發記憶體洩漏。
 
-下面是WeakSet的另一个例子。
+下面是WeakSet的另一個例子。
 
 ```javascript
 const foos = new WeakSet()
@@ -384,19 +384,19 @@ class Foo {
   }
   method () {
     if (!foos.has(this)) {
-      throw new TypeError('Foo.prototype.method 只能在Foo的实例上调用！');
+      throw new TypeError('Foo.prototype.method 只能在Foo的例項上呼叫！');
     }
   }
 }
 ```
 
-上面代码保证了`Foo`的实例方法，只能在`Foo`的实例上调用。这里使用WeakSet的好处是，`foos`对实例的引用，不会被计入内存回收机制，所以删除实例的时候，不用考虑`foos`，也不会出现内存泄漏。
+上面程式碼保證了`Foo`的例項方法，只能在`Foo`的例項上呼叫。這裡使用WeakSet的好處是，`foos`對例項的引用，不會被計入記憶體回收機制，所以刪除例項的時候，不用考慮`foos`，也不會出現記憶體洩漏。
 
 ## Map
 
-### Map结构的目的和基本用法
+### Map結構的目的和基本用法
 
-JavaScript的对象（Object），本质上是键值对的集合（Hash结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制。
+JavaScript的物件（Object），本質上是鍵值對的集合（Hash結構），但是傳統上只能用字串當作鍵。這給它的使用帶來了很大的限制。
 
 ```javascript
 var data = {};
@@ -406,9 +406,9 @@ data[element] = 'metadata';
 data['[object HTMLDivElement]'] // "metadata"
 ```
 
-上面代码原意是将一个DOM节点作为对象`data`的键，但是由于对象只接受字符串作为键名，所以`element`被自动转为字符串`[object HTMLDivElement]`。
+上面程式碼原意是將一個DOM節點作為物件`data`的鍵，但是由於物件只接受字串作為鍵名，所以`element`被自動轉為字串`[object HTMLDivElement]`。
 
-为了解决这个问题，ES6提供了Map数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。也就是说，Object结构提供了“字符串—值”的对应，Map结构提供了“值—值”的对应，是一种更完善的Hash结构实现。如果你需要“键值对”的数据结构，Map比Object更合适。
+為了解決這個問題，ES6提供了Map資料結構。它類似於物件，也是鍵值對的集合，但是“鍵”的範圍不限於字串，各種型別的值（包括物件）都可以當作鍵。也就是說，Object結構提供了“字串—值”的對應，Map結構提供了“值—值”的對應，是一種更完善的Hash結構實現。如果你需要“鍵值對”的資料結構，Map比Object更合適。
 
 ```javascript
 var m = new Map();
@@ -422,37 +422,37 @@ m.delete(o) // true
 m.has(o) // false
 ```
 
-上面代码使用`set`方法，将对象`o`当作`m`的一个键，然后又使用`get`方法读取这个键，接着使用`delete`方法删除了这个键。
+上面程式碼使用`set`方法，將物件`o`當作`m`的一個鍵，然後又使用`get`方法讀取這個鍵，接著使用`delete`方法刪除了這個鍵。
 
-作为构造函数，Map也可以接受一个数组作为参数。该数组的成员是一个个表示键值对的数组。
+作為建構函式，Map也可以接受一個數組作為引數。該陣列的成員是一個個表示鍵值對的陣列。
 
 ```javascript
 var map = new Map([
-  ['name', '张三'],
+  ['name', '張三'],
   ['title', 'Author']
 ]);
 
 map.size // 2
 map.has('name') // true
-map.get('name') // "张三"
+map.get('name') // "張三"
 map.has('title') // true
 map.get('title') // "Author"
 ```
 
-上面代码在新建Map实例时，就指定了两个键`name`和`title`。
+上面程式碼在新建Map例項時，就指定了兩個鍵`name`和`title`。
 
-Map构造函数接受数组作为参数，实际上执行的是下面的算法。
+Map建構函式接受陣列作為引數，實際上執行的是下面的演算法。
 
 ```javascript
 var items = [
-  ['name', '张三'],
+  ['name', '張三'],
   ['title', 'Author']
 ];
 var map = new Map();
 items.forEach(([key, value]) => map.set(key, value));
 ```
 
-下面的例子中，字符串`true`和布尔值`true`是两个不同的键。
+下面的例子中，字串`true`和布林值`true`是兩個不同的鍵。
 
 ```javascript
 var m = new Map([
@@ -464,7 +464,7 @@ m.get(true) // 'foo'
 m.get('true') // 'bar'
 ```
 
-如果对同一个键多次赋值，后面的值将覆盖前面的值。
+如果對同一個鍵多次賦值，後面的值將覆蓋前面的值。
 
 ```javascript
 let map = new Map();
@@ -476,16 +476,16 @@ map
 map.get(1) // "bbb"
 ```
 
-上面代码对键`1`连续赋值两次，后一次的值覆盖前一次的值。
+上面程式碼對鍵`1`連續賦值兩次，後一次的值覆蓋前一次的值。
 
-如果读取一个未知的键，则返回`undefined`。
+如果讀取一個未知的鍵，則返回`undefined`。
 
 ```javascript
 new Map().get('asfddfsasadf')
 // undefined
 ```
 
-注意，只有对同一个对象的引用，Map结构才将其视为同一个键。这一点要非常小心。
+注意，只有對同一個物件的引用，Map結構才將其視為同一個鍵。這一點要非常小心。
 
 ```javascript
 var map = new Map();
@@ -494,9 +494,9 @@ map.set(['a'], 555);
 map.get(['a']) // undefined
 ```
 
-上面代码的`set`和`get`方法，表面是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此`get`方法无法读取该键，返回`undefined`。
+上面程式碼的`set`和`get`方法，表面是針對同一個鍵，但實際上這是兩個值，記憶體地址是不一樣的，因此`get`方法無法讀取該鍵，返回`undefined`。
 
-同理，同样的值的两个实例，在Map结构中被视为两个键。
+同理，同樣的值的兩個例項，在Map結構中被視為兩個鍵。
 
 ```javascript
 var map = new Map();
@@ -512,11 +512,11 @@ map.get(k1) // 111
 map.get(k2) // 222
 ```
 
-上面代码中，变量`k1`和`k2`的值是一样的，但是它们在Map结构中被视为两个键。
+上面程式碼中，變數`k1`和`k2`的值是一樣的，但是它們在Map結構中被視為兩個鍵。
 
-由上可知，Map的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
+由上可知，Map的鍵實際上是跟記憶體地址繫結的，只要記憶體地址不一樣，就視為兩個鍵。這就解決了同名屬性碰撞（clash）的問題，我們擴充套件別人的庫的時候，如果使用物件作為鍵名，就不用擔心自己的屬性與原作者的屬性同名。
 
-如果Map的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map将其视为一个键，包括`0`和`-0`。另外，虽然`NaN`不严格相等于自身，但Map将其视为同一个键。
+如果Map的鍵是一個簡單型別的值（數字、字串、布林值），則只要兩個值嚴格相等，Map將其視為一個鍵，包括`0`和`-0`。另外，雖然`NaN`不嚴格相等於自身，但Map將其視為同一個鍵。
 
 ```javascript
 let map = new Map();
@@ -528,13 +528,13 @@ map.set(-0, 123);
 map.get(+0) // 123
 ```
 
-### 实例的属性和操作方法
+### 例項的屬性和操作方法
 
-Map结构的实例有以下属性和操作方法。
+Map結構的例項有以下屬性和操作方法。
 
-**（1）size属性**
+**（1）size屬性**
 
-`size`属性返回Map结构的成员总数。
+`size`屬性返回Map結構的成員總數。
 
 ```javascript
 let map = new Map();
@@ -546,17 +546,17 @@ map.size // 2
 
 **（2）set(key, value)**
 
-`set`方法设置`key`所对应的键值，然后返回整个Map结构。如果`key`已经有值，则键值会被更新，否则就新生成该键。
+`set`方法設定`key`所對應的鍵值，然後返回整個Map結構。如果`key`已經有值，則鍵值會被更新，否則就新生成該鍵。
 
 ```javascript
 var m = new Map();
 
-m.set("edition", 6)        // 键是字符串
-m.set(262, "standard")     // 键是数值
-m.set(undefined, "nah")    // 键是undefined
+m.set("edition", 6)        // 鍵是字串
+m.set(262, "standard")     // 鍵是數值
+m.set(undefined, "nah")    // 鍵是undefined
 ```
 
-`set`方法返回的是Map本身，因此可以采用链式写法。
+`set`方法返回的是Map本身，因此可以採用鏈式寫法。
 
 ```javascript
 let map = new Map()
@@ -567,20 +567,20 @@ let map = new Map()
 
 **（3）get(key)**
 
-`get`方法读取`key`对应的键值，如果找不到`key`，返回`undefined`。
+`get`方法讀取`key`對應的鍵值，如果找不到`key`，返回`undefined`。
 
 ```javascript
 var m = new Map();
 
 var hello = function() {console.log("hello");}
-m.set(hello, "Hello ES6!") // 键是函数
+m.set(hello, "Hello ES6!") // 鍵是函式
 
 m.get(hello)  // Hello ES6!
 ```
 
 **（4）has(key)**
 
-`has`方法返回一个布尔值，表示某个键是否在Map数据结构中。
+`has`方法返回一個布林值，表示某個鍵是否在Map資料結構中。
 
 ```javascript
 var m = new Map();
@@ -597,7 +597,7 @@ m.has(undefined)     // true
 
 **（5）delete(key)**
 
-`delete`方法删除某个键，返回true。如果删除失败，返回false。
+`delete`方法刪除某個鍵，返回true。如果刪除失敗，返回false。
 
 ```javascript
 var m = new Map();
@@ -609,7 +609,7 @@ m.has(undefined)       // false
 ```
 **（6）clear()**
 
-`clear`方法清除所有成员，没有返回值。
+`clear`方法清除所有成員，沒有返回值。
 
 ```javascript
 let map = new Map();
@@ -621,18 +621,18 @@ map.clear()
 map.size // 0
 ```
 
-### 遍历方法
+### 遍歷方法
 
-Map原生提供三个遍历器生成函数和一个遍历方法。
+Map原生提供三個遍歷器生成函式和一個遍歷方法。
 
-- `keys()`：返回键名的遍历器。
-- `values()`：返回键值的遍历器。
-- `entries()`：返回所有成员的遍历器。
-- `forEach()`：遍历Map的所有成员。
+- `keys()`：返回鍵名的遍歷器。
+- `values()`：返回鍵值的遍歷器。
+- `entries()`：返回所有成員的遍歷器。
+- `forEach()`：遍歷Map的所有成員。
 
-需要特别注意的是，Map的遍历顺序就是插入顺序。
+需要特別注意的是，Map的遍歷順序就是插入順序。
 
-下面是使用实例。
+下面是使用例項。
 
 ```javascript
 let map = new Map([
@@ -663,20 +663,20 @@ for (let [key, value] of map.entries()) {
   console.log(key, value);
 }
 
-// 等同于使用map.entries()
+// 等同於使用map.entries()
 for (let [key, value] of map) {
   console.log(key, value);
 }
 ```
 
-上面代码最后的那个例子，表示Map结构的默认遍历器接口（`Symbol.iterator`属性），就是`entries`方法。
+上面程式碼最後的那個例子，表示Map結構的預設遍歷器介面（`Symbol.iterator`屬性），就是`entries`方法。
 
 ```javascript
 map[Symbol.iterator] === map.entries
 // true
 ```
 
-Map结构转为数组结构，比较快速的方法是结合使用扩展运算符（`...`）。
+Map結構轉為陣列結構，比較快速的方法是結合使用擴充套件運算子（`...`）。
 
 ```javascript
 let map = new Map([
@@ -698,7 +698,7 @@ let map = new Map([
 // [[1,'one'], [2, 'two'], [3, 'three']]
 ```
 
-结合数组的`map`方法、`filter`方法，可以实现Map的遍历和过滤（Map本身没有`map`和`filter`方法）。
+結合陣列的`map`方法、`filter`方法，可以實現Map的遍歷和過濾（Map本身沒有`map`和`filter`方法）。
 
 ```javascript
 let map0 = new Map()
@@ -709,15 +709,15 @@ let map0 = new Map()
 let map1 = new Map(
   [...map0].filter(([k, v]) => k < 3)
 );
-// 产生Map结构 {1 => 'a', 2 => 'b'}
+// 產生Map結構 {1 => 'a', 2 => 'b'}
 
 let map2 = new Map(
   [...map0].map(([k, v]) => [k * 2, '_' + v])
     );
-// 产生Map结构 {2 => '_a', 4 => '_b', 6 => '_c'}
+// 產生Map結構 {2 => '_a', 4 => '_b', 6 => '_c'}
 ```
 
-此外，Map还有一个`forEach`方法，与数组的`forEach`方法类似，也可以实现遍历。
+此外，Map還有一個`forEach`方法，與陣列的`forEach`方法類似，也可以實現遍歷。
 
 ```javascript
 map.forEach(function(value, key, map) {
@@ -725,7 +725,7 @@ map.forEach(function(value, key, map) {
 });
 ```
 
-`forEach`方法还可以接受第二个参数，用来绑定`this`。
+`forEach`方法還可以接受第二個引數，用來繫結`this`。
 
 ```javascript
 var reporter = {
@@ -739,13 +739,13 @@ map.forEach(function(value, key, map) {
 }, reporter);
 ```
 
-上面代码中，`forEach`方法的回调函数的`this`，就指向`reporter`。
+上面程式碼中，`forEach`方法的回撥函式的`this`，就指向`reporter`。
 
-### 与其他数据结构的互相转换
+### 與其他資料結構的互相轉換
 
-**（1）Map转为数组**
+**（1）Map轉為陣列**
 
-前面已经提过，Map转为数组最方便的方法，就是使用扩展运算符（...）。
+前面已經提過，Map轉為陣列最方便的方法，就是使用擴充套件運算子（...）。
 
 ```javascript
 let myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
@@ -753,18 +753,18 @@ let myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
 // [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
 ```
 
-**（2）数组转为Map**
+**（2）陣列轉為Map**
 
-将数组转入Map构造函数，就可以转为Map。
+將陣列轉入Map建構函式，就可以轉為Map。
 
 ```javascript
 new Map([[true, 7], [{foo: 3}, ['abc']]])
 // Map {true => 7, Object {foo: 3} => ['abc']}
 ```
 
-**（3）Map转为对象**
+**（3）Map轉為物件**
 
-如果所有Map的键都是字符串，它可以转为对象。
+如果所有Map的鍵都是字串，它可以轉為物件。
 
 ```javascript
 function strMapToObj(strMap) {
@@ -780,7 +780,7 @@ strMapToObj(myMap)
 // { yes: true, no: false }
 ```
 
-**（4）对象转为Map**
+**（4）物件轉為Map**
 
 ```javascript
 function objToStrMap(obj) {
@@ -795,9 +795,9 @@ objToStrMap({yes: true, no: false})
 // [ [ 'yes', true ], [ 'no', false ] ]
 ```
 
-**（5）Map转为JSON**
+**（5）Map轉為JSON**
 
-Map转为JSON要区分两种情况。一种情况是，Map的键名都是字符串，这时可以选择转为对象JSON。
+Map轉為JSON要區分兩種情況。一種情況是，Map的鍵名都是字串，這時可以選擇轉為物件JSON。
 
 ```javascript
 function strMapToJson(strMap) {
@@ -809,7 +809,7 @@ strMapToJson(myMap)
 // '{"yes":true,"no":false}'
 ```
 
-另一种情况是，Map的键名有非字符串，这时可以选择转为数组JSON。
+另一種情況是，Map的鍵名有非字串，這時可以選擇轉為陣列JSON。
 
 ```javascript
 function mapToArrayJson(map) {
@@ -821,9 +821,9 @@ mapToArrayJson(myMap)
 // '[[true,7],[{"foo":3},["abc"]]]'
 ```
 
-**（6）JSON转为Map**
+**（6）JSON轉為Map**
 
-JSON转为Map，正常情况下，所有键名都是字符串。
+JSON轉為Map，正常情況下，所有鍵名都是字串。
 
 ```javascript
 function jsonToStrMap(jsonStr) {
@@ -834,7 +834,7 @@ jsonToStrMap('{"yes":true,"no":false}')
 // Map {'yes' => true, 'no' => false}
 ```
 
-但是，有一种特殊情况，整个JSON就是一个数组，且每个数组成员本身，又是一个有两个成员的数组。这时，它可以一一对应地转为Map。这往往是数组转为JSON的逆操作。
+但是，有一種特殊情況，整個JSON就是一個數組，且每個陣列成員本身，又是一個有兩個成員的陣列。這時，它可以一一對應地轉為Map。這往往是陣列轉為JSON的逆操作。
 
 ```javascript
 function jsonToMap(jsonStr) {
@@ -847,7 +847,7 @@ jsonToMap('[[true,7],[{"foo":3},["abc"]]]')
 
 ## WeakMap
 
-`WeakMap`结构与`Map`结构基本类似，唯一的区别是它只接受对象作为键名（`null`除外），不接受其他类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。
+`WeakMap`結構與`Map`結構基本類似，唯一的區別是它只接受物件作為鍵名（`null`除外），不接受其他型別的值作為鍵名，而且鍵名所指向的物件，不計入垃圾回收機制。
 
 ```javascript
 var map = new WeakMap()
@@ -857,11 +857,11 @@ map.set(Symbol(), 2)
 // TypeError: Invalid value used as weak map key
 ```
 
-上面代码中，如果将`1`和`Symbol`作为WeakMap的键名，都会报错。
+上面程式碼中，如果將`1`和`Symbol`作為WeakMap的鍵名，都會報錯。
 
-`WeakMap`的设计目的在于，键名是对象的弱引用（垃圾回收机制不将该引用考虑在内），所以其所对应的对象可能会被自动回收。当对象被回收后，`WeakMap`自动移除对应的键值对。典型应用是，一个对应DOM元素的`WeakMap`结构，当某个DOM元素被清除，其所对应的`WeakMap`记录就会自动被移除。基本上，`WeakMap`的专用场合就是，它的键所对应的对象，可能会在将来消失。`WeakMap`结构有助于防止内存泄漏。
+`WeakMap`的設計目的在於，鍵名是物件的弱引用（垃圾回收機制不將該引用考慮在內），所以其所對應的物件可能會被自動回收。當物件被回收後，`WeakMap`自動移除對應的鍵值對。典型應用是，一個對應DOM元素的`WeakMap`結構，當某個DOM元素被清除，其所對應的`WeakMap`記錄就會自動被移除。基本上，`WeakMap`的專用場合就是，它的鍵所對應的物件，可能會在將來消失。`WeakMap`結構有助於防止記憶體洩漏。
 
-下面是`WeakMap`结构的一个例子，可以看到用法上与`Map`几乎一样。
+下面是`WeakMap`結構的一個例子，可以看到用法上與`Map`幾乎一樣。
 
 ```javascript
 var wm = new WeakMap();
@@ -875,9 +875,9 @@ element = null;
 wm.get(element) // undefined
 ```
 
-上面代码中，变量`wm`是一个`WeakMap`实例，我们将一个`DOM`节点`element`作为键名，然后销毁这个节点，`element`对应的键就自动消失了，再引用这个键名就返回`undefined`。
+上面程式碼中，變數`wm`是一個`WeakMap`例項，我們將一個`DOM`節點`element`作為鍵名，然後銷燬這個節點，`element`對應的鍵就自動消失了，再引用這個鍵名就返回`undefined`。
 
-WeakMap与Map在API上的区别主要是两个，一是没有遍历操作（即没有`key()`、`values()`和`entries()`方法），也没有`size`属性；二是无法清空，即不支持`clear`方法。这与`WeakMap`的键不被计入引用、被垃圾回收机制忽略有关。因此，`WeakMap`只有四个方法可用：`get()`、`set()`、`has()`、`delete()`。
+WeakMap與Map在API上的區別主要是兩個，一是沒有遍歷操作（即沒有`key()`、`values()`和`entries()`方法），也沒有`size`屬性；二是無法清空，即不支援`clear`方法。這與`WeakMap`的鍵不被計入引用、被垃圾回收機制忽略有關。因此，`WeakMap`只有四個方法可用：`get()`、`set()`、`has()`、`delete()`。
 
 ```javascript
 var wm = new WeakMap();
@@ -889,7 +889,7 @@ wm.forEach
 // undefined
 ```
 
-前文说过，WeakMap应用的典型场合就是DOM节点作为键名。下面是一个例子。
+前文說過，WeakMap應用的典型場合就是DOM節點作為鍵名。下面是一個例子。
 
 ```javascript
 let myElement = document.getElementById('logo');
@@ -903,9 +903,9 @@ myElement.addEventListener('click', function() {
 }, false);
 ```
 
-上面代码中，`myElement`是一个 DOM 节点，每当发生`click`事件，就更新一下状态。我们将这个状态作为键值放在 WeakMap 里，对应的键名就是`myElement`。一旦这个 DOM 节点删除，该状态就会自动消失，不存在内存泄漏风险。
+上面程式碼中，`myElement`是一個 DOM 節點，每當發生`click`事件，就更新一下狀態。我們將這個狀態作為鍵值放在 WeakMap 裡，對應的鍵名就是`myElement`。一旦這個 DOM 節點刪除，該狀態就會自動消失，不存在記憶體洩漏風險。
 
-WeakMap 的另一个用处是部署私有属性。
+WeakMap 的另一個用處是部署私有屬性。
 
 ```javascript
 let _counter = new WeakMap();
@@ -934,4 +934,4 @@ c.dec()
 // DONE
 ```
 
-上面代码中，Countdown类的两个内部属性`_counter`和`_action`，是实例的弱引用，所以如果删除实例，它们也就随之消失，不会造成内存泄漏。
+上面程式碼中，Countdown類的兩個內部屬性`_counter`和`_action`，是例項的弱引用，所以如果刪除例項，它們也就隨之消失，不會造成記憶體洩漏。

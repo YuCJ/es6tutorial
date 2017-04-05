@@ -1,34 +1,34 @@
-# Promise 对象
+# Promise 物件
 
-## Promise 的含义
+## Promise 的含義
 
-Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了`Promise`对象。
+Promise 是非同步程式設計的一種解決方案，比傳統的解決方案——回撥函式和事件——更合理和更強大。它由社群最早提出和實現，ES6將其寫進了語言標準，統一了用法，原生提供了`Promise`物件。
 
-所谓`Promise`，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+所謂`Promise`，簡單說就是一個容器，裡面儲存著某個未來才會結束的事件（通常是一個非同步操作）的結果。從語法上說，Promise 是一個物件，從它可以獲取非同步操作的訊息。Promise 提供統一的 API，各種非同步操作都可以用同樣的方法進行處理。
 
-`Promise`对象有以下两个特点。
+`Promise`物件有以下兩個特點。
 
-（1）对象的状态不受外界影响。`Promise`对象代表一个异步操作，有三种状态：`Pending`（进行中）、`Resolved`（已完成，又称 Fulfilled）和`Rejected`（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是`Promise`这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。
+（1）物件的狀態不受外界影響。`Promise`物件代表一個非同步操作，有三種狀態：`Pending`（進行中）、`Resolved`（已完成，又稱 Fulfilled）和`Rejected`（已失敗）。只有非同步操作的結果，可以決定當前是哪一種狀態，任何其他操作都無法改變這個狀態。這也是`Promise`這個名字的由來，它的英語意思就是“承諾”，表示其他手段無法改變。
 
-（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。`Promise`对象的状态改变，只有两种可能：从`Pending`变为`Resolved`和从`Pending`变为`Rejected`。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。如果改变已经发生了，你再对`Promise`对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。
+（2）一旦狀態改變，就不會再變，任何時候都可以得到這個結果。`Promise`物件的狀態改變，只有兩種可能：從`Pending`變為`Resolved`和從`Pending`變為`Rejected`。只要這兩種情況發生，狀態就凝固了，不會再變了，會一直保持這個結果。如果改變已經發生了，你再對`Promise`物件添加回調函式，也會立即得到這個結果。這與事件（Event）完全不同，事件的特點是，如果你錯過了它，再去監聽，是得不到結果的。
 
-有了`Promise`对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，`Promise`对象提供统一的接口，使得控制异步操作更加容易。
+有了`Promise`物件，就可以將非同步操作以同步操作的流程表達出來，避免了層層巢狀的回撥函式。此外，`Promise`物件提供統一的介面，使得控制非同步操作更加容易。
 
-`Promise`也有一些缺点。首先，无法取消`Promise`，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，`Promise`内部抛出的错误，不会反应到外部。第三，当处于`Pending`状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+`Promise`也有一些缺點。首先，無法取消`Promise`，一旦新建它就會立即執行，無法中途取消。其次，如果不設定回撥函式，`Promise`內部丟擲的錯誤，不會反應到外部。第三，當處於`Pending`狀態時，無法得知目前進展到哪一個階段（剛剛開始還是即將完成）。
 
-如果某些事件不断地反复发生，一般来说，使用 stream 模式是比部署`Promise`更好的选择。
+如果某些事件不斷地反覆發生，一般來說，使用 stream 模式是比部署`Promise`更好的選擇。
 
 ## 基本用法
 
-ES6规定，Promise对象是一个构造函数，用来生成Promise实例。
+ES6規定，Promise物件是一個建構函式，用來生成Promise例項。
 
-下面代码创造了一个Promise实例。
+下面程式碼創造了一個Promise例項。
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
   // ... some code
 
-  if (/* 异步操作成功 */){
+  if (/* 非同步操作成功 */){
     resolve(value);
   } else {
     reject(error);
@@ -36,11 +36,11 @@ var promise = new Promise(function(resolve, reject) {
 });
 ```
 
-Promise构造函数接受一个函数作为参数，该函数的两个参数分别是`resolve`和`reject`。它们是两个函数，由JavaScript引擎提供，不用自己部署。
+Promise建構函式接受一個函式作為引數，該函式的兩個引數分別是`resolve`和`reject`。它們是兩個函式，由JavaScript引擎提供，不用自己部署。
 
-`resolve`函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从Pending变为Resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；`reject`函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从Pending变为Rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+`resolve`函式的作用是，將Promise物件的狀態從“未完成”變為“成功”（即從Pending變為Resolved），在非同步操作成功時呼叫，並將非同步操作的結果，作為引數傳遞出去；`reject`函式的作用是，將Promise物件的狀態從“未完成”變為“失敗”（即從Pending變為Rejected），在非同步操作失敗時呼叫，並將非同步操作報出的錯誤，作為引數傳遞出去。
 
-Promise实例生成以后，可以用`then`方法分别指定`Resolved`状态和`Reject`状态的回调函数。
+Promise例項生成以後，可以用`then`方法分別指定`Resolved`狀態和`Reject`狀態的回撥函式。
 
 ```javascript
 promise.then(function(value) {
@@ -50,9 +50,9 @@ promise.then(function(value) {
 });
 ```
 
-`then`方法可以接受两个回调函数作为参数。第一个回调函数是Promise对象的状态变为Resolved时调用，第二个回调函数是Promise对象的状态变为Reject时调用。其中，第二个函数是可选的，不一定要提供。这两个函数都接受Promise对象传出的值作为参数。
+`then`方法可以接受兩個回撥函式作為引數。第一個回撥函式是Promise物件的狀態變為Resolved時呼叫，第二個回撥函式是Promise物件的狀態變為Reject時呼叫。其中，第二個函式是可選的，不一定要提供。這兩個函式都接受Promise物件傳出的值作為引數。
 
-下面是一个Promise对象的简单例子。
+下面是一個Promise物件的簡單例子。
 
 ```javascript
 function timeout(ms) {
@@ -66,9 +66,9 @@ timeout(100).then((value) => {
 });
 ```
 
-上面代码中，`timeout`方法返回一个Promise实例，表示一段时间以后才会发生的结果。过了指定的时间（`ms`参数）以后，Promise实例的状态变为Resolved，就会触发`then`方法绑定的回调函数。
+上面程式碼中，`timeout`方法返回一個Promise例項，表示一段時間以後才會發生的結果。過了指定的時間（`ms`引數）以後，Promise例項的狀態變為Resolved，就會觸發`then`方法繫結的回撥函式。
 
-Promise新建后就会立即执行。
+Promise新建後就會立即執行。
 
 ```javascript
 let promise = new Promise(function(resolve, reject) {
@@ -87,9 +87,9 @@ console.log('Hi!');
 // Resolved
 ```
 
-上面代码中，Promise新建后立即执行，所以首先输出的是“Promise”。然后，`then`方法指定的回调函数，将在当前脚本所有同步任务执行完才会执行，所以“Resolved”最后输出。
+上面程式碼中，Promise新建後立即執行，所以首先輸出的是“Promise”。然後，`then`方法指定的回撥函式，將在當前指令碼所有同步任務執行完才會執行，所以“Resolved”最後輸出。
 
-下面是异步加载图片的例子。
+下面是非同步載入圖片的例子。
 
 ```javascript
 function loadImageAsync(url) {
@@ -109,9 +109,9 @@ function loadImageAsync(url) {
 }
 ```
 
-上面代码中，使用Promise包装了一个图片加载的异步操作。如果加载成功，就调用`resolve`方法，否则就调用`reject`方法。
+上面程式碼中，使用Promise包裝了一個圖片載入的非同步操作。如果載入成功，就呼叫`resolve`方法，否則就呼叫`reject`方法。
 
-下面是一个用Promise对象实现的Ajax操作的例子。
+下面是一個用Promise物件實現的Ajax操作的例子。
 
 ```javascript
 var getJSON = function(url) {
@@ -141,13 +141,13 @@ var getJSON = function(url) {
 getJSON("/posts.json").then(function(json) {
   console.log('Contents: ' + json);
 }, function(error) {
-  console.error('出错了', error);
+  console.error('出錯了', error);
 });
 ```
 
-上面代码中，`getJSON`是对XMLHttpRequest对象的封装，用于发出一个针对JSON数据的HTTP请求，并且返回一个Promise对象。需要注意的是，在`getJSON`内部，`resolve`函数和`reject`函数调用时，都带有参数。
+上面程式碼中，`getJSON`是對XMLHttpRequest物件的封裝，用於發出一個針對JSON資料的HTTP請求，並且返回一個Promise物件。需要注意的是，在`getJSON`內部，`resolve`函式和`reject`函式呼叫時，都帶有引數。
 
-如果调用`resolve`函数和`reject`函数时带有参数，那么它们的参数会被传递给回调函数。`reject`函数的参数通常是Error对象的实例，表示抛出的错误；`resolve`函数的参数除了正常的值以外，还可能是另一个Promise实例，表示异步操作的结果有可能是一个值，也有可能是另一个异步操作，比如像下面这样。
+如果呼叫`resolve`函式和`reject`函式時帶有引數，那麼它們的引數會被傳遞給回撥函式。`reject`函式的引數通常是Error物件的例項，表示丟擲的錯誤；`resolve`函式的引數除了正常的值以外，還可能是另一個Promise例項，表示非同步操作的結果有可能是一個值，也有可能是另一個非同步操作，比如像下面這樣。
 
 ```javascript
 var p1 = new Promise(function (resolve, reject) {
@@ -160,9 +160,9 @@ var p2 = new Promise(function (resolve, reject) {
 })
 ```
 
-上面代码中，`p1`和`p2`都是Promise的实例，但是`p2`的`resolve`方法将`p1`作为参数，即一个异步操作的结果是返回另一个异步操作。
+上面程式碼中，`p1`和`p2`都是Promise的例項，但是`p2`的`resolve`方法將`p1`作為引數，即一個非同步操作的結果是返回另一個非同步操作。
 
-注意，这时`p1`的状态就会传递给`p2`，也就是说，`p1`的状态决定了`p2`的状态。如果`p1`的状态是`Pending`，那么`p2`的回调函数就会等待`p1`的状态改变；如果`p1`的状态已经是`Resolved`或者`Rejected`，那么`p2`的回调函数将会立刻执行。
+注意，這時`p1`的狀態就會傳遞給`p2`，也就是說，`p1`的狀態決定了`p2`的狀態。如果`p1`的狀態是`Pending`，那麼`p2`的回撥函式就會等待`p1`的狀態改變；如果`p1`的狀態已經是`Resolved`或者`Rejected`，那麼`p2`的回撥函式將會立刻執行。
 
 ```javascript
 var p1 = new Promise(function (resolve, reject) {
@@ -179,13 +179,13 @@ p2
 // Error: fail
 ```
 
-上面代码中，`p1`是一个Promise，3秒之后变为`rejected`。`p2`的状态在1秒之后改变，`resolve`方法返回的是`p1`。由于`p2`返回的是另一个 Promise，导致`p2`自己的状态无效了，由`p1`的状态决定`p2`的状态。所以，后面的`then`语句都变成针对后者（`p1`）。又过了2秒，`p1`变为`rejected`，导致触发`catch`方法指定的回调函数。
+上面程式碼中，`p1`是一個Promise，3秒之後變為`rejected`。`p2`的狀態在1秒之後改變，`resolve`方法返回的是`p1`。由於`p2`返回的是另一個 Promise，導致`p2`自己的狀態無效了，由`p1`的狀態決定`p2`的狀態。所以，後面的`then`語句都變成針對後者（`p1`）。又過了2秒，`p1`變為`rejected`，導致觸發`catch`方法指定的回撥函式。
 
 ## Promise.prototype.then()
 
-Promise实例具有`then`方法，也就是说，`then`方法是定义在原型对象Promise.prototype上的。它的作用是为Promise实例添加状态改变时的回调函数。前面说过，`then`方法的第一个参数是Resolved状态的回调函数，第二个参数（可选）是Rejected状态的回调函数。
+Promise例項具有`then`方法，也就是說，`then`方法是定義在原型物件Promise.prototype上的。它的作用是為Promise例項新增狀態改變時的回撥函式。前面說過，`then`方法的第一個引數是Resolved狀態的回撥函式，第二個引數（可選）是Rejected狀態的回撥函式。
 
-`then`方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即`then`方法后面再调用另一个`then`方法。
+`then`方法返回的是一個新的Promise例項（注意，不是原來那個Promise例項）。因此可以採用鏈式寫法，即`then`方法後面再呼叫另一個`then`方法。
 
 ```javascript
 getJSON("/posts.json").then(function(json) {
@@ -195,9 +195,9 @@ getJSON("/posts.json").then(function(json) {
 });
 ```
 
-上面的代码使用`then`方法，依次指定了两个回调函数。第一个回调函数完成以后，会将返回结果作为参数，传入第二个回调函数。
+上面的程式碼使用`then`方法，依次指定了兩個回撥函式。第一個回撥函式完成以後，會將返回結果作為引數，傳入第二個回撥函式。
 
-采用链式的`then`，可以指定一组按照次序调用的回调函数。这时，前一个回调函数，有可能返回的还是一个Promise对象（即有异步操作），这时后一个回调函数，就会等待该Promise对象的状态发生变化，才会被调用。
+採用鏈式的`then`，可以指定一組按照次序呼叫的回撥函式。這時，前一個回撥函式，有可能返回的還是一個Promise物件（即有非同步操作），這時後一個回撥函式，就會等待該Promise物件的狀態發生變化，才會被呼叫。
 
 ```javascript
 getJSON("/post/1.json").then(function(post) {
@@ -209,9 +209,9 @@ getJSON("/post/1.json").then(function(post) {
 });
 ```
 
-上面代码中，第一个`then`方法指定的回调函数，返回的是另一个Promise对象。这时，第二个`then`方法指定的回调函数，就会等待这个新的Promise对象状态发生变化。如果变为Resolved，就调用`funcA`，如果状态变为Rejected，就调用`funcB`。
+上面程式碼中，第一個`then`方法指定的回撥函式，返回的是另一個Promise物件。這時，第二個`then`方法指定的回撥函式，就會等待這個新的Promise物件狀態發生變化。如果變為Resolved，就呼叫`funcA`，如果狀態變為Rejected，就呼叫`funcB`。
 
-如果采用箭头函数，上面的代码可以写得更简洁。
+如果採用箭頭函式，上面的程式碼可以寫得更簡潔。
 
 ```javascript
 getJSON("/post/1.json").then(
@@ -224,29 +224,29 @@ getJSON("/post/1.json").then(
 
 ## Promise.prototype.catch()
 
-`Promise.prototype.catch`方法是`.then(null, rejection)`的别名，用于指定发生错误时的回调函数。
+`Promise.prototype.catch`方法是`.then(null, rejection)`的別名，用於指定發生錯誤時的回撥函式。
 
 ```javascript
 getJSON('/posts.json').then(function(posts) {
   // ...
 }).catch(function(error) {
-  // 处理 getJSON 和 前一个回调函数运行时发生的错误
-  console.log('发生错误！', error);
+  // 處理 getJSON 和 前一個回撥函式執行時發生的錯誤
+  console.log('發生錯誤！', error);
 });
 ```
 
-上面代码中，`getJSON`方法返回一个 Promise 对象，如果该对象状态变为`Resolved`，则会调用`then`方法指定的回调函数；如果异步操作抛出错误，状态就会变为`Rejected`，就会调用`catch`方法指定的回调函数，处理这个错误。另外，`then`方法指定的回调函数，如果运行中抛出错误，也会被`catch`方法捕获。
+上面程式碼中，`getJSON`方法返回一個 Promise 物件，如果該物件狀態變為`Resolved`，則會呼叫`then`方法指定的回撥函式；如果非同步操作丟擲錯誤，狀態就會變為`Rejected`，就會呼叫`catch`方法指定的回撥函式，處理這個錯誤。另外，`then`方法指定的回撥函式，如果執行中丟擲錯誤，也會被`catch`方法捕獲。
 
 ```javascript
 p.then((val) => console.log('fulfilled:', val))
   .catch((err) => console.log('rejected', err));
 
-// 等同于
+// 等同於
 p.then((val) => console.log('fulfilled:', val))
   .then(null, (err) => console.log("rejected:", err));
 ```
 
-下面是一个例子。
+下面是一個例子。
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
@@ -258,10 +258,10 @@ promise.catch(function(error) {
 // Error: test
 ```
 
-上面代码中，`promise`抛出一个错误，就被`catch`方法指定的回调函数捕获。注意，上面的写法与下面两种写法是等价的。
+上面程式碼中，`promise`丟擲一個錯誤，就被`catch`方法指定的回撥函式捕獲。注意，上面的寫法與下面兩種寫法是等價的。
 
 ```javascript
-// 写法一
+// 寫法一
 var promise = new Promise(function(resolve, reject) {
   try {
     throw new Error('test');
@@ -273,7 +273,7 @@ promise.catch(function(error) {
   console.log(error);
 });
 
-// 写法二
+// 寫法二
 var promise = new Promise(function(resolve, reject) {
   reject(new Error('test'));
 });
@@ -282,9 +282,9 @@ promise.catch(function(error) {
 });
 ```
 
-比较上面两种写法，可以发现`reject`方法的作用，等同于抛出错误。
+比較上面兩種寫法，可以發現`reject`方法的作用，等同於丟擲錯誤。
 
-如果Promise状态已经变成`Resolved`，再抛出错误是无效的。
+如果Promise狀態已經變成`Resolved`，再丟擲錯誤是無效的。
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
@@ -297,9 +297,9 @@ promise
 // ok
 ```
 
-上面代码中，Promise 在`resolve`语句后面，再抛出错误，不会被捕获，等于没有抛出。因为 Promise 的状态一旦改变，就永久保持该状态，不会再变了。
+上面程式碼中，Promise 在`resolve`語句後面，再丟擲錯誤，不會被捕獲，等於沒有丟擲。因為 Promise 的狀態一旦改變，就永久保持該狀態，不會再變了。
 
-Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个`catch`语句捕获。
+Promise 物件的錯誤具有“冒泡”性質，會一直向後傳遞，直到被捕獲為止。也就是說，錯誤總是會被下一個`catch`語句捕獲。
 
 ```javascript
 getJSON('/post/1.json').then(function(post) {
@@ -307,13 +307,13 @@ getJSON('/post/1.json').then(function(post) {
 }).then(function(comments) {
   // some code
 }).catch(function(error) {
-  // 处理前面三个Promise产生的错误
+  // 處理前面三個Promise產生的錯誤
 });
 ```
 
-上面代码中，一共有三个Promise对象：一个由`getJSON`产生，两个由`then`产生。它们之中任何一个抛出的错误，都会被最后一个`catch`捕获。
+上面程式碼中，一共有三個Promise物件：一個由`getJSON`產生，兩個由`then`產生。它們之中任何一個丟擲的錯誤，都會被最後一個`catch`捕獲。
 
-一般来说，不要在`then`方法里面定义Reject状态的回调函数（即`then`的第二个参数），总是使用`catch`方法。
+一般來說，不要在`then`方法裡面定義Reject狀態的回撥函式（即`then`的第二個引數），總是使用`catch`方法。
 
 ```javascript
 // bad
@@ -334,14 +334,14 @@ promise
   });
 ```
 
-上面代码中，第二种写法要好于第一种写法，理由是第二种写法可以捕获前面`then`方法执行中的错误，也更接近同步的写法（`try/catch`）。因此，建议总是使用`catch`方法，而不使用`then`方法的第二个参数。
+上面程式碼中，第二種寫法要好於第一種寫法，理由是第二種寫法可以捕獲前面`then`方法執行中的錯誤，也更接近同步的寫法（`try/catch`）。因此，建議總是使用`catch`方法，而不使用`then`方法的第二個引數。
 
-跟传统的`try/catch`代码块不同的是，如果没有使用`catch`方法指定错误处理的回调函数，Promise对象抛出的错误不会传递到外层代码，即不会有任何反应。
+跟傳統的`try/catch`程式碼塊不同的是，如果沒有使用`catch`方法指定錯誤處理的回撥函式，Promise物件丟擲的錯誤不會傳遞到外層程式碼，即不會有任何反應。
 
 ```javascript
 var someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
-    // 下面一行会报错，因为x没有声明
+    // 下面一行會報錯，因為x沒有宣告
     resolve(x + 2);
   });
 };
@@ -351,7 +351,7 @@ someAsyncThing().then(function() {
 });
 ```
 
-上面代码中，`someAsyncThing`函数产生的Promise对象会报错，但是由于没有指定`catch`方法，这个错误不会被捕获，也不会传递到外层代码，导致运行后没有任何输出。注意，Chrome浏览器不遵守这条规定，它会抛出错误“ReferenceError: x is not defined”。
+上面程式碼中，`someAsyncThing`函式產生的Promise物件會報錯，但是由於沒有指定`catch`方法，這個錯誤不會被捕獲，也不會傳遞到外層程式碼，導致執行後沒有任何輸出。注意，Chrome瀏覽器不遵守這條規定，它會丟擲錯誤“ReferenceError: x is not defined”。
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
@@ -363,9 +363,9 @@ promise.then(function(value) { console.log(value) });
 // Uncaught Error: test
 ```
 
-上面代码中，Promise 指定在下一轮“事件循环”再抛出错误，结果由于没有指定使用`try...catch`语句，就冒泡到最外层，成了未捕获的错误。因为此时，Promise的函数体已经运行结束了，所以这个错误是在Promise函数体外抛出的。
+上面程式碼中，Promise 指定在下一輪“事件迴圈”再丟擲錯誤，結果由於沒有指定使用`try...catch`語句，就冒泡到最外層，成了未捕獲的錯誤。因為此時，Promise的函式體已經執行結束了，所以這個錯誤是在Promise函式體外丟擲的。
 
-Node 有一个`unhandledRejection`事件，专门监听未捕获的`reject`错误。
+Node 有一個`unhandledRejection`事件，專門監聽未捕獲的`reject`錯誤。
 
 ```javascript
 process.on('unhandledRejection', function (err, p) {
@@ -373,14 +373,14 @@ process.on('unhandledRejection', function (err, p) {
 });
 ```
 
-上面代码中，`unhandledRejection`事件的监听函数有两个参数，第一个是错误对象，第二个是报错的Promise实例，它可以用来了解发生错误的环境信息。。
+上面程式碼中，`unhandledRejection`事件的監聽函式有兩個引數，第一個是錯誤物件，第二個是報錯的Promise例項，它可以用來了解發生錯誤的環境資訊。。
 
-需要注意的是，`catch`方法返回的还是一个 Promise 对象，因此后面还可以接着调用`then`方法。
+需要注意的是，`catch`方法返回的還是一個 Promise 物件，因此後面還可以接著呼叫`then`方法。
 
 ```javascript
 var someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
-    // 下面一行会报错，因为x没有声明
+    // 下面一行會報錯，因為x沒有宣告
     resolve(x + 2);
   });
 };
@@ -396,7 +396,7 @@ someAsyncThing()
 // carry on
 ```
 
-上面代码运行完`catch`方法指定的回调函数，会接着运行后面那个`then`方法指定的回调函数。如果没有报错，则会跳过`catch`方法。
+上面程式碼執行完`catch`方法指定的回撥函式，會接著執行後面那個`then`方法指定的回撥函式。如果沒有報錯，則會跳過`catch`方法。
 
 ```javascript
 Promise.resolve()
@@ -409,14 +409,14 @@ Promise.resolve()
 // carry on
 ```
 
-上面的代码因为没有报错，跳过了`catch`方法，直接执行后面的`then`方法。此时，要是`then`方法里面报错，就与前面的`catch`无关了。
+上面的程式碼因為沒有報錯，跳過了`catch`方法，直接執行後面的`then`方法。此時，要是`then`方法裡面報錯，就與前面的`catch`無關了。
 
-`catch`方法之中，还能再抛出错误。
+`catch`方法之中，還能再丟擲錯誤。
 
 ```javascript
 var someAsyncThing = function() {
   return new Promise(function(resolve, reject) {
-    // 下面一行会报错，因为x没有声明
+    // 下面一行會報錯，因為x沒有宣告
     resolve(x + 2);
   });
 };
@@ -425,7 +425,7 @@ someAsyncThing().then(function() {
   return someOtherAsyncThing();
 }).catch(function(error) {
   console.log('oh no', error);
-  // 下面一行会报错，因为y没有声明
+  // 下面一行會報錯，因為y沒有宣告
   y + 2;
 }).then(function() {
   console.log('carry on');
@@ -433,14 +433,14 @@ someAsyncThing().then(function() {
 // oh no [ReferenceError: x is not defined]
 ```
 
-上面代码中，`catch`方法抛出一个错误，因为后面没有别的`catch`方法了，导致这个错误不会被捕获，也不会传递到外层。如果改写一下，结果就不一样了。
+上面程式碼中，`catch`方法丟擲一個錯誤，因為後面沒有別的`catch`方法了，導致這個錯誤不會被捕獲，也不會傳遞到外層。如果改寫一下，結果就不一樣了。
 
 ```javascript
 someAsyncThing().then(function() {
   return someOtherAsyncThing();
 }).catch(function(error) {
   console.log('oh no', error);
-  // 下面一行会报错，因为y没有声明
+  // 下面一行會報錯，因為y沒有宣告
   y + 2;
 }).catch(function(error) {
   console.log('carry on', error);
@@ -449,28 +449,28 @@ someAsyncThing().then(function() {
 // carry on [ReferenceError: y is not defined]
 ```
 
-上面代码中，第二个`catch`方法用来捕获，前一个`catch`方法抛出的错误。
+上面程式碼中，第二個`catch`方法用來捕獲，前一個`catch`方法丟擲的錯誤。
 
 ## Promise.all()
 
-`Promise.all`方法用于将多个Promise实例，包装成一个新的Promise实例。
+`Promise.all`方法用於將多個Promise例項，包裝成一個新的Promise例項。
 
 ```javascript
 var p = Promise.all([p1, p2, p3]);
 ```
 
-上面代码中，`Promise.all`方法接受一个数组作为参数，`p1`、`p2`、`p3`都是Promise对象的实例，如果不是，就会先调用下面讲到的`Promise.resolve`方法，将参数转为Promise实例，再进一步处理。（`Promise.all`方法的参数可以不是数组，但必须具有Iterator接口，且返回的每个成员都是Promise实例。）
+上面程式碼中，`Promise.all`方法接受一個數組作為引數，`p1`、`p2`、`p3`都是Promise物件的例項，如果不是，就會先呼叫下面講到的`Promise.resolve`方法，將引數轉為Promise例項，再進一步處理。（`Promise.all`方法的引數可以不是陣列，但必須具有Iterator介面，且返回的每個成員都是Promise例項。）
 
-`p`的状态由`p1`、`p2`、`p3`决定，分成两种情况。
+`p`的狀態由`p1`、`p2`、`p3`決定，分成兩種情況。
 
-（1）只有`p1`、`p2`、`p3`的状态都变成`fulfilled`，`p`的状态才会变成`fulfilled`，此时`p1`、`p2`、`p3`的返回值组成一个数组，传递给`p`的回调函数。
+（1）只有`p1`、`p2`、`p3`的狀態都變成`fulfilled`，`p`的狀態才會變成`fulfilled`，此時`p1`、`p2`、`p3`的返回值組成一個數組，傳遞給`p`的回撥函式。
 
-（2）只要`p1`、`p2`、`p3`之中有一个被`rejected`，`p`的状态就变成`rejected`，此时第一个被`reject`的实例的返回值，会传递给`p`的回调函数。
+（2）只要`p1`、`p2`、`p3`之中有一個被`rejected`，`p`的狀態就變成`rejected`，此時第一個被`reject`的例項的返回值，會傳遞給`p`的回撥函式。
 
-下面是一个具体的例子。
+下面是一個具體的例子。
 
 ```javascript
-// 生成一个Promise对象的数组
+// 生成一個Promise物件的陣列
 var promises = [2, 3, 5, 7, 11, 13].map(function (id) {
   return getJSON("/post/" + id + ".json");
 });
@@ -482,9 +482,9 @@ Promise.all(promises).then(function (posts) {
 });
 ```
 
-上面代码中，`promises`是包含6个Promise实例的数组，只有这6个实例的状态都变成`fulfilled`，或者其中有一个变为`rejected`，才会调用`Promise.all`方法后面的回调函数。
+上面程式碼中，`promises`是包含6個Promise例項的陣列，只有這6個例項的狀態都變成`fulfilled`，或者其中有一個變為`rejected`，才會呼叫`Promise.all`方法後面的回撥函式。
 
-下面是另一个例子。
+下面是另一個例子。
 
 ```javascript
 const databasePromise = connectDatabase();
@@ -502,21 +502,21 @@ Promise.all([
 .then(([books, user]) => pickTopRecommentations(books, user));
 ```
 
-上面代码中，`booksPromise`和`userPromise`是两个异步操作，只有等到它们的结果都返回了，才会触发`pickTopRecommentations`这个回调函数。
+上面程式碼中，`booksPromise`和`userPromise`是兩個非同步操作，只有等到它們的結果都返回了，才會觸發`pickTopRecommentations`這個回撥函式。
 
 ## Promise.race()
 
-`Promise.race`方法同样是将多个Promise实例，包装成一个新的Promise实例。
+`Promise.race`方法同樣是將多個Promise例項，包裝成一個新的Promise例項。
 
 ```javascript
 var p = Promise.race([p1, p2, p3]);
 ```
 
-上面代码中，只要`p1`、`p2`、`p3`之中有一个实例率先改变状态，`p`的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给`p`的回调函数。
+上面程式碼中，只要`p1`、`p2`、`p3`之中有一個例項率先改變狀態，`p`的狀態就跟著改變。那個率先改變的 Promise 例項的返回值，就傳遞給`p`的回撥函式。
 
-`Promise.race`方法的参数与`Promise.all`方法一样，如果不是 Promise 实例，就会先调用下面讲到的`Promise.resolve`方法，将参数转为 Promise 实例，再进一步处理。
+`Promise.race`方法的引數與`Promise.all`方法一樣，如果不是 Promise 例項，就會先呼叫下面講到的`Promise.resolve`方法，將引數轉為 Promise 例項，再進一步處理。
 
-下面是一个例子，如果指定时间内没有获得结果，就将Promise的状态变为`reject`，否则变为`resolve`。
+下面是一個例子，如果指定時間內沒有獲得結果，就將Promise的狀態變為`reject`，否則變為`resolve`。
 
 ```javascript
 const p = Promise.race([
@@ -529,35 +529,35 @@ p.then(response => console.log(response));
 p.catch(error => console.log(error));
 ```
 
-上面代码中，如果5秒之内`fetch`方法无法返回结果，变量`p`的状态就会变为`rejected`，从而触发`catch`方法指定的回调函数。
+上面程式碼中，如果5秒之內`fetch`方法無法返回結果，變數`p`的狀態就會變為`rejected`，從而觸發`catch`方法指定的回撥函式。
 
 ## Promise.resolve()
 
-有时需要将现有对象转为Promise对象，`Promise.resolve`方法就起到这个作用。
+有時需要將現有物件轉為Promise物件，`Promise.resolve`方法就起到這個作用。
 
 ```javascript
 var jsPromise = Promise.resolve($.ajax('/whatever.json'));
 ```
 
-上面代码将jQuery生成的`deferred`对象，转为一个新的Promise对象。
+上面程式碼將jQuery生成的`deferred`物件，轉為一個新的Promise物件。
 
-`Promise.resolve`等价于下面的写法。
+`Promise.resolve`等價於下面的寫法。
 
 ```javascript
 Promise.resolve('foo')
-// 等价于
+// 等價於
 new Promise(resolve => resolve('foo'))
 ```
 
-`Promise.resolve`方法的参数分成四种情况。
+`Promise.resolve`方法的引數分成四種情況。
 
-**（1）参数是一个Promise实例**
+**（1）引數是一個Promise例項**
 
-如果参数是Promise实例，那么`Promise.resolve`将不做任何修改、原封不动地返回这个实例。
+如果引數是Promise例項，那麼`Promise.resolve`將不做任何修改、原封不動地返回這個例項。
 
-**（2）参数是一个`thenable`对象**
+**（2）引數是一個`thenable`物件**
 
-`thenable`对象指的是具有`then`方法的对象，比如下面这个对象。
+`thenable`物件指的是具有`then`方法的物件，比如下面這個物件。
 
 ```javascript
 let thenable = {
@@ -567,7 +567,7 @@ let thenable = {
 };
 ```
 
-`Promise.resolve`方法会将这个对象转为Promise对象，然后就立即执行`thenable`对象的`then`方法。
+`Promise.resolve`方法會將這個物件轉為Promise物件，然後就立即執行`thenable`物件的`then`方法。
 
 ```javascript
 let thenable = {
@@ -582,11 +582,11 @@ p1.then(function(value) {
 });
 ```
 
-上面代码中，`thenable`对象的`then`方法执行后，对象`p1`的状态就变为`resolved`，从而立即执行最后那个`then`方法指定的回调函数，输出42。
+上面程式碼中，`thenable`物件的`then`方法執行後，物件`p1`的狀態就變為`resolved`，從而立即執行最後那個`then`方法指定的回撥函式，輸出42。
 
-**（3）参数不是具有`then`方法的对象，或根本就不是对象**
+**（3）引數不是具有`then`方法的物件，或根本就不是物件**
 
-如果参数是一个原始值，或者是一个不具有`then`方法的对象，则`Promise.resolve`方法返回一个新的Promise对象，状态为`Resolved`。
+如果引數是一個原始值，或者是一個不具有`then`方法的物件，則`Promise.resolve`方法返回一個新的Promise物件，狀態為`Resolved`。
 
 ```javascript
 var p = Promise.resolve('Hello');
@@ -597,13 +597,13 @@ p.then(function (s){
 // Hello
 ```
 
-上面代码生成一个新的Promise对象的实例`p`。由于字符串`Hello`不属于异步操作（判断方法是它不是具有then方法的对象），返回Promise实例的状态从一生成就是`Resolved`，所以回调函数会立即执行。`Promise.resolve`方法的参数，会同时传给回调函数。
+上面程式碼生成一個新的Promise物件的例項`p`。由於字串`Hello`不屬於非同步操作（判斷方法是它不是具有then方法的物件），返回Promise例項的狀態從一生成就是`Resolved`，所以回撥函式會立即執行。`Promise.resolve`方法的引數，會同時傳給回撥函式。
 
-**（4）不带有任何参数**
+**（4）不帶有任何引數**
 
-`Promise.resolve`方法允许调用时不带参数，直接返回一个`Resolved`状态的Promise对象。
+`Promise.resolve`方法允許呼叫時不帶引數，直接返回一個`Resolved`狀態的Promise物件。
 
-所以，如果希望得到一个Promise对象，比较方便的方法就是直接调用`Promise.resolve`方法。
+所以，如果希望得到一個Promise物件，比較方便的方法就是直接呼叫`Promise.resolve`方法。
 
 ```javascript
 var p = Promise.resolve();
@@ -613,9 +613,9 @@ p.then(function () {
 });
 ```
 
-上面代码的变量`p`就是一个Promise对象。
+上面程式碼的變數`p`就是一個Promise物件。
 
-需要注意的是，立即`resolve`的Promise对象，是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时。
+需要注意的是，立即`resolve`的Promise物件，是在本輪“事件迴圈”（event loop）的結束時，而不是在下一輪“事件迴圈”的開始時。
 
 ```javascript
 setTimeout(function () {
@@ -633,31 +633,31 @@ console.log('one');
 // three
 ```
 
-上面代码中，`setTimeout(fn, 0)`在下一轮“事件循环”开始时执行，`Promise.resolve()`在本轮“事件循环”结束时执行，`console.log(’one‘)`则是立即执行，因此最先输出。
+上面程式碼中，`setTimeout(fn, 0)`在下一輪“事件迴圈”開始時執行，`Promise.resolve()`在本輪“事件迴圈”結束時執行，`console.log(’one‘)`則是立即執行，因此最先輸出。
 
 ## Promise.reject()
 
-`Promise.reject(reason)`方法也会返回一个新的 Promise 实例，该实例的状态为`rejected`。
+`Promise.reject(reason)`方法也會返回一個新的 Promise 例項，該例項的狀態為`rejected`。
 
 ```javascript
-var p = Promise.reject('出错了');
-// 等同于
-var p = new Promise((resolve, reject) => reject('出错了'))
+var p = Promise.reject('出錯了');
+// 等同於
+var p = new Promise((resolve, reject) => reject('出錯了'))
 
 p.then(null, function (s) {
   console.log(s)
 });
-// 出错了
+// 出錯了
 ```
 
-上面代码生成一个Promise对象的实例`p`，状态为`rejected`，回调函数会立即执行。
+上面程式碼生成一個Promise物件的例項`p`，狀態為`rejected`，回撥函式會立即執行。
 
-注意，`Promise.reject()`方法的参数，会原封不动地作为`reject`的理由，变成后续方法的参数。这一点与`Promise.resolve`方法不一致。
+注意，`Promise.reject()`方法的引數，會原封不動地作為`reject`的理由，變成後續方法的引數。這一點與`Promise.resolve`方法不一致。
 
 ```javascript
 const thenable = {
   then(resolve, reject) {
-    reject('出错了');
+    reject('出錯了');
   }
 };
 
@@ -668,15 +668,15 @@ Promise.reject(thenable)
 // true
 ```
 
-上面代码中，`Promise.reject`方法的参数是一个`thenable`对象，执行以后，后面`catch`方法的参数不是`reject`抛出的“出错了”这个字符串，而是`thenable`对象。
+上面程式碼中，`Promise.reject`方法的引數是一個`thenable`物件，執行以後，後面`catch`方法的引數不是`reject`丟擲的“出錯了”這個字串，而是`thenable`物件。
 
-## 两个有用的附加方法
+## 兩個有用的附加方法
 
-ES6的Promise API提供的方法不是很多，有些有用的方法可以自己部署。下面介绍如何部署两个不在ES6之中、但很有用的方法。
+ES6的Promise API提供的方法不是很多，有些有用的方法可以自己部署。下面介紹如何部署兩個不在ES6之中、但很有用的方法。
 
 ### done()
 
-Promise对象的回调链，不管以`then`方法或`catch`方法结尾，要是最后一个方法抛出错误，都有可能无法捕捉到（因为Promise内部的错误不会冒泡到全局）。因此，我们可以提供一个`done`方法，总是处于回调链的尾端，保证抛出任何可能出现的错误。
+Promise物件的回撥鏈，不管以`then`方法或`catch`方法結尾，要是最後一個方法丟擲錯誤，都有可能無法捕捉到（因為Promise內部的錯誤不會冒泡到全域性）。因此，我們可以提供一個`done`方法，總是處於回撥鏈的尾端，保證丟擲任何可能出現的錯誤。
 
 ```javascript
 asyncFunc()
@@ -686,25 +686,25 @@ asyncFunc()
   .done();
 ```
 
-它的实现代码相当简单。
+它的實現程式碼相當簡單。
 
 ```javascript
 Promise.prototype.done = function (onFulfilled, onRejected) {
   this.then(onFulfilled, onRejected)
     .catch(function (reason) {
-      // 抛出一个全局错误
+      // 丟擲一個全域性錯誤
       setTimeout(() => { throw reason }, 0);
     });
 };
 ```
 
-从上面代码可见，`done`方法的使用，可以像`then`方法那样用，提供`Fulfilled`和`Rejected`状态的回调函数，也可以不提供任何参数。但不管怎样，`done`都会捕捉到任何可能出现的错误，并向全局抛出。
+從上面程式碼可見，`done`方法的使用，可以像`then`方法那樣用，提供`Fulfilled`和`Rejected`狀態的回撥函式，也可以不提供任何引數。但不管怎樣，`done`都會捕捉到任何可能出現的錯誤，並向全域性丟擲。
 
 ### finally()
 
-`finally`方法用于指定不管Promise对象最后状态如何，都会执行的操作。它与`done`方法的最大区别，它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。
+`finally`方法用於指定不管Promise物件最後狀態如何，都會執行的操作。它與`done`方法的最大區別，它接受一個普通的回撥函式作為引數，該函式不管怎樣都必須執行。
 
-下面是一个例子，服务器使用Promise处理请求，然后使用`finally`方法关掉服务器。
+下面是一個例子，伺服器使用Promise處理請求，然後使用`finally`方法關掉伺服器。
 
 ```javascript
 server.listen(0)
@@ -714,7 +714,7 @@ server.listen(0)
   .finally(server.stop);
 ```
 
-它的实现也很简单。
+它的實現也很簡單。
 
 ```javascript
 Promise.prototype.finally = function (callback) {
@@ -726,13 +726,13 @@ Promise.prototype.finally = function (callback) {
 };
 ```
 
-上面代码中，不管前面的Promise是`fulfilled`还是`rejected`，都会执行回调函数`callback`。
+上面程式碼中，不管前面的Promise是`fulfilled`還是`rejected`，都會執行回撥函式`callback`。
 
-## 应用
+## 應用
 
-### 加载图片
+### 載入圖片
 
-我们可以将图片的加载写成一个`Promise`，一旦加载完成，`Promise`的状态就发生变化。
+我們可以將圖片的載入寫成一個`Promise`，一旦載入完成，`Promise`的狀態就發生變化。
 
 ```javascript
 const preloadImage = function (path) {
@@ -745,9 +745,9 @@ const preloadImage = function (path) {
 };
 ```
 
-### Generator函数与Promise的结合
+### Generator函式與Promise的結合
 
-使用Generator函数管理流程，遇到异步操作的时候，通常返回一个`Promise`对象。
+使用Generator函式管理流程，遇到非同步操作的時候，通常返回一個`Promise`物件。
 
 ```javascript
 function getFoo () {
@@ -784,17 +784,17 @@ function run (generator) {
 run(g);
 ```
 
-上面代码的Generator函数`g`之中，有一个异步操作`getFoo`，它返回的就是一个`Promise`对象。函数`run`用来处理这个`Promise`对象，并调用下一个`next`方法。
+上面程式碼的Generator函式`g`之中，有一個非同步操作`getFoo`，它返回的就是一個`Promise`物件。函式`run`用來處理這個`Promise`物件，並呼叫下一個`next`方法。
 
 ## Promise.try()
 
-实际开发中，经常遇到一种情况：不知道或者不想区分，函数`f`是同步函数还是异步操作，但是想用 Promise 来处理它。因为这样就可以不管`f`是否包含异步操作，都用`then`方法指定下一步流程，用`catch`方法处理`f`抛出的错误。一般就会采用下面的写法。
+實際開發中，經常遇到一種情況：不知道或者不想區分，函式`f`是同步函式還是非同步操作，但是想用 Promise 來處理它。因為這樣就可以不管`f`是否包含非同步操作，都用`then`方法指定下一步流程，用`catch`方法處理`f`丟擲的錯誤。一般就會採用下面的寫法。
 
 ```javascript
 Promise.resolve().then(f)
 ```
 
-上面的写法有一个缺点，就是如果`f`是同步函数，那么它会在本轮事件循环的末尾执行。
+上面的寫法有一個缺點，就是如果`f`是同步函式，那麼它會在本輪事件迴圈的末尾執行。
 
 ```javascript
 const f = () => console.log('now');
@@ -804,9 +804,9 @@ console.log('next');
 // now
 ```
 
-上面代码中，函数`f`是同步的，但是用 Promise 包装了以后，就变成异步执行了。
+上面程式碼中，函式`f`是同步的，但是用 Promise 包裝了以後，就變成非同步執行了。
 
-那么有没有一种方法，让同步函数同步执行，异步函数异步执行，并且让它们具有统一的 API 呢？回答是可以的，并且还有两种写法。第一种写法是用`async`函数来写。
+那麼有沒有一種方法，讓同步函式同步執行，非同步函式非同步執行，並且讓它們具有統一的 API 呢？回答是可以的，並且還有兩種寫法。第一種寫法是用`async`函式來寫。
 
 ```javascript
 const f = () => console.log('now');
@@ -816,14 +816,14 @@ console.log('next');
 // next
 ```
 
-上面代码中，第二行是一个立即执行的匿名函数，会立即执行里面的`async`函数，因此如果`f`是同步的，就会得到同步的结果；如果`f`是异步的，就可以用`then`指定下一步，就像下面的写法。
+上面程式碼中，第二行是一個立即執行的匿名函式，會立即執行裡面的`async`函式，因此如果`f`是同步的，就會得到同步的結果；如果`f`是非同步的，就可以用`then`指定下一步，就像下面的寫法。
 
 ```javascript
 (async () => f())()
 .then(...)
 ```
 
-需要注意的是，`async () => f()`会吃掉`f()`抛出的错误。所以，如果想捕获错误，要使用`promise.catch`方法。
+需要注意的是，`async () => f()`會吃掉`f()`丟擲的錯誤。所以，如果想捕獲錯誤，要使用`promise.catch`方法。
 
 ```javascript
 (async () => f())()
@@ -831,7 +831,7 @@ console.log('next');
 .catch(...)
 ```
 
-第二种写法是使用`new Promise()`。
+第二種寫法是使用`new Promise()`。
 
 ```javascript
 const f = () => console.log('now');
@@ -845,9 +845,9 @@ console.log('next');
 // next
 ```
 
-上面代码也是使用立即执行的匿名函数，执行`new Promise()`。这种情况下，同步函数也是同步执行的。
+上面程式碼也是使用立即執行的匿名函式，執行`new Promise()`。這種情況下，同步函式也是同步執行的。
 
-鉴于这是一个很常见的需求，所以现在有一个[提案](https://github.com/ljharb/proposal-promise-try)，提供`Promise.try`方法替代上面的写法。
+鑑於這是一個很常見的需求，所以現在有一個[提案](https://github.com/ljharb/proposal-promise-try)，提供`Promise.try`方法替代上面的寫法。
 
 ```javascript
 const f = () => console.log('now');
@@ -857,9 +857,9 @@ console.log('next');
 // next
 ```
 
-事实上，`Promise.try`存在已久，Promise 库[`Bluebird`](http://bluebirdjs.com/docs/api/promise.try.html)、[`Q`](https://github.com/kriskowal/q/wiki/API-Reference#promisefcallargs)和[`when`](https://github.com/cujojs/when/blob/master/docs/api.md#whentry)，早就提供了这个方法。
+事實上，`Promise.try`存在已久，Promise 庫[`Bluebird`](http://bluebirdjs.com/docs/api/promise.try.html)、[`Q`](https://github.com/kriskowal/q/wiki/API-Reference#promisefcallargs)和[`when`](https://github.com/cujojs/when/blob/master/docs/api.md#whentry)，早就提供了這個方法。
 
-由于`Promise.try`为所有操作提供了统一的处理机制，所以如果想用`then`方法管理流程，最好都用`Promise.try`包装一下。这样有[许多好处](http://cryto.net/~joepie91/blog/2016/05/11/what-is-promise-try-and-why-does-it-matter/)，其中一点就是可以更好地管理异常。
+由於`Promise.try`為所有操作提供了統一的處理機制，所以如果想用`then`方法管理流程，最好都用`Promise.try`包裝一下。這樣有[許多好處](http://cryto.net/~joepie91/blog/2016/05/11/what-is-promise-try-and-why-does-it-matter/)，其中一點就是可以更好地管理異常。
 
 ```javascript
 function getUsername(userId) {
@@ -870,7 +870,7 @@ function getUsername(userId) {
 }
 ```
 
-上面代码中，`database.users.get()`返回一个 Promise 对象，如果抛出异步错误，可以用`catch`方法捕获，就像下面这样写。
+上面程式碼中，`database.users.get()`返回一個 Promise 物件，如果丟擲非同步錯誤，可以用`catch`方法捕獲，就像下面這樣寫。
 
 ```javascript
 database.users.get({id: userId})
@@ -878,7 +878,7 @@ database.users.get({id: userId})
 .catch(...)
 ```
 
-但是`database.users.get()`可能还会抛出同步错误（比如数据库连接错误，具体要看实现方法），这时你就不得不用`try...catch`去捕获。
+但是`database.users.get()`可能還會丟擲同步錯誤（比如資料庫連線錯誤，具體要看實現方法），這時你就不得不用`try...catch`去捕獲。
 
 ```javascript
 try {
@@ -890,7 +890,7 @@ try {
 }
 ```
 
-上面这样的写法就很笨拙了，这时就可以统一用`promise.catch()`捕获所有同步和异步的错误。
+上面這樣的寫法就很笨拙了，這時就可以統一用`promise.catch()`捕獲所有同步和非同步的錯誤。
 
 ```javascript
 Promise.try(database.users.get({id: userId}))
@@ -898,5 +898,5 @@ Promise.try(database.users.get({id: userId}))
   .catch(...)
 ```
 
-事实上，`Promise.try`就是模拟`try`代码块，就像`promise.catch`模拟的是`catch`代码块。
+事實上，`Promise.try`就是模擬`try`程式碼塊，就像`promise.catch`模擬的是`catch`程式碼塊。
 

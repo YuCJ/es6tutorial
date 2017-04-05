@@ -1,76 +1,76 @@
-# Module 的语法
+# Module 的語法
 
 ## 概述
 
-历史上，JavaScript 一直没有模块（module）体系，无法将一个大程序拆分成互相依赖的小文件，再用简单的方法拼装起来。其他语言都有这项功能，比如 Ruby 的`require`、Python 的`import`，甚至就连 CSS 都有`@import`，但是 JavaScript 任何这方面的支持都没有，这对开发大型的、复杂的项目形成了巨大障碍。
+歷史上，JavaScript 一直沒有模組（module）體系，無法將一個大程式拆分成互相依賴的小檔案，再用簡單的方法拼裝起來。其他語言都有這項功能，比如 Ruby 的`require`、Python 的`import`，甚至就連 CSS 都有`@import`，但是 JavaScript 任何這方面的支援都沒有，這對開發大型的、複雜的專案形成了巨大障礙。
 
-在 ES6 之前，社区制定了一些模块加载方案，最主要的有 CommonJS 和 AMD 两种。前者用于服务器，后者用于浏览器。ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
+在 ES6 之前，社群制定了一些模組載入方案，最主要的有 CommonJS 和 AMD 兩種。前者用於伺服器，後者用於瀏覽器。ES6 在語言標準的層面上，實現了模組功能，而且實現得相當簡單，完全可以取代 CommonJS 和 AMD 規範，成為瀏覽器和伺服器通用的模組解決方案。
 
-ES6 模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性。
+ES6 模組的設計思想，是儘量的靜態化，使得編譯時就能確定模組的依賴關係，以及輸入和輸出的變數。CommonJS 和 AMD 模組，都只能在執行時確定這些東西。比如，CommonJS 模組就是物件，輸入時必須查詢物件屬性。
 
 ```javascript
-// CommonJS模块
+// CommonJS模組
 let { stat, exists, readFile } = require('fs');
 
-// 等同于
+// 等同於
 let _fs = require('fs');
 let stat = _fs.stat;
 let exists = _fs.exists;
 let readfile = _fs.readfile;
 ```
 
-上面代码的实质是整体加载`fs`模块（即加载`fs`的所有方法），生成一个对象（`_fs`），然后再从这个对象上面读取3个方法。这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
+上面程式碼的實質是整體載入`fs`模組（即載入`fs`的所有方法），生成一個物件（`_fs`），然後再從這個物件上面讀取3個方法。這種載入稱為“執行時載入”，因為只有執行時才能得到這個物件，導致完全沒辦法在編譯時做“靜態優化”。
 
-ES6 模块不是对象，而是通过`export`命令显式指定输出的代码，再通过`import`命令输入。
+ES6 模組不是物件，而是通過`export`命令顯式指定輸出的程式碼，再通過`import`命令輸入。
 
 ```javascript
-// ES6模块
+// ES6模組
 import { stat, exists, readFile } from 'fs';
 ```
 
-上面代码的实质是从`fs`模块加载3个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。
+上面程式碼的實質是從`fs`模組載入3個方法，其他方法不載入。這種載入稱為“編譯時載入”或者靜態載入，即 ES6 可以在編譯時就完成模組載入，效率要比 CommonJS 模組的載入方式高。當然，這也導致了沒法引用 ES6 模組本身，因為它不是物件。
 
-由于 ES6 模块是编译时加载，使得静态分析成为可能。有了它，就能进一步拓宽 JavaScript 的语法，比如引入宏（macro）和类型检验（type system）这些只能靠静态分析实现的功能。
+由於 ES6 模組是編譯時載入，使得靜態分析成為可能。有了它，就能進一步拓寬 JavaScript 的語法，比如引入巨集（macro）和型別檢驗（type system）這些只能靠靜態分析實現的功能。
 
-除了静态加载带来的各种好处，ES6 模块还有以下好处。
+除了靜態載入帶來的各種好處，ES6 模組還有以下好處。
 
-- 不再需要`UMD`模块格式了，将来服务器和浏览器都会支持 ES6 模块格式。目前，通过各种工具库，其实已经做到了这一点。
-- 将来浏览器的新 API 就能用模块格式提供，不再必须做成全局变量或者`navigator`对象的属性。
-- 不再需要对象作为命名空间（比如`Math`对象），未来这些功能可以通过模块提供。
+- 不再需要`UMD`模組格式了，將來伺服器和瀏覽器都會支援 ES6 模組格式。目前，通過各種工具庫，其實已經做到了這一點。
+- 將來瀏覽器的新 API 就能用模組格式提供，不再必須做成全域性變數或者`navigator`物件的屬性。
+- 不再需要物件作為名稱空間（比如`Math`物件），未來這些功能可以通過模組提供。
 
-本章介绍 ES6 模块的语法，下一章介绍如何在浏览器和 Node 之中，加载 ES6 模块。
+本章介紹 ES6 模組的語法，下一章介紹如何在瀏覽器和 Node 之中，載入 ES6 模組。
 
-## 严格模式
+## 嚴格模式
 
-ES6 的模块自动采用严格模式，不管你有没有在模块头部加上`"use strict";`。
+ES6 的模組自動採用嚴格模式，不管你有沒有在模組頭部加上`"use strict";`。
 
-严格模式主要有以下限制。
+嚴格模式主要有以下限制。
 
-- 变量必须声明后再使用
-- 函数的参数不能有同名属性，否则报错
-- 不能使用`with`语句
-- 不能对只读属性赋值，否则报错
-- 不能使用前缀0表示八进制数，否则报错
-- 不能删除不可删除的属性，否则报错
-- 不能删除变量`delete prop`，会报错，只能删除属性`delete global[prop]`
-- `eval`不会在它的外层作用域引入变量
-- `eval`和`arguments`不能被重新赋值
-- `arguments`不会自动反映函数参数的变化
+- 變數必須聲明後再使用
+- 函式的引數不能有同名屬性，否則報錯
+- 不能使用`with`語句
+- 不能對只讀屬性賦值，否則報錯
+- 不能使用字首0表示八進位制數，否則報錯
+- 不能刪除不可刪除的屬性，否則報錯
+- 不能刪除變數`delete prop`，會報錯，只能刪除屬性`delete global[prop]`
+- `eval`不會在它的外層作用域引入變數
+- `eval`和`arguments`不能被重新賦值
+- `arguments`不會自動反映函式引數的變化
 - 不能使用`arguments.callee`
 - 不能使用`arguments.caller`
-- 禁止`this`指向全局对象
-- 不能使用`fn.caller`和`fn.arguments`获取函数调用的堆栈
+- 禁止`this`指向全域性物件
+- 不能使用`fn.caller`和`fn.arguments`獲取函式呼叫的堆疊
 - 增加了保留字（比如`protected`、`static`和`interface`）
 
-上面这些限制，模块都必须遵守。由于严格模式是 ES5 引入的，不属于 ES6，所以请参阅相关 ES5 书籍，本书不再详细介绍了。
+上面這些限制，模組都必須遵守。由於嚴格模式是 ES5 引入的，不屬於 ES6，所以請參閱相關 ES5 書籍，本書不再詳細介紹了。
 
-其中，尤其需要注意`this`的限制。ES6 模块之中，顶层的`this`指向`undefined`，即不应该在顶层代码使用`this`。
+其中，尤其需要注意`this`的限制。ES6 模組之中，頂層的`this`指向`undefined`，即不應該在頂層程式碼使用`this`。
 
 ## export 命令
 
-模块功能主要由两个命令构成：`export`和`import`。`export`命令用于规定模块的对外接口，`import`命令用于输入其他模块提供的功能。
+模組功能主要由兩個命令構成：`export`和`import`。`export`命令用於規定模組的對外介面，`import`命令用於輸入其他模組提供的功能。
 
-一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用`export`关键字输出该变量。下面是一个 JS 文件，里面使用`export`命令输出变量。
+一個模組就是一個獨立的檔案。該檔案內部的所有變數，外部無法獲取。如果你希望外部能夠讀取模組內部的某個變數，就必須使用`export`關鍵字輸出該變數。下面是一個 JS 檔案，裡面使用`export`命令輸出變數。
 
 ```javascript
 // profile.js
@@ -79,9 +79,9 @@ export var lastName = 'Jackson';
 export var year = 1958;
 ```
 
-上面代码是`profile.js`文件，保存了用户信息。ES6 将其视为一个模块，里面用`export`命令对外部输出了三个变量。
+上面程式碼是`profile.js`檔案，儲存了使用者資訊。ES6 將其視為一個模組，裡面用`export`命令對外部輸出了三個變數。
 
-`export`的写法，除了像上面这样，还有另外一种。
+`export`的寫法，除了像上面這樣，還有另外一種。
 
 ```javascript
 // profile.js
@@ -92,9 +92,9 @@ var year = 1958;
 export {firstName, lastName, year};
 ```
 
-上面代码在`export`命令后面，使用大括号指定所要输出的一组变量。它与前一种写法（直接放置在`var`语句前）是等价的，但是应该优先考虑使用这种写法。因为这样就可以在脚本尾部，一眼看清楚输出了哪些变量。
+上面程式碼在`export`命令後面，使用大括號指定所要輸出的一組變數。它與前一種寫法（直接放置在`var`語句前）是等價的，但是應該優先考慮使用這種寫法。因為這樣就可以在指令碼尾部，一眼看清楚輸出了哪些變數。
 
-`export`命令除了输出变量，还可以输出函数或类（class）。
+`export`命令除了輸出變數，還可以輸出函式或類（class）。
 
 ```javascript
 export function multiply(x, y) {
@@ -102,9 +102,9 @@ export function multiply(x, y) {
 };
 ```
 
-上面代码对外输出一个函数`multiply`。
+上面程式碼對外輸出一個函式`multiply`。
 
-通常情况下，`export`输出的变量就是本来的名字，但是可以使用`as`关键字重命名。
+通常情況下，`export`輸出的變數就是本來的名字，但是可以使用`as`關鍵字重新命名。
 
 ```javascript
 function v1() { ... }
@@ -117,63 +117,63 @@ export {
 };
 ```
 
-上面代码使用`as`关键字，重命名了函数`v1`和`v2`的对外接口。重命名后，`v2`可以用不同的名字输出两次。
+上面程式碼使用`as`關鍵字，重新命名了函式`v1`和`v2`的對外介面。重新命名後，`v2`可以用不同的名字輸出兩次。
 
-需要特别注意的是，`export`命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。
+需要特別注意的是，`export`命令規定的是對外的介面，必須與模組內部的變數建立一一對應關係。
 
 ```javascript
-// 报错
+// 報錯
 export 1;
 
-// 报错
+// 報錯
 var m = 1;
 export m;
 ```
 
-上面两种写法都会报错，因为没有提供对外的接口。第一种写法直接输出1，第二种写法通过变量`m`，还是直接输出1。`1`只是一个值，不是接口。正确的写法是下面这样。
+上面兩種寫法都會報錯，因為沒有提供對外的介面。第一種寫法直接輸出1，第二種寫法通過變數`m`，還是直接輸出1。`1`只是一個值，不是介面。正確的寫法是下面這樣。
 
 ```javascript
-// 写法一
+// 寫法一
 export var m = 1;
 
-// 写法二
+// 寫法二
 var m = 1;
 export {m};
 
-// 写法三
+// 寫法三
 var n = 1;
 export {n as m};
 ```
 
-上面三种写法都是正确的，规定了对外的接口`m`。其他脚本可以通过这个接口，取到值`1`。它们的实质是，在接口名与模块内部变量之间，建立了一一对应的关系。
+上面三種寫法都是正確的，規定了對外的介面`m`。其他指令碼可以通過這個介面，取到值`1`。它們的實質是，在介面名與模組內部變數之間，建立了一一對應的關係。
 
-同样的，`function`和`class`的输出，也必须遵守这样的写法。
+同樣的，`function`和`class`的輸出，也必須遵守這樣的寫法。
 
 ```javascript
-// 报错
+// 報錯
 function f() {}
 export f;
 
-// 正确
+// 正確
 export function f() {};
 
-// 正确
+// 正確
 function f() {}
 export {f};
 ```
 
-另外，`export`语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。
+另外，`export`語句輸出的介面，與其對應的值是動態繫結關係，即通過該介面，可以取到模組內部實時的值。
 
 ```javascript
 export var foo = 'bar';
 setTimeout(() => foo = 'baz', 500);
 ```
 
-上面代码输出变量`foo`，值为`bar`，500毫秒之后变成`baz`。
+上面程式碼輸出變數`foo`，值為`bar`，500毫秒之後變成`baz`。
 
-这一点与 CommonJS 规范完全不同。CommonJS 模块输出的是值的缓存，不存在动态更新，详见下文《ES6模块加载的实质》一节。
+這一點與 CommonJS 規範完全不同。CommonJS 模組輸出的是值的快取，不存在動態更新，詳見下文《ES6模組載入的實質》一節。
 
-最后，`export`命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错，下一节的`import`命令也是如此。这是因为处于条件代码块之中，就没法做静态优化了，违背了ES6模块的设计初衷。
+最後，`export`命令可以出現在模組的任何位置，只要處於模組頂層就可以。如果處於塊級作用域內，就會報錯，下一節的`import`命令也是如此。這是因為處於條件程式碼塊之中，就沒法做靜態優化了，違背了ES6模組的設計初衷。
 
 ```javascript
 function foo() {
@@ -182,11 +182,11 @@ function foo() {
 foo()
 ```
 
-上面代码中，`export`语句放在函数之中，结果报错。
+上面程式碼中，`export`語句放在函式之中，結果報錯。
 
 ## import 命令
 
-使用`export`命令定义了模块的对外接口以后，其他 JS 文件就可以通过`import`命令加载这个模块。
+使用`export`命令定義了模組的對外介面以後，其他 JS 檔案就可以通過`import`命令載入這個模組。
 
 ```javascript
 // main.js
@@ -197,23 +197,23 @@ function setName(element) {
 }
 ```
 
-上面代码的`import`命令，用于加载`profile.js`文件，并从中输入变量。`import`命令接受一对大括号，里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（`profile.js`）对外接口的名称相同。
+上面程式碼的`import`命令，用於載入`profile.js`檔案，並從中輸入變數。`import`命令接受一對大括號，裡面指定要從其他模組匯入的變數名。大括號裡面的變數名，必須與被匯入模組（`profile.js`）對外介面的名稱相同。
 
-如果想为输入的变量重新取一个名字，`import`命令要使用`as`关键字，将输入的变量重命名。
+如果想為輸入的變數重新取一個名字，`import`命令要使用`as`關鍵字，將輸入的變數重新命名。
 
 ```javascript
 import { lastName as surname } from './profile';
 ```
 
-`import`后面的`from`指定模块文件的位置，可以是相对路径，也可以是绝对路径，`.js`路径可以省略。如果只是模块名，不带有路径，那么必须有配置文件，告诉 JavaScript 引擎该模块的位置。
+`import`後面的`from`指定模組檔案的位置，可以是相對路徑，也可以是絕對路徑，`.js`路徑可以省略。如果只是模組名，不帶有路徑，那麼必須有配置檔案，告訴 JavaScript 引擎該模組的位置。
 
 ```javascript
 import {myMethod} from 'util';
 ```
 
-上面代码中，`util`是模块文件名，由于不带有路径，必须通过配置，告诉引擎怎么取到这个模块。
+上面程式碼中，`util`是模組檔名，由於不帶有路徑，必須通過配置，告訴引擎怎麼取到這個模組。
 
-注意，`import`命令具有提升效果，会提升到整个模块的头部，首先执行。
+注意，`import`命令具有提升效果，會提升到整個模組的頭部，首先執行。
 
 ```javascript
 foo();
@@ -221,19 +221,19 @@ foo();
 import { foo } from 'my_module';
 ```
 
-上面的代码不会报错，因为`import`的执行早于`foo`的调用。这种行为的本质是，`import`命令是编译阶段执行的，在代码运行之前。
+上面的程式碼不會報錯，因為`import`的執行早於`foo`的呼叫。這種行為的本質是，`import`命令是編譯階段執行的，在程式碼執行之前。
 
-由于`import`是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。
+由於`import`是靜態執行，所以不能使用表示式和變數，這些只有在執行時才能得到結果的語法結構。
 
 ```javascript
-// 报错
+// 報錯
 import { 'f' + 'oo' } from 'my_module';
 
-// 报错
+// 報錯
 let module = 'my_module';
 import { foo } from module;
 
-// 报错
+// 報錯
 if (x === 1) {
   import { foo } from 'module1';
 } else {
@@ -241,40 +241,40 @@ if (x === 1) {
 }
 ```
 
-上面三种写法都会报错，因为它们用到了表达式、变量和`if`结构。在静态分析阶段，这些语法都是没法得到值的。
+上面三種寫法都會報錯，因為它們用到了表示式、變數和`if`結構。在靜態分析階段，這些語法都是沒法得到值的。
 
-最后，`import`语句会执行所加载的模块，因此可以有下面的写法。
+最後，`import`語句會執行所載入的模組，因此可以有下面的寫法。
 
 ```javascript
 import 'lodash';
 ```
 
-上面代码仅仅执行`lodash`模块，但是不输入任何值。
+上面程式碼僅僅執行`lodash`模組，但是不輸入任何值。
 
-如果多次重复执行同一句`import`语句，那么只会执行一次，而不会执行多次。
+如果多次重複執行同一句`import`語句，那麼只會執行一次，而不會執行多次。
 
 ```javascript
 import 'lodash';
 import 'lodash';
 ```
 
-上面代码加载了两次`lodash`，但是只会执行一次。
+上面程式碼載入了兩次`lodash`，但是隻會執行一次。
 
 ```javascript
 import { foo } from 'my_module';
 import { bar } from 'my_module';
 
-// 等同于
+// 等同於
 import { foo, bar } from 'my_module';
 ```
 
-上面代码中，虽然`foo`和`bar`在两个语句中加载，但是它们对应的是同一个`my_module`实例。也就是说，`import`语句是 Singleton 模式。
+上面程式碼中，雖然`foo`和`bar`在兩個語句中載入，但是它們對應的是同一個`my_module`例項。也就是說，`import`語句是 Singleton 模式。
 
-## 模块的整体加载
+## 模組的整體載入
 
-除了指定加载某个输出值，还可以使用整体加载，即用星号（`*`）指定一个对象，所有输出值都加载在这个对象上面。
+除了指定載入某個輸出值，還可以使用整體載入，即用星號（`*`）指定一個物件，所有輸出值都載入在這個物件上面。
 
-下面是一个`circle.js`文件，它输出两个方法`area`和`circumference`。
+下面是一個`circle.js`檔案，它輸出兩個方法`area`和`circumference`。
 
 ```javascript
 // circle.js
@@ -288,41 +288,41 @@ export function circumference(radius) {
 }
 ```
 
-现在，加载这个模块。
+現在，載入這個模組。
 
 ```javascript
 // main.js
 
 import { area, circumference } from './circle';
 
-console.log('圆面积：' + area(4));
-console.log('圆周长：' + circumference(14));
+console.log('圓面積：' + area(4));
+console.log('圓周長：' + circumference(14));
 ```
 
-上面写法是逐一指定要加载的方法，整体加载的写法如下。
+上面寫法是逐一指定要載入的方法，整體載入的寫法如下。
 
 ```javascript
 import * as circle from './circle';
 
-console.log('圆面积：' + circle.area(4));
-console.log('圆周长：' + circle.circumference(14));
+console.log('圓面積：' + circle.area(4));
+console.log('圓周長：' + circle.circumference(14));
 ```
 
-注意，模块整体加载所在的那个对象（上例是`circle`），应该是可以静态分析的，所以不允许运行时改变。下面的写法都是不允许的。
+注意，模組整體載入所在的那個物件（上例是`circle`），應該是可以靜態分析的，所以不允許執行時改變。下面的寫法都是不允許的。
 
 ```javascript
 import * as circle from './circle';
 
-// 下面两行都是不允许的
+// 下面兩行都是不允許的
 circle.foo = 'hello';
 circle.area = function () {};
 ```
 
 ## export default 命令
 
-从前面的例子可以看出，使用`import`命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载。但是，用户肯定希望快速上手，未必愿意阅读文档，去了解模块有哪些属性和方法。
+從前面的例子可以看出，使用`import`命令的時候，使用者需要知道所要載入的變數名或函式名，否則無法載入。但是，使用者肯定希望快速上手，未必願意閱讀文件，去了解模組有哪些屬性和方法。
 
-为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到`export default`命令，为模块指定默认输出。
+為了給使用者提供方便，讓他們不用閱讀文件就能載入模組，就要用到`export default`命令，為模組指定預設輸出。
 
 ```javascript
 // export-default.js
@@ -331,9 +331,9 @@ export default function () {
 }
 ```
 
-上面代码是一个模块文件`export-default.js`，它的默认输出是一个函数。
+上面程式碼是一個模組檔案`export-default.js`，它的預設輸出是一個函式。
 
-其他模块加载该模块时，`import`命令可以为该匿名函数指定任意名字。
+其他模組載入該模組時，`import`命令可以為該匿名函式指定任意名字。
 
 ```javascript
 // import-default.js
@@ -341,9 +341,9 @@ import customName from './export-default';
 customName(); // 'foo'
 ```
 
-上面代码的`import`命令，可以用任意名称指向`export-default.js`输出的方法，这时就不需要知道原模块输出的函数名。需要注意的是，这时`import`命令后面，不使用大括号。
+上面程式碼的`import`命令，可以用任意名稱指向`export-default.js`輸出的方法，這時就不需要知道原模組輸出的函式名。需要注意的是，這時`import`命令後面，不使用大括號。
 
-`export default`命令用在非匿名函数前，也是可以的。
+`export default`命令用在非匿名函式前，也是可以的。
 
 ```javascript
 // export-default.js
@@ -351,7 +351,7 @@ export default function foo() {
   console.log('foo');
 }
 
-// 或者写成
+// 或者寫成
 
 function foo() {
   console.log('foo');
@@ -360,31 +360,31 @@ function foo() {
 export default foo;
 ```
 
-上面代码中，`foo`函数的函数名`foo`，在模块外部是无效的。加载的时候，视同匿名函数加载。
+上面程式碼中，`foo`函式的函式名`foo`，在模組外部是無效的。載入的時候，視同匿名函式載入。
 
-下面比较一下默认输出和正常输出。
+下面比較一下預設輸出和正常輸出。
 
 ```javascript
-// 第一组
-export default function crc32() { // 输出
+// 第一組
+export default function crc32() { // 輸出
   // ...
 }
 
-import crc32 from 'crc32'; // 输入
+import crc32 from 'crc32'; // 輸入
 
-// 第二组
-export function crc32() { // 输出
+// 第二組
+export function crc32() { // 輸出
   // ...
 };
 
-import {crc32} from 'crc32'; // 输入
+import {crc32} from 'crc32'; // 輸入
 ```
 
-上面代码的两组写法，第一组是使用`export default`时，对应的`import`语句不需要使用大括号；第二组是不使用`export default`时，对应的`import`语句需要使用大括号。
+上面程式碼的兩組寫法，第一組是使用`export default`時，對應的`import`語句不需要使用大括號；第二組是不使用`export default`時，對應的`import`語句需要使用大括號。
 
-`export default`命令用于指定模块的默认输出。显然，一个模块只能有一个默认输出，因此`export default`命令只能使用一次。所以，`import`命令后面才不用加大括号，因为只可能对应一个方法。
+`export default`命令用於指定模組的預設輸出。顯然，一個模組只能有一個預設輸出，因此`export default`命令只能使用一次。所以，`import`命令後面才不用加大括號，因為只可能對應一個方法。
 
-本质上，`export default`就是输出一个叫做`default`的变量或方法，然后系统允许你为它取任意名字。所以，下面的写法是有效的。
+本質上，`export default`就是輸出一個叫做`default`的變數或方法，然後系統允許你為它取任意名字。所以，下面的寫法是有效的。
 
 ```javascript
 // modules.js
@@ -392,56 +392,56 @@ function add(x, y) {
   return x * y;
 }
 export {add as default};
-// 等同于
+// 等同於
 // export default add;
 
 // app.js
 import { default as xxx } from 'modules';
-// 等同于
+// 等同於
 // import xxx from 'modules';
 ```
 
-正是因为`export default`命令其实只是输出一个叫做`default`的变量，所以它后面不能跟变量声明语句。
+正是因為`export default`命令其實只是輸出一個叫做`default`的變數，所以它後面不能跟變數宣告語句。
 
 ```javascript
-// 正确
+// 正確
 export var a = 1;
 
-// 正确
+// 正確
 var a = 1;
 export default a;
 
-// 错误
+// 錯誤
 export default var a = 1;
 ```
 
-上面代码中，`export default a`的含义是将变量`a`的值赋给变量`default`。所以，最后一种写法会报错。
+上面程式碼中，`export default a`的含義是將變數`a`的值賦給變數`default`。所以，最後一種寫法會報錯。
 
-同样地，因为`export default`本质是将该命令后面的值，赋给`default`变量以后再默认，所以直接将一个值写在`export default`之后。
+同樣地，因為`export default`本質是將該命令後面的值，賦給`default`變數以後再預設，所以直接將一個值寫在`export default`之後。
 
 ```javascript
-// 正确
+// 正確
 export default 42;
 
-// 报错
+// 報錯
 export 42;
 ```
 
-上面代码中，后一句报错是因为没有指定对外的接口，而前一句指定外对接口为`default`。
+上面程式碼中，後一句報錯是因為沒有指定對外的介面，而前一句指定外對介面為`default`。
 
-有了`export default`命令，输入模块时就非常直观了，以输入 lodash 模块为例。
+有了`export default`命令，輸入模組時就非常直觀了，以輸入 lodash 模組為例。
 
 ```javascript
 import _ from 'lodash';
 ```
 
-如果想在一条`import`语句中，同时输入默认方法和其他变量，可以写成下面这样。
+如果想在一條`import`語句中，同時輸入預設方法和其他變數，可以寫成下面這樣。
 
 ```javascript
 import _, { each } from 'lodash';
 ```
 
-对应上面代码的`export`语句如下。
+對應上面程式碼的`export`語句如下。
 
 ```javascript
 export default function (obj) {
@@ -455,9 +455,9 @@ export function each(obj, iterator, context) {
 export { each as forEach };
 ```
 
-上面代码的最后一行的意思是，暴露出`forEach`接口，默认指向`each`接口，即`forEach`和`each`指向同一个方法。
+上面程式碼的最後一行的意思是，暴露出`forEach`介面，預設指向`each`介面，即`forEach`和`each`指向同一個方法。
 
-`export default`也可以用来输出类。
+`export default`也可以用來輸出類。
 
 ```javascript
 // MyClass.js
@@ -468,53 +468,53 @@ import MyClass from 'MyClass';
 let o = new MyClass();
 ```
 
-## export 与 import 的复合写法
+## export 與 import 的複合寫法
 
-如果在一个模块之中，先输入后输出同一个模块，`import`语句可以与`export`语句写在一起。
+如果在一個模組之中，先輸入後輸出同一個模組，`import`語句可以與`export`語句寫在一起。
 
 ```javascript
 export { foo, bar } from 'my_module';
 
-// 等同于
+// 等同於
 import { foo, bar } from 'my_module';
 export { foo, bar };
 ```
 
-上面代码中，`export`和`import`语句可以结合在一起，写成一行。
+上面程式碼中，`export`和`import`語句可以結合在一起，寫成一行。
 
-模块的接口改名和整体输出，也可以采用这种写法。
+模組的介面改名和整體輸出，也可以採用這種寫法。
 
 ```javascript
-// 接口改名
+// 介面改名
 export { foo as myFoo } from 'my_module';
 
-// 整体输出
+// 整體輸出
 export * from 'my_module';
 ```
 
-默认接口的写法如下。
+預設介面的寫法如下。
 
 ```javascript
 export { default } from 'foo';
 ```
 
-具名接口改为默认接口的写法如下。
+具名介面改為預設介面的寫法如下。
 
 ```javascript
 export { es6 as default } from './someModule';
 
-// 等同于
+// 等同於
 import { es6 } from './someModule';
 export default es6;
 ```
 
-同样地，默认接口也可以改名为具名接口。
+同樣地，預設介面也可以改名為具名介面。
 
 ```javascript
 export { default as es6 } from './someModule';
 ```
 
-下面三种`import`语句，没有对应的复合写法。
+下面三種`import`語句，沒有對應的複合寫法。
 
 ```javascript
 import * as someIdentifier from "someModule";
@@ -522,7 +522,7 @@ import someIdentifier from "someModule";
 import someIdentifier, { namedIdentifier } from "someModule";
 ```
 
-为了做到形式的对称，现在有[提案](https://github.com/leebyron/ecmascript-export-default-from)，提出补上这三种复合写法。
+為了做到形式的對稱，現在有[提案](https://github.com/leebyron/ecmascript-export-default-from)，提出補上這三種複合寫法。
 
 ```javascript
 export * as someIdentifier from "someModule";
@@ -530,11 +530,11 @@ export someIdentifier from "someModule";
 export someIdentifier, { namedIdentifier } from "someModule";
 ```
 
-## 模块的继承
+## 模組的繼承
 
-模块之间也可以继承。
+模組之間也可以繼承。
 
-假设有一个`circleplus`模块，继承了`circle`模块。
+假設有一個`circleplus`模組，繼承了`circle`模組。
 
 ```javascript
 // circleplus.js
@@ -546,9 +546,9 @@ export default function(x) {
 }
 ```
 
-上面代码中的`export *`，表示再输出`circle`模块的所有属性和方法。注意，`export *`命令会忽略`circle`模块的`default`方法。然后，上面代码又输出了自定义的`e`变量和默认方法。
+上面程式碼中的`export *`，表示再輸出`circle`模組的所有屬性和方法。注意，`export *`命令會忽略`circle`模組的`default`方法。然後，上面程式碼又輸出了自定義的`e`變數和預設方法。
 
-这时，也可以将`circle`的属性或方法，改名后再输出。
+這時，也可以將`circle`的屬性或方法，改名後再輸出。
 
 ```javascript
 // circleplus.js
@@ -556,9 +556,9 @@ export default function(x) {
 export { area as circleArea } from 'circle';
 ```
 
-上面代码表示，只输出`circle`模块的`area`方法，且将其改名为`circleArea`。
+上面程式碼表示，只輸出`circle`模組的`area`方法，且將其改名為`circleArea`。
 
-加载上面模块的写法如下。
+載入上面模組的寫法如下。
 
 ```javascript
 // main.js
@@ -568,30 +568,30 @@ import exp from 'circleplus';
 console.log(exp(math.e));
 ```
 
-上面代码中的`import exp`表示，将`circleplus`模块的默认方法加载为`exp`方法。
+上面程式碼中的`import exp`表示，將`circleplus`模組的預設方法載入為`exp`方法。
 
-## 跨模块常量
+## 跨模組常量
 
-本书介绍`const`命令的时候说过，`const`声明的常量只在当前代码块有效。如果想设置跨模块的常量（即跨多个文件），或者说一个值要被多个模块共享，可以采用下面的写法。
+本書介紹`const`命令的時候說過，`const`宣告的常量只在當前程式碼塊有效。如果想設定跨模組的常量（即跨多個檔案），或者說一個值要被多個模組共享，可以採用下面的寫法。
 
 ```javascript
-// constants.js 模块
+// constants.js 模組
 export const A = 1;
 export const B = 3;
 export const C = 4;
 
-// test1.js 模块
+// test1.js 模組
 import * as constants from './constants';
 console.log(constants.A); // 1
 console.log(constants.B); // 3
 
-// test2.js 模块
+// test2.js 模組
 import {A, B} from './constants';
 console.log(A); // 1
 console.log(B); // 3
 ```
 
-如果要使用的常量非常多，可以建一个专门的`constants`目录，将各种常量写在不同的文件里面，保存在该目录下。
+如果要使用的常量非常多，可以建一個專門的`constants`目錄，將各種常量寫在不同的檔案裡面，儲存在該目錄下。
 
 ```javascript
 // constants/db.js
@@ -605,7 +605,7 @@ export const db = {
 export const users = ['root', 'admin', 'staff', 'ceo', 'chief', 'moderator'];
 ```
 
-然后，将这些文件输出的常量，合并在`index.js`里面。
+然後，將這些檔案輸出的常量，合併在`index.js`裡面。
 
 ```javascript
 // constants/index.js
@@ -613,7 +613,7 @@ export {db} from './db';
 export {users} from './users';
 ```
 
-使用的时候，直接加载`index.js`就可以了。
+使用的時候，直接載入`index.js`就可以了。
 
 ```javascript
 // script.js
@@ -622,37 +622,37 @@ import {db, users} from './constants';
 
 ## import()
 
-### 简介
+### 簡介
 
-前面介绍过，`import`命令会被 JavaScript 引擎静态分析，先于模块内的其他模块执行（叫做”连接“更合适）。所以，下面的代码会报错。
+前面介紹過，`import`命令會被 JavaScript 引擎靜態分析，先於模組內的其他模組執行（叫做”連線“更合適）。所以，下面的程式碼會報錯。
 
 ```javascript
-// 报错
+// 報錯
 if (x === 2) {
   import MyModual from './myModual';
 }
 ```
 
-上面代码中，引擎处理`import`语句是在编译时，这时不会去分析或执行`if`语句，所以`import`语句放在`if`代码块之中毫无意义，因此会报句法错误，而不是执行时错误。也就是说，`import`和`export`命令只能在模块的顶层，不能在代码块之中（比如，在`if`代码块之中，或在函数之中）。
+上面程式碼中，引擎處理`import`語句是在編譯時，這時不會去分析或執行`if`語句，所以`import`語句放在`if`程式碼塊之中毫無意義，因此會報句法錯誤，而不是執行時錯誤。也就是說，`import`和`export`命令只能在模組的頂層，不能在程式碼塊之中（比如，在`if`程式碼塊之中，或在函式之中）。
 
-这样的设计，固然有利于编译器提高效率，但也导致无法在运行时加载模块。从语法上，条件加载就不可能实现。如果`import`命令要取代 Node 的`require`方法，这就形成了一个障碍。因为`require`是运行时加载模块，`import`命令无法取代`require`的动态加载功能。
+這樣的設計，固然有利於編譯器提高效率，但也導致無法在執行時載入模組。從語法上，條件載入就不可能實現。如果`import`命令要取代 Node 的`require`方法，這就形成了一個障礙。因為`require`是執行時載入模組，`import`命令無法取代`require`的動態載入功能。
 
 ```javascript
 const path = './' + fileName;
 const myModual = require(path);
 ```
 
-上面的语句就是动态加载，`require`到底加载哪一个模块，只有运行时才知道。`import`语句做不到这一点。
+上面的語句就是動態載入，`require`到底載入哪一個模組，只有執行時才知道。`import`語句做不到這一點。
 
-因此，有一个[提案](https://github.com/tc39/proposal-dynamic-import)，建议引入`import()`函数，完成动态加载。
+因此，有一個[提案](https://github.com/tc39/proposal-dynamic-import)，建議引入`import()`函式，完成動態載入。
 
 ```javascript
 import(specifier)
 ```
 
-上面代码中，`import`函数的参数`specifier`，指定所要加载的模块的位置。`import`命令能够接受什么参数，`import()`函数就能接受什么参数，两者区别主要是后者为动态加载。
+上面程式碼中，`import`函式的引數`specifier`，指定所要載入的模組的位置。`import`命令能夠接受什麼引數，`import()`函式就能接受什麼引數，兩者區別主要是後者為動態載入。
 
-`import()`返回一个 Promise 对象。下面是一个例子。
+`import()`返回一個 Promise 物件。下面是一個例子。
 
 ```javascript
 const main = document.querySelector('main');
@@ -666,17 +666,17 @@ import(`./section-modules/${someVariable}.js`)
   });
 ```
 
-`import()`函数可以用在任何地方，不仅仅是模块，非模块的脚本也可以使用。它是运行时执行，也就是说，什么时候运行到这一句，也会加载指定的模块。另外，`import()`函数与所加载的模块没有静态连接关系，这点也是与`import`语句不相同。
+`import()`函式可以用在任何地方，不僅僅是模組，非模組的指令碼也可以使用。它是執行時執行，也就是說，什麼時候執行到這一句，也會載入指定的模組。另外，`import()`函式與所載入的模組沒有靜態連線關係，這點也是與`import`語句不相同。
 
-`import()`类似于 Node 的`require`方法，区别主要是前者是异步加载，后者是同步加载。
+`import()`類似於 Node 的`require`方法，區別主要是前者是非同步載入，後者是同步載入。
 
-### 适用场合
+### 適用場合
 
-下面是`import()`的一些适用场合。
+下面是`import()`的一些適用場合。
 
-（1）按需加载。
+（1）按需載入。
 
-`import()`可以在需要的时候，再加载某个模块。
+`import()`可以在需要的時候，再載入某個模組。
 
 ```javascript
 button.addEventListener('click', event => {
@@ -690,11 +690,11 @@ button.addEventListener('click', event => {
 });
 ```
 
-上面代码中，`import()`方法放在`click`事件的监听函数之中，只有用户点击了按钮，才会加载这个模块。
+上面程式碼中，`import()`方法放在`click`事件的監聽函式之中，只有使用者點選了按鈕，才會載入這個模組。
 
-（2）条件加载
+（2）條件載入
 
-`import()`可以放在`if`代码块，根据不同的情况，加载不同的模块。
+`import()`可以放在`if`程式碼塊，根據不同的情況，載入不同的模組。
 
 ```javascript
 if (condition) {
@@ -704,22 +704,22 @@ if (condition) {
 }
 ```
 
-上面代码中，如果满足条件，就加载模块 A，否则加载模块 B。
+上面程式碼中，如果滿足條件，就載入模組 A，否則載入模組 B。
 
-（3）动态的模块路径
+（3）動態的模組路徑
 
-`import()`允许模块路径动态生成。
+`import()`允許模組路徑動態生成。
 
 ```javascript
 import(f())
 .then(...);
 ```
 
-上面代码中，根据函数`f`的返回结果，加载不同的模块。
+上面程式碼中，根據函式`f`的返回結果，載入不同的模組。
 
-### 注意点
+### 注意點
 
-`import()`加载模块成功以后，这个模块会作为一个对象，当作`then`方法的参数。因此，可以使用对象解构赋值的语法，获取输出接口。
+`import()`載入模組成功以後，這個模組會作為一個物件，當作`then`方法的引數。因此，可以使用物件解構賦值的語法，獲取輸出介面。
 
 ```javascript
 import('./myModule.js')
@@ -728,9 +728,9 @@ import('./myModule.js')
 });
 ```
 
-上面代码中，`export1`和`export2`都是`myModule.js`的输出接口，可以解构获得。
+上面程式碼中，`export1`和`export2`都是`myModule.js`的輸出介面，可以解構獲得。
 
-如果模块有`default`输出接口，可以用参数直接获得。
+如果模組有`default`輸出介面，可以用引數直接獲得。
 
 ```javascript
 import('./myModule.js')
@@ -739,7 +739,7 @@ import('./myModule.js')
 });
 ```
 
-上面的代码也可以使用具名输入的形式。
+上面的程式碼也可以使用具名輸入的形式。
 
 ```javascript
 import('./myModule.js')
@@ -748,7 +748,7 @@ import('./myModule.js')
 });
 ```
 
-如果想同时加载多个模块，可以采用下面的写法。
+如果想同時載入多個模組，可以採用下面的寫法。
 
 ```javascript
 Promise.all([
@@ -761,7 +761,7 @@ Promise.all([
 });
 ```
 
-`import()`也可以用在 async 函数之中。
+`import()`也可以用在 async 函式之中。
 
 ```javascript
 async function main() {
