@@ -1,7 +1,7 @@
 # Summary
 
 * [Introduction](README.md)
-* [目錄](sidebar.md)
+* 目录
 
 ## 变量的解构赋值
 
