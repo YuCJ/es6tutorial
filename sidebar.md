@@ -1,4 +1,4 @@
-# [ECMAScript 6 入门]()
+# ECMAScript 6 入门
 
 作者：[阮一峰](http://www.ruanyifeng.com)
 
@@ -36,6 +36,7 @@
 1. [参考链接](#docs/reference)
 
 ## 其他
+
 - [源码](http://github.com/ruanyf/es6tutorial/)
 - [修订历史](https://github.com/ruanyf/es6tutorial/commits/gh-pages)
 - [反馈意见](https://github.com/ruanyf/es6tutorial/issues)
