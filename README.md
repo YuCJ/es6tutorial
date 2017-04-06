@@ -1,5 +1,9 @@
 # ECMAScript 6 入門
 
+### 作者：阮一峰
+
+（簡轉繁 with [OpenCC](https://github.com/BYVoid/OpenCC)）
+
 《ECMAScript 6 入門》是一本開源的 JavaScript 語言教程，全面介紹 ECMAScript 6 新引入的語法特性。
 
 [![cover](images/cover_thumbnail.jpg)](images/cover-2nd.jpg)
