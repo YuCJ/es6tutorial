@@ -1,4 +1,4 @@
-# 陣列的擴充套件
+# 陣列的擴展
 
 ## Array.from()
 
@@ -58,7 +58,7 @@ Array.from([1, 2, 3])
 // [1, 2, 3]
 ```
 
-值得提醒的是，擴充套件運算子（`...`）也可以將某些資料結構轉為陣列。
+值得提醒的是，展開運算子（`...`）也可以將某些資料結構轉為陣列。
 
 ```javascript
 // arguments物件
@@ -70,14 +70,14 @@ function foo() {
 [...document.querySelectorAll('div')]
 ```
 
-擴充套件運算子背後呼叫的是遍歷器介面（`Symbol.iterator`），如果一個物件沒有部署這個介面，就無法轉換。`Array.from`方法則是還支援類似陣列的物件。所謂類似陣列的物件，本質特徵只有一點，即必須有`length`屬性。因此，任何有`length`屬性的物件，都可以通過`Array.from`方法轉為陣列，而此時擴充套件運算子就無法轉換。
+展開運算子背後呼叫的是遍歷器介面（`Symbol.iterator`），如果一個物件沒有部署這個介面，就無法轉換。`Array.from`方法則是還支援類似陣列的物件。所謂類似陣列的物件，本質特徵只有一點，即必須有`length`屬性。因此，任何有`length`屬性的物件，都可以通過`Array.from`方法轉為陣列，而此時展開運算子就無法轉換。
 
 ```javascript
 Array.from({ length: 3 });
 // [ undefined, undefined, undefined ]
 ```
 
-上面程式碼中，`Array.from`返回了一個具有三個成員的陣列，每個位置的值都是`undefined`。擴充套件運算子轉換不了這個物件。
+上面程式碼中，`Array.from`返回了一個具有三個成員的陣列，每個位置的值都是`undefined`。展開運算子轉換不了這個物件。
 
 對於還沒有部署該方法的瀏覽器，可以用`Array.prototype.slice`方法替代。
 
@@ -444,7 +444,7 @@ Array.from(['a',,'b'])
 // [ "a", undefined, "b" ]
 ```
 
-擴充套件運算子（`...`）也會將空位轉為`undefined`。
+展開運算子（`...`）也會將空位轉為`undefined`。
 
 ```javascript
 [...['a',,'b']]

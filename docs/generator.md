@@ -394,7 +394,7 @@ for (let [key, value] of jane) {
 // last: Doe
 ```
 
-除了`for...of`迴圈以外，擴充套件運算子（`...`）、解構賦值和`Array.from`方法內部呼叫的，都是遍歷器介面。這意味著，它們都可以將Generator函式返回的Iterator物件，作為引數。
+除了`for...of`迴圈以外，展開運算子（`...`）、解構賦值和`Array.from`方法內部呼叫的，都是遍歷器介面。這意味著，它們都可以將Generator函式返回的Iterator物件，作為引數。
 
 ```javascript
 function* numbers () {
@@ -404,7 +404,7 @@ function* numbers () {
   yield 4
 }
 
-// 擴充套件運算子
+// 展開運算子
 [...numbers()] // [1, 2]
 
 // Array.from 方法
@@ -925,7 +925,7 @@ function* logReturned(genObj) {
 // 值為 [ 'a', 'b' ]
 ```
 
-上面程式碼中，存在兩次遍歷。第一次是擴充套件運算子遍歷函式`logReturned`返回的遍歷器物件，第二次是`yield*`語句遍歷函式`genFuncWithReturn`返回的遍歷器物件。這兩次遍歷的效果是疊加的，最終表現為擴充套件運算子遍歷函式`genFuncWithReturn`返回的遍歷器物件。所以，最後的資料表示式得到的值等於`[ 'a', 'b' ]`。但是，函式`genFuncWithReturn`的`return`語句的返回值`The result`，會返回給函式`logReturned`內部的`result`變數，因此會有終端輸出。
+上面程式碼中，存在兩次遍歷。第一次是展開運算子遍歷函式`logReturned`返回的遍歷器物件，第二次是`yield*`語句遍歷函式`genFuncWithReturn`返回的遍歷器物件。這兩次遍歷的效果是疊加的，最終表現為展開運算子遍歷函式`genFuncWithReturn`返回的遍歷器物件。所以，最後的資料表示式得到的值等於`[ 'a', 'b' ]`。但是，函式`genFuncWithReturn`的`return`語句的返回值`The result`，會返回給函式`logReturned`內部的`result`變數，因此會有終端輸出。
 
 `yield*`命令可以很方便地取出巢狀陣列的所有成員。
 

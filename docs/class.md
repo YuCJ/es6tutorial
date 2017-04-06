@@ -631,7 +631,7 @@ Object.setPrototypeOf(B, A);
 const b = new B();
 ```
 
-《物件的擴充套件》一章給出過`Object.setPrototypeOf`方法的實現。
+《物件的擴展》一章給出過`Object.setPrototypeOf`方法的實現。
 
 ```javascript
 Object.setPrototypeOf = function (obj, proto) {

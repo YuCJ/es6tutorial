@@ -1,4 +1,4 @@
-# 物件的擴充套件
+# 物件的擴展
 
 ## 屬性的簡潔表示法
 
@@ -989,9 +989,9 @@ function entries(obj) {
 }
 ```
 
-## 物件的擴充套件運算子
+## 物件的展開運算子
 
-《陣列的擴充套件》一章中，已經介紹過擴充套件運算子（`...`）。
+《陣列的擴展》一章中，已經介紹過展開運算子（`...`）。
 
 ```javascript
 const [a, ...b] = [1, 2, 3];
@@ -1067,7 +1067,7 @@ z // 3
 
 上面程式碼中，變數`x`是單純的解構賦值，所以可以讀取繼承的屬性；解構賦值產生的變數`y`和`z`，只能讀取物件自身的屬性，所以只有變數`z`可以賦值成功。
 
-解構賦值的一個用處，是擴充套件某個函式的引數，引入其他操作。
+解構賦值的一個用處，是擴展某個函式的引數，引入其他操作。
 
 ```javascript
 function baseFunction({ a, b }) {
@@ -1080,11 +1080,11 @@ function wrapperFunction({ x, y, ...restConfig }) {
 }
 ```
 
-上面程式碼中，原始函式`baseFunction`接受`a`和`b`作為引數，函式`wrapperFunction`在`baseFunction`的基礎上進行了擴充套件，能夠接受多餘的引數，並且保留原始函式的行為。
+上面程式碼中，原始函式`baseFunction`接受`a`和`b`作為引數，函式`wrapperFunction`在`baseFunction`的基礎上進行了擴展，能夠接受多餘的引數，並且保留原始函式的行為。
 
-**（2）擴充套件運算子**
+**（2）展開運算子**
 
-擴充套件運算子（`...`）用於取出引數物件的所有可遍歷屬性，拷貝到當前物件之中。
+展開運算子（`...`）用於取出引數物件的所有可遍歷屬性，拷貝到當前物件之中。
 
 ```javascript
 let z = { a: 3, b: 4 };
@@ -1100,7 +1100,7 @@ let aClone = { ...a };
 let aClone = Object.assign({}, a);
 ```
 
-擴充套件運算子可以用於合併兩個物件。
+展開運算子可以用於合併兩個物件。
 
 ```javascript
 let ab = { ...a, ...b };
@@ -1108,7 +1108,7 @@ let ab = { ...a, ...b };
 let ab = Object.assign({}, a, b);
 ```
 
-如果使用者自定義的屬性，放在擴充套件運算子後面，則擴充套件運算子內部的同名屬性會被覆蓋掉。
+如果使用者自定義的屬性，放在展開運算子後面，則展開運算子內部的同名屬性會被覆蓋掉。
 
 ```javascript
 let aWithOverrides = { ...a, x: 1, y: 2 };
@@ -1133,7 +1133,7 @@ let newVersion = {
 
 上面程式碼中，`newVersion`物件自定義了`name`屬性，其他屬性全部複製自`previousVersion`物件。
 
-如果把自定義屬性放在擴充套件運算子前面，就變成了設定新物件的預設屬性值。
+如果把自定義屬性放在展開運算子前面，就變成了設定新物件的預設屬性值。
 
 ```javascript
 let aWithDefaults = { x: 1, y: 2, ...a };
@@ -1143,7 +1143,7 @@ let aWithDefaults = Object.assign({}, { x: 1, y: 2 }, a);
 let aWithDefaults = Object.assign({ x: 1, y: 2 }, a);
 ```
 
-擴充套件運算子的引數物件之中，如果有取值函式`get`，這個函式是會執行的。
+展開運算子的引數物件之中，如果有取值函式`get`，這個函式是會執行的。
 
 ```javascript
 // 並不會丟擲錯誤，因為x屬性只是被定義，但沒執行
@@ -1165,7 +1165,7 @@ let runtimeError = {
 };
 ```
 
-如果擴充套件運算子的引數是`null`或`undefined`，這個兩個值會被忽略，不會報錯。
+如果展開運算子的引數是`null`或`undefined`，這個兩個值會被忽略，不會報錯。
 
 ```javascript
 let emptyObject = { ...null, ...undefined }; // 不報錯

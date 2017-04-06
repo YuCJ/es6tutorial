@@ -484,7 +484,7 @@ var proxy = new Proxy(target, handler);
 
 上面程式碼中，如果原物件的屬性名的第一個字元是下劃線，`proxy.has`就會返回`false`，從而不會被`in`運算子發現。
 
-如果原物件不可配置或者禁止擴充套件，這時`has`攔截會報錯。
+如果原物件不可配置或者禁止擴展，這時`has`攔截會報錯。
 
 ```javascript
 var obj = { a: 10 };
@@ -499,7 +499,7 @@ var p = new Proxy(obj, {
 'a' in p // TypeError is thrown
 ```
 
-上面程式碼中，`obj`物件禁止擴充套件，結果使用`has`攔截就會報錯。也就是說，如果某個屬性不可配置（或者目標物件不可擴充套件），則`has`方法就不得“隱藏”（即返回`false`）目標物件的該屬性。
+上面程式碼中，`obj`物件禁止擴展，結果使用`has`攔截就會報錯。也就是說，如果某個屬性不可配置（或者目標物件不可擴展），則`has`方法就不得“隱藏”（即返回`false`）目標物件的該屬性。
 
 值得注意的是，`has`方法攔截的是`HasProperty`操作，而不是`HasOwnProperty`操作，即`has`方法不判斷一個屬性是物件自身的屬性，還是繼承的屬性。
 
@@ -633,7 +633,7 @@ proxy.foo = 'bar'
 
 上面程式碼中，`defineProperty`方法返回`false`，導致新增新屬性會丟擲錯誤。
 
-注意，如果目標物件不可擴充套件（extensible），則`defineProperty`不能增加目標物件上不存在的屬性，否則會報錯。另外，如果目標物件的某個屬性不可寫（writable）或不可配置（configurable），則`defineProperty`方法不得改變這兩個設定。
+注意，如果目標物件不可擴展（extensible），則`defineProperty`不能增加目標物件上不存在的屬性，否則會報錯。另外，如果目標物件的某個屬性不可寫（writable）或不可配置（configurable），則`defineProperty`方法不得改變這兩個設定。
 
 ### getOwnPropertyDescriptor()
 
@@ -684,7 +684,7 @@ Object.getPrototypeOf(p) === proto // true
 
 上面程式碼中，`getPrototypeOf`方法攔截`Object.getPrototypeOf()`，返回`proto`物件。
 
-注意，`getPrototypeOf`方法的返回值必須是物件或者`null`，否則報錯。另外，如果目標物件不可擴充套件（extensible）， `getPrototypeOf`方法必須返回目標物件的原型物件。
+注意，`getPrototypeOf`方法的返回值必須是物件或者`null`，否則報錯。另外，如果目標物件不可擴展（extensible）， `getPrototypeOf`方法必須返回目標物件的原型物件。
 
 ### isExtensible()
 
@@ -865,7 +865,7 @@ Object.getOwnPropertyNames(p)
 
 上面程式碼中，`obj`物件的`a`屬性是不可配置的，這時`ownKeys`方法返回的陣列之中，必須包含`a`，否則會報錯。
 
-另外，如果目標物件是不可擴充套件的（non-extensition），這時`ownKeys`方法返回的陣列之中，必須包含原物件的所有屬性，且不能包含多餘的屬性，否則報錯。
+另外，如果目標物件是不可擴展的（non-extensition），這時`ownKeys`方法返回的陣列之中，必須包含原物件的所有屬性，且不能包含多餘的屬性，否則報錯。
 
 ```javascript
 var obj = {
@@ -884,13 +884,13 @@ Object.getOwnPropertyNames(p)
 // Uncaught TypeError: 'ownKeys' on proxy: trap returned extra keys but proxy target is non-extensible
 ```
 
-上面程式碼中，`Obj`物件是不可擴充套件的，這時`ownKeys`方法返回的陣列之中，包含了`obj`物件的多餘屬性`b`，所以導致了報錯。
+上面程式碼中，`Obj`物件是不可擴展的，這時`ownKeys`方法返回的陣列之中，包含了`obj`物件的多餘屬性`b`，所以導致了報錯。
 
 ### preventExtensions()
 
 `preventExtensions`方法攔截`Object.preventExtensions()`。該方法必須返回一個布林值，否則會被自動轉為布林值。
 
-這個方法有一個限制，只有目標物件不可擴充套件時（即`Object.isExtensible(proxy)`為`false`），`proxy.preventExtensions`才能返回`true`，否則會報錯。
+這個方法有一個限制，只有目標物件不可擴展時（即`Object.isExtensible(proxy)`為`false`），`proxy.preventExtensions`才能返回`true`，否則會報錯。
 
 ```javascript
 var p = new Proxy({}, {
@@ -941,7 +941,7 @@ Object.setPrototypeOf(proxy, proto);
 
 上面程式碼中，只要修改`target`的原型物件，就會報錯。
 
-注意，該方法只能返回布林值，否則會被自動轉為布林值。另外，如果目標物件不可擴充套件（extensible），`setPrototypeOf`方法不得改變目標物件的原型。
+注意，該方法只能返回布林值，否則會被自動轉為布林值。另外，如果目標物件不可擴展（extensible），`setPrototypeOf`方法不得改變目標物件的原型。
 
 ## Proxy.revocable()
 

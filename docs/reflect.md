@@ -388,7 +388,7 @@ var theDescriptor = Reflect.getOwnPropertyDescriptor(myObject, 'hidden');
 
 ### Reflect.isExtensible (target)
 
-`Reflect.isExtensible`方法對應`Object.isExtensible`，返回一個布林值，表示當前物件是否可擴充套件。
+`Reflect.isExtensible`方法對應`Object.isExtensible`，返回一個布林值，表示當前物件是否可擴展。
 
 ```javascript
 const myObject = {};
@@ -400,7 +400,7 @@ Object.isExtensible(myObject) // true
 Reflect.isExtensible(myObject) // true
 ```
 
-如果引數不是物件，`Object.isExtensible`會返回`false`，因為非物件本來就是不可擴充套件的，而`Reflect.isExtensible`會報錯。
+如果引數不是物件，`Object.isExtensible`會返回`false`，因為非物件本來就是不可擴展的，而`Reflect.isExtensible`會報錯。
 
 ```javascript
 Object.isExtensible(1) // false
@@ -409,7 +409,7 @@ Reflect.isExtensible(1) // 報錯
 
 ### Reflect.preventExtensions(target)
 
-`Reflect.preventExtensions`對應`Object.preventExtensions`方法，用於讓一個物件變為不可擴充套件。它返回一個布林值，表示是否操作成功。
+`Reflect.preventExtensions`對應`Object.preventExtensions`方法，用於讓一個物件變為不可擴展。它返回一個布林值，表示是否操作成功。
 
 ```javascript
 var myObject = {};
