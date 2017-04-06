@@ -925,7 +925,7 @@ reader.addEventListener("load", processimage, false);
 reader.readAsArrayBuffer(file);
 ```
 
-然後，定義處理影象的回撥函式：先在二進位制資料之上建立一個`DataView`檢視，再建立一個`bitmap`物件，用於存放處理後的資料，最後將影象展示在`Canvas`元素之中。
+然後，定義處理影象的回呼函式：先在二進位制資料之上建立一個`DataView`檢視，再建立一個`bitmap`物件，用於存放處理後的資料，最後將影象展示在`Canvas`元素之中。
 
 ```javascript
 function processimage(e) {

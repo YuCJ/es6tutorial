@@ -177,7 +177,7 @@ a2.map(n => 1) // [, , ,]
 >     d. 如果`kPresent`等於`true`，則進行下面步驟  
 >     d-1. 設定`kValue`等於`Get(O, Pk)`，取出當前陣列的指定屬性  
 >     d-2. 如果報錯就返回  
->     d-3. 設定`mappedValue`等於`Call(callbackfn, T, «kValue, k, O»)`，即執行回撥函式  
+>     d-3. 設定`mappedValue`等於`Call(callbackfn, T, «kValue, k, O»)`，即執行回呼函式  
 >     d-4. 如果報錯就返回  
 >     d-5. 設定`status`等於`CreateDataPropertyOrThrow (A, Pk, mappedValue)`，即將回調函式的值放入`A`陣列的指定位置  
 >     d-6. 如果報錯就返回  
@@ -194,7 +194,7 @@ arr.map(n => {
 }) // [, , ,]
 ```
 
-上面程式碼中，`arr`是一個全是空位的陣列，`map`方法遍歷成員時，發現是空位，就直接跳過，不會進入回撥函式。因此，回撥函式裡面的`console.log`語句根本不會執行，整個`map`方法返回一個全是空位的新陣列。
+上面程式碼中，`arr`是一個全是空位的陣列，`map`方法遍歷成員時，發現是空位，就直接跳過，不會進入回呼函式。因此，回呼函式裡面的`console.log`語句根本不會執行，整個`map`方法返回一個全是空位的新陣列。
 
 V8引擎對`map`方法的[實現](https://github.com/v8/v8/blob/44c44521ae11859478b42004f57ea93df52526ee/src/js/array.js#L1347)如下，可以看到跟規格的演算法描述完全一致。
 

@@ -802,5 +802,5 @@ System.import('app/es6-file').then(function(m) {
 </script>
 ```
 
-上面程式碼中，`System.import`方法返回的是一個 Promise 物件，所以可以用`then`方法指定回撥函式。
+上面程式碼中，`System.import`方法返回的是一個 Promise 物件，所以可以用`then`方法指定回呼函式。
 

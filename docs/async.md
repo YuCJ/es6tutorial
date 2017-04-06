@@ -165,7 +165,7 @@ const foo = async () => {};
 
 `async`函式返回一個 Promise 物件。
 
-`async`函式內部`return`語句返回的值，會成為`then`方法回撥函式的引數。
+`async`函式內部`return`語句返回的值，會成為`then`方法回呼函式的引數。
 
 ```javascript
 async function f() {
@@ -176,9 +176,9 @@ f().then(v => console.log(v))
 // "hello world"
 ```
 
-上面程式碼中，函式`f`內部`return`命令返回的值，會被`then`方法回撥函式接收到。
+上面程式碼中，函式`f`內部`return`命令返回的值，會被`then`方法回呼函式接收到。
 
-`async`函式內部丟擲錯誤，會導致返回的 Promise 物件變為`reject`狀態。丟擲的錯誤物件會被`catch`方法回撥函式接收到。
+`async`函式內部丟擲錯誤，會導致返回的 Promise 物件變為`reject`狀態。丟擲的錯誤物件會被`catch`方法回呼函式接收到。
 
 ```javascript
 async function f() {
@@ -194,7 +194,7 @@ f().then(
 
 ### Promise 物件的狀態變化
 
-`async`函式返回的 Promise 物件，必須等到內部所有`await`命令後面的 Promise 物件執行完，才會發生狀態改變，除非遇到`return`語句或者丟擲錯誤。也就是說，只有`async`函式內部的非同步操作執行完，才會執行`then`方法指定的回撥函式。
+`async`函式返回的 Promise 物件，必須等到內部所有`await`命令後面的 Promise 物件執行完，才會發生狀態改變，除非遇到`return`語句或者丟擲錯誤。也就是說，只有`async`函式內部的非同步操作執行完，才會執行`then`方法指定的回呼函式。
 
 下面是一個例子。
 
@@ -225,7 +225,7 @@ f().then(v => console.log(v))
 
 上面程式碼中，`await`命令的引數是數值`123`，它被轉成 Promise 物件，並立即`resolve`。
 
-`await`命令後面的 Promise 物件如果變為`reject`狀態，則`reject`的引數會被`catch`方法的回撥函式接收到。
+`await`命令後面的 Promise 物件如果變為`reject`狀態，則`reject`的引數會被`catch`方法的回呼函式接收到。
 
 ```javascript
 async function f() {
@@ -238,7 +238,7 @@ f()
 // 出錯了
 ```
 
-注意，上面程式碼中，`await`語句前面沒有`return`，但是`reject`方法的引數依然傳入了`catch`方法的回撥函式。這裡如果在`await`前面加上`return`，效果是一樣的。
+注意，上面程式碼中，`await`語句前面沒有`return`，但是`reject`方法的引數依然傳入了`catch`方法的回呼函式。這裡如果在`await`前面加上`return`，效果是一樣的。
 
 只要一個`await`語句後面的 Promise 變為`reject`，那麼整個`async`函式都會中斷執行。
 
@@ -299,7 +299,7 @@ f()
 // Error：出錯了
 ```
 
-上面程式碼中，`async`函式`f`執行後，`await`後面的 Promise 物件會丟擲一個錯誤物件，導致`catch`方法的回撥函式被呼叫，它的引數就是丟擲的錯誤物件。具體的執行機制，可以參考後文的“async 函式的實現原理”。
+上面程式碼中，`async`函式`f`執行後，`await`後面的 Promise 物件會丟擲一個錯誤物件，導致`catch`方法的回呼函式被呼叫，它的引數就是丟擲的錯誤物件。具體的執行機制，可以參考後文的“async 函式的實現原理”。
 
 防止出錯的方法，也是將其放在`try...catch`程式碼塊之中。
 
@@ -543,7 +543,7 @@ function chainAnimationsPromise(elem, animations) {
 }
 ```
 
-雖然 Promise 的寫法比回撥函式的寫法大大改進，但是一眼看上去，程式碼完全都是 Promise 的 API（`then`、`catch`等等），操作本身的語義反而不容易看出來。
+雖然 Promise 的寫法比回呼函式的寫法大大改進，但是一眼看上去，程式碼完全都是 Promise 的 API（`then`、`catch`等等），操作本身的語義反而不容易看出來。
 
 接著是 Generator 函式的寫法。
 
@@ -658,7 +658,7 @@ asyncIterator
   );
 ```
 
-上面程式碼中，`asyncIterator`是一個非同步遍歷器，呼叫`next`方法以後，返回一個 Promise 物件。因此，可以使用`then`方法指定，這個 Promise 物件的狀態變為`resolve`以後的回撥函式。回撥函式的引數，則是一個具有`value`和`done`兩個屬性的物件，這個跟同步遍歷器是一樣的。
+上面程式碼中，`asyncIterator`是一個非同步遍歷器，呼叫`next`方法以後，返回一個 Promise 物件。因此，可以使用`then`方法指定，這個 Promise 物件的狀態變為`resolve`以後的回呼函式。回呼函式的引數，則是一個具有`value`和`done`兩個屬性的物件，這個跟同步遍歷器是一樣的。
 
 我們知道，一個物件的同步遍歷器的介面，部署在`Symbol.iterator`屬性上面。同樣地，物件的非同步遍歷器介面，部署在`Symbol.asyncIterator`屬性上面。不管是什麼樣的物件，只要它的`Symbol.asyncIterator`屬性有值，就表示應該對它進行非同步遍歷。
 
