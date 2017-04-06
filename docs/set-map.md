@@ -66,7 +66,7 @@ set.add(b);
 set // Set {NaN}
 ```
 
-上面程式碼向Set例項添加了兩個`NaN`，但是隻能加入一個。這表明，在Set內部，兩個`NaN`是相等。
+上面程式碼向Set實例添加了兩個`NaN`，但是隻能加入一個。這表明，在Set內部，兩個`NaN`是相等。
 
 另外，兩個物件總是不相等的。
 
@@ -82,21 +82,21 @@ set.size // 2
 
 上面程式碼表示，由於兩個空物件不相等，所以它們被視為兩個值。
 
-### Set例項的屬性和方法
+### Set實例的屬性和方法
 
-Set結構的例項有以下屬性。
+Set結構的實例有以下屬性。
 
 - `Set.prototype.constructor`：建構函式，預設就是`Set`函式。
-- `Set.prototype.size`：返回`Set`例項的成員總數。
+- `Set.prototype.size`：返回`Set`實例的成員總數。
 
-Set例項的方法分為兩大類：操作方法（用於操作資料）和遍歷方法（用於遍歷成員）。下面先介紹四個操作方法。
+Set實例的方法分為兩大類：操作方法（用於操作資料）和遍歷方法（用於遍歷成員）。下面先介紹四個操作方法。
 
 - `add(value)`：新增某個值，返回Set結構本身。
 - `delete(value)`：刪除某個值，返回一個布林值，表示刪除是否成功。
 - `has(value)`：返回一個布林值，表示該值是否為`Set`的成員。
 - `clear()`：清除所有成員，沒有返回值。
 
-上面這些屬性和方法的例項如下。
+上面這些屬性和方法的實例如下。
 
 ```javascript
 s.add(1).add(2).add(2);
@@ -155,7 +155,7 @@ dedupe([1, 1, 2, 3]) // [1, 2, 3]
 
 ### 遍歷操作
 
-Set結構的例項有四個遍歷方法，可以用於遍歷成員。
+Set結構的實例有四個遍歷方法，可以用於遍歷成員。
 
 - `keys()`：返回鍵名的遍歷器
 - `values()`：返回鍵值的遍歷器
@@ -195,7 +195,7 @@ for (let item of set.entries()) {
 
 上面程式碼中，`entries`方法返回的遍歷器，同時包括鍵名和鍵值，所以每次輸出一個數組，它的兩個成員完全相等。
 
-Set結構的例項預設可遍歷，它的預設遍歷器生成函式就是它的`values`方法。
+Set結構的實例預設可遍歷，它的預設遍歷器生成函式就是它的`values`方法。
 
 ```javascript
 Set.prototype[Symbol.iterator] === Set.prototype.values
@@ -217,7 +217,7 @@ for (let x of set) {
 
 **（2）`forEach()`**
 
-Set結構的例項的`forEach`方法，用於對每個成員執行某種操作，沒有返回值。
+Set結構的實例的`forEach`方法，用於對每個成員執行某種操作，沒有返回值。
 
 ```javascript
 let set = new Set([1, 2, 3]);
@@ -318,7 +318,7 @@ WeakSet是一個建構函式，可以使用`new`命令，建立WeakSet資料結�
 var ws = new WeakSet();
 ```
 
-作為建構函式，WeakSet可以接受一個數組或類似陣列的物件作為引數。（實際上，任何具有iterable介面的物件，都可以作為WeakSet的引數。）該陣列的所有成員，都會自動成為WeakSet例項物件的成員。
+作為建構函式，WeakSet可以接受一個數組或類似陣列的物件作為引數。（實際上，任何具有iterable介面的物件，都可以作為WeakSet的引數。）該陣列的所有成員，都會自動成為WeakSet實例物件的成員。
 
 ```javascript
 var a = [[1,2], [3,4]];
@@ -339,9 +339,9 @@ var ws = new WeakSet(b);
 
 WeakSet結構有以下三個方法。
 
-- **WeakSet.prototype.add(value)**：向WeakSet例項新增一個新成員。
-- **WeakSet.prototype.delete(value)**：清除WeakSet例項的指定成員。
-- **WeakSet.prototype.has(value)**：返回一個布林值，表示某個值是否在WeakSet例項之中。
+- **WeakSet.prototype.add(value)**：向WeakSet實例新增一個新成員。
+- **WeakSet.prototype.delete(value)**：清除WeakSet實例的指定成員。
+- **WeakSet.prototype.has(value)**：返回一個布林值，表示某個值是否在WeakSet實例之中。
 
 下面是一個例子。
 
@@ -384,13 +384,13 @@ class Foo {
   }
   method () {
     if (!foos.has(this)) {
-      throw new TypeError('Foo.prototype.method 只能在Foo的例項上呼叫！');
+      throw new TypeError('Foo.prototype.method 只能在Foo的實例上呼叫！');
     }
   }
 }
 ```
 
-上面程式碼保證了`Foo`的例項方法，只能在`Foo`的例項上呼叫。這裡使用WeakSet的好處是，`foos`對例項的引用，不會被計入記憶體回收機制，所以刪除例項的時候，不用考慮`foos`，也不會出現記憶體洩漏。
+上面程式碼保證了`Foo`的實例方法，只能在`Foo`的實例上呼叫。這裡使用WeakSet的好處是，`foos`對實例的引用，不會被計入記憶體回收機制，所以刪除實例的時候，不用考慮`foos`，也不會出現記憶體洩漏。
 
 ## Map
 
@@ -439,7 +439,7 @@ map.has('title') // true
 map.get('title') // "Author"
 ```
 
-上面程式碼在新建Map例項時，就指定了兩個鍵`name`和`title`。
+上面程式碼在新建Map實例時，就指定了兩個鍵`name`和`title`。
 
 Map建構函式接受陣列作為引數，實際上執行的是下面的演算法。
 
@@ -496,7 +496,7 @@ map.get(['a']) // undefined
 
 上面程式碼的`set`和`get`方法，表面是針對同一個鍵，但實際上這是兩個值，記憶體地址是不一樣的，因此`get`方法無法讀取該鍵，返回`undefined`。
 
-同理，同樣的值的兩個例項，在Map結構中被視為兩個鍵。
+同理，同樣的值的兩個實例，在Map結構中被視為兩個鍵。
 
 ```javascript
 var map = new Map();
@@ -528,9 +528,9 @@ map.set(-0, 123);
 map.get(+0) // 123
 ```
 
-### 例項的屬性和操作方法
+### 實例的屬性和操作方法
 
-Map結構的例項有以下屬性和操作方法。
+Map結構的實例有以下屬性和操作方法。
 
 **（1）size屬性**
 
@@ -632,7 +632,7 @@ Map原生提供三個遍歷器生成函式和一個遍歷方法。
 
 需要特別注意的是，Map的遍歷順序就是插入順序。
 
-下面是使用例項。
+下面是使用實例。
 
 ```javascript
 let map = new Map([
@@ -875,7 +875,7 @@ element = null;
 wm.get(element) // undefined
 ```
 
-上面程式碼中，變數`wm`是一個`WeakMap`例項，我們將一個`DOM`節點`element`作為鍵名，然後銷燬這個節點，`element`對應的鍵就自動消失了，再引用這個鍵名就返回`undefined`。
+上面程式碼中，變數`wm`是一個`WeakMap`實例，我們將一個`DOM`節點`element`作為鍵名，然後銷燬這個節點，`element`對應的鍵就自動消失了，再引用這個鍵名就返回`undefined`。
 
 WeakMap與Map在API上的區別主要是兩個，一是沒有遍歷操作（即沒有`key()`、`values()`和`entries()`方法），也沒有`size`屬性；二是無法清空，即不支援`clear`方法。這與`WeakMap`的鍵不被計入引用、被垃圾回收機制忽略有關。因此，`WeakMap`只有四個方法可用：`get()`、`set()`、`has()`、`delete()`。
 
@@ -934,4 +934,4 @@ c.dec()
 // DONE
 ```
 
-上面程式碼中，Countdown類的兩個內部屬性`_counter`和`_action`，是例項的弱引用，所以如果刪除例項，它們也就隨之消失，不會造成記憶體洩漏。
+上面程式碼中，Countdown類的兩個內部屬性`_counter`和`_action`，是實例的弱引用，所以如果刪除實例，它們也就隨之消失，不會造成記憶體洩漏。

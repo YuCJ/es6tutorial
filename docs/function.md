@@ -834,7 +834,7 @@ bar.name // "baz"
 bar.name // "baz"
 ```
 
-`Function`建構函式返回的函式例項，`name`屬性的值為`anonymous`。
+`Function`建構函式返回的函式實例，`name`屬性的值為`anonymous`。
 
 ```javascript
 (new Function).name // "anonymous"

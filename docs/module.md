@@ -268,7 +268,7 @@ import { bar } from 'my_module';
 import { foo, bar } from 'my_module';
 ```
 
-上面程式碼中，雖然`foo`和`bar`在兩個語句中載入，但是它們對應的是同一個`my_module`例項。也就是說，`import`語句是 Singleton 模式。
+上面程式碼中，雖然`foo`和`bar`在兩個語句中載入，但是它們對應的是同一個`my_module`實例。也就是說，`import`語句是 Singleton 模式。
 
 ## 模組的整體載入
 

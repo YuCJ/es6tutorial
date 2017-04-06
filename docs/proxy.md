@@ -32,13 +32,13 @@ obj.count = 1
 
 上面程式碼說明，Proxy 實際上過載（overload）了點運算子，即用自己的定義覆蓋了語言的原始定義。
 
-ES6 原生提供 Proxy 建構函式，用來生成 Proxy 例項。
+ES6 原生提供 Proxy 建構函式，用來生成 Proxy 實例。
 
 ```javascript
 var proxy = new Proxy(target, handler);
 ```
 
-Proxy 物件的所有用法，都是上面這種形式，不同的只是`handler`引數的寫法。其中，`new Proxy()`表示生成一個`Proxy`例項，`target`引數表示所要攔截的目標物件，`handler`引數也是一個物件，用來定製攔截行為。
+Proxy 物件的所有用法，都是上面這種形式，不同的只是`handler`引數的寫法。其中，`new Proxy()`表示生成一個`Proxy`實例，`target`引數表示所要攔截的目標物件，`handler`引數也是一個物件，用來定製攔截行為。
 
 下面是另一個攔截讀取屬性行為的例子。
 
@@ -56,7 +56,7 @@ proxy.title // 35
 
 上面程式碼中，作為建構函式，`Proxy`接受兩個引數。第一個引數是所要代理的目標物件（上例是一個空物件），即如果沒有`Proxy`的介入，操作原來要訪問的就是這個物件；第二個引數是一個配置物件，對於每一個被代理的操作，需要提供一個對應的處理函式，該函式將攔截對應的操作。比如，上面程式碼中，配置物件有一個`get`方法，用來攔截對目標物件屬性的訪問請求。`get`方法的兩個引數分別是目標物件和所要訪問的屬性。可以看到，由於攔截函式總是返回`35`，所以訪問任何屬性都得到`35`。
 
-注意，要使得`Proxy`起作用，必須針對`Proxy`例項（上例是`proxy`物件）進行操作，而不是針對目標物件（上例是空物件）進行操作。
+注意，要使得`Proxy`起作用，必須針對`Proxy`實例（上例是`proxy`物件）進行操作，而不是針對目標物件（上例是空物件）進行操作。
 
 如果`handler`沒有設定任何攔截，那就等同於直接通向原物件。
 
@@ -76,7 +76,7 @@ target.a // "b"
 var object = { proxy: new Proxy(target, handler) };
 ```
 
-Proxy 例項也可以作為其他物件的原型物件。
+Proxy 實例也可以作為其他物件的原型物件。
 
 ```javascript
 var proxy = new Proxy({}, {
@@ -175,13 +175,13 @@ fproxy.foo // "Hello, foo"
 
 **（12）apply(target, object, args)**
 
-攔截 Proxy 例項作為函式呼叫的操作，比如`proxy(...args)`、`proxy.call(object, ...args)`、`proxy.apply(...)`。
+攔截 Proxy 實例作為函式呼叫的操作，比如`proxy(...args)`、`proxy.call(object, ...args)`、`proxy.apply(...)`。
 
 **（13）construct(target, args)**
 
-攔截 Proxy 例項作為建構函式呼叫的操作，比如`new proxy(...args)`。
+攔截 Proxy 實例作為建構函式呼叫的操作，比如`new proxy(...args)`。
 
-## Proxy 例項的方法
+## Proxy 實例的方法
 
 下面是上面這些攔截方法的詳細介紹。
 
@@ -435,7 +435,7 @@ p()
 // "I am the proxy"
 ```
 
-上面程式碼中，變數`p`是 Proxy 的例項，當它作為函式呼叫時（`p()`），就會被`apply`方法攔截，返回一個字串。
+上面程式碼中，變數`p`是 Proxy 的實例，當它作為函式呼叫時（`p()`），就會被`apply`方法攔截，返回一個字串。
 
 下面是另外一個例子。
 
@@ -945,7 +945,7 @@ Object.setPrototypeOf(proxy, proto);
 
 ## Proxy.revocable()
 
-`Proxy.revocable`方法返回一個可取消的 Proxy 例項。
+`Proxy.revocable`方法返回一個可取消的 Proxy 實例。
 
 ```javascript
 let target = {};
@@ -960,7 +960,7 @@ revoke();
 proxy.foo // TypeError: Revoked
 ```
 
-`Proxy.revocable`方法返回一個物件，該物件的`proxy`屬性是`Proxy`例項，`revoke`屬性是一個函式，可以取消`Proxy`例項。上面程式碼中，當執行`revoke`函式之後，再訪問`Proxy`例項，就會丟擲一個錯誤。
+`Proxy.revocable`方法返回一個物件，該物件的`proxy`屬性是`Proxy`實例，`revoke`屬性是一個函式，可以取消`Proxy`實例。上面程式碼中，當執行`revoke`函式之後，再訪問`Proxy`實例，就會丟擲一個錯誤。
 
 `Proxy.revocable`的一個使用場景是，目標物件不允許直接訪問，必須通過代理訪問，一旦訪問結束，就收回代理權，不允許再次訪問。
 
@@ -1018,7 +1018,7 @@ proxy.getDate();
 // TypeError: this is not a Date object.
 ```
 
-上面程式碼中，`getDate`方法只能在`Date`物件例項上面拿到，如果`this`不是`Date`物件例項就會報錯。這時，`this`繫結原始物件，就可以解決這個問題。
+上面程式碼中，`getDate`方法只能在`Date`物件實例上面拿到，如果`this`不是`Date`物件實例就會報錯。這時，`this`繫結原始物件，就可以解決這個問題。
 
 ```javascript
 const target = new Date('2015-01-01');
@@ -1035,7 +1035,7 @@ const proxy = new Proxy(target, handler);
 proxy.getDate() // 1
 ```
 
-## 例項：Web 服務的客戶端
+## 實例：Web 服務的客戶端
 
 Proxy 物件可以攔截目標物件的任意屬性，這使得它很合適用來寫 Web 服務的客戶端。
 

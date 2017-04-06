@@ -63,7 +63,7 @@ MyClass.isTestable // false
 
 上面程式碼中，修飾器`testable`可以接受引數，這就等於可以修改修飾器的行為。
 
-前面的例子是為類新增一個靜態屬性，如果想新增例項屬性，可以通過目標類的`prototype`物件操作。
+前面的例子是為類新增一個靜態屬性，如果想新增實例屬性，可以通過目標類的`prototype`物件操作。
 
 ```javascript
 function testable(target) {
@@ -77,7 +77,7 @@ let obj = new MyTestableClass();
 obj.isTestable // true
 ```
 
-上面程式碼中，修飾器函式`testable`是在目標類的`prototype`物件上新增屬性，因此就可以在例項上呼叫。
+上面程式碼中，修飾器函式`testable`是在目標類的`prototype`物件上新增屬性，因此就可以在實例上呼叫。
 
 下面是另外一個例子。
 
@@ -103,7 +103,7 @@ let obj = new MyClass();
 obj.foo() // 'foo'
 ```
 
-上面程式碼通過修飾器`mixins`，把`Foo`類的方法新增到了`MyClass`的例項上面。可以用`Object.assign()`模擬這個功能。
+上面程式碼通過修飾器`mixins`，把`Foo`類的方法新增到了`MyClass`的實例上面。可以用`Object.assign()`模擬這個功能。
 
 ```javascript
 const Foo = {
@@ -483,7 +483,7 @@ let obj = new MyClass();
 obj.foo() // 'foo'
 ```
 
-上面程式碼之中，物件`Foo`有一個`foo`方法，通過`Object.assign`方法，可以將`foo`方法“混入”`MyClass`類，導致`MyClass`的例項`obj`物件都具有`foo`方法。這就是“混入”模式的一個簡單實現。
+上面程式碼之中，物件`Foo`有一個`foo`方法，通過`Object.assign`方法，可以將`foo`方法“混入”`MyClass`類，導致`MyClass`的實例`obj`物件都具有`foo`方法。這就是“混入”模式的一個簡單實現。
 
 下面，我們部署一個通用指令碼`mixins.js`，將mixin寫成一個修飾器。
 

@@ -40,7 +40,7 @@ new RegExp(/abc/ig, 'i').flags
 
 字串物件共有4個方法，可以使用正則表示式：`match()`、`replace()`、`search()`和`split()`。
 
-ES6將這4個方法，在語言內部全部呼叫RegExp的例項方法，從而做到所有與正則相關的方法，全都定義在RegExp物件上。
+ES6將這4個方法，在語言內部全部呼叫RegExp的實例方法，從而做到所有與正則相關的方法，全都定義在RegExp物件上。
 
 - `String.prototype.match` 呼叫 `RegExp.prototype[Symbol.match]`
 - `String.prototype.replace` 呼叫 `RegExp.prototype[Symbol.replace]`

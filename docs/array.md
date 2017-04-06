@@ -185,9 +185,9 @@ function ArrayOf(){
 }
 ```
 
-## 陣列例項的copyWithin()
+## 陣列實例的copyWithin()
 
-陣列例項的`copyWithin`方法，在當前陣列內部，將指定位置的成員複製到其他位置（會覆蓋原有成員），然後返回當前陣列。也就是說，使用這個方法，會修改當前陣列。
+陣列實例的`copyWithin`方法，在當前陣列內部，將指定位置的成員複製到其他位置（會覆蓋原有成員），然後返回當前陣列。也就是說，使用這個方法，會修改當前陣列。
 
 ```javascript
 Array.prototype.copyWithin(target, start = 0, end = this.length)
@@ -234,9 +234,9 @@ i32a.copyWithin(0, 2);
 // Int32Array [4, 2, 3, 4, 5]
 ```
 
-## 陣列例項的find()和findIndex()
+## 陣列實例的find()和findIndex()
 
-陣列例項的`find`方法，用於找出第一個符合條件的陣列成員。它的引數是一個回撥函式，所有陣列成員依次執行該回調函式，直到找出第一個返回值為`true`的成員，然後返回該成員。如果沒有符合條件的成員，則返回`undefined`。
+陣列實例的`find`方法，用於找出第一個符合條件的陣列成員。它的引數是一個回撥函式，所有陣列成員依次執行該回調函式，直到找出第一個返回值為`true`的成員，然後返回該成員。如果沒有符合條件的成員，則返回`undefined`。
 
 ```javascript
 [1, 4, -5, 10].find((n) => n < 0)
@@ -253,7 +253,7 @@ i32a.copyWithin(0, 2);
 
 上面程式碼中，`find`方法的回撥函式可以接受三個引數，依次為當前的值、當前的位置和原陣列。
 
-陣列例項的`findIndex`方法的用法與`find`方法非常類似，返回第一個符合條件的陣列成員的位置，如果所有成員都不符合條件，則返回`-1`。
+陣列實例的`findIndex`方法的用法與`find`方法非常類似，返回第一個符合條件的陣列成員的位置，如果所有成員都不符合條件，則返回`-1`。
 
 ```javascript
 [1, 5, 10, 15].findIndex(function(value, index, arr) {
@@ -275,7 +275,7 @@ i32a.copyWithin(0, 2);
 
 上面程式碼中，`indexOf`方法無法識別陣列的`NaN`成員，但是`findIndex`方法可以藉助`Object.is`方法做到。
 
-## 陣列例項的fill()
+## 陣列實例的fill()
 
 `fill`方法使用給定值，填充一個數組。
 
@@ -298,7 +298,7 @@ new Array(3).fill(7)
 
 上面程式碼表示，`fill`方法從1號位開始，向原陣列填充7，到2號位之前結束。
 
-## 陣列例項的entries()，keys()和values()
+## 陣列實例的entries()，keys()和values()
 
 ES6提供三個新的方法——`entries()`，`keys()`和`values()`——用於遍歷陣列。它們都返回一個遍歷器物件（詳見《Iterator》一章），可以用`for...of`迴圈進行遍歷，唯一的區別是`keys()`是對鍵名的遍歷、`values()`是對鍵值的遍歷，`entries()`是對鍵值對的遍歷。
 
@@ -332,7 +332,7 @@ console.log(entries.next().value); // [1, 'b']
 console.log(entries.next().value); // [2, 'c']
 ```
 
-## 陣列例項的includes()
+## 陣列實例的includes()
 
 `Array.prototype.includes`方法返回一個布林值，表示某個陣列是否包含給定的值，與字串的`includes`方法類似。該方法屬於ES7，但Babel轉碼器已經支援。
 

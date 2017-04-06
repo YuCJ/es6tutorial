@@ -752,7 +752,7 @@ function* somethingAsync(x) {
 
 上面的程式碼允許併發三個`somethingAsync`非同步操作，等到它們全部完成，才會進行下一步。
 
-### 例項：處理 Stream
+### 實例：處理 Stream
 
 Node 提供 Stream 模式讀寫資料，特點是一次只處理資料的一部分，資料分成一塊塊依次處理，就好像“資料流”一樣。這對於處理大規模資料非常有利。Stream 模式使用 EventEmitter API，會釋放三個事件。
 

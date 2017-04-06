@@ -318,7 +318,7 @@ SIMD.Int32x4.load1(tarray, index)
 SIMD.Int32x4.load2(tarray, index)
 SIMD.Int32x4.load3(tarray, index)
 
-// 例項
+// 實例
 var a = new Int32Array([1,2,3,4,5,6,7,8]);
 SIMD.Int32x4.load1(a, 0);
 // Int32x4[1, 0, 0, 0]
@@ -666,7 +666,7 @@ SIMD.Int16x8.fromFloat32x4Bits(t);
 
 如果資料轉換時，原通道的資料大小，超過了目標通道的最大寬度，就會報錯。
 
-## 例項方法
+## 實例方法
 
 ### SIMD.%type%.prototype.toString()
 
@@ -677,7 +677,7 @@ var a = SIMD.Float32x4(11, 22, 33, 44);
 a.toString() // "SIMD.Float32x4(11, 22, 33, 44)"
 ```
 
-## 例項：求平均值
+## 實例：求平均值
 
 正常模式下，計算`n`個值的平均值，需要運算`n`次。
 

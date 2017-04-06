@@ -16,7 +16,7 @@
 
 ## 綜合介紹
 
-- Axel Rauschmayer, [Exploring ES6: Upgrade to the next version of JavaScript](http://exploringjs.com/es6/): ES6的專著，本書的許多程式碼例項來自該書
+- Axel Rauschmayer, [Exploring ES6: Upgrade to the next version of JavaScript](http://exploringjs.com/es6/): ES6的專著，本書的許多程式碼實例來自該書
 - Sayanee Basu, [Use ECMAScript 6 Today](http://net.tutsplus.com/articles/news/ecmascript-6-today/)
 - Ariya Hidayat, [Toward Modern Web Apps with ECMAScript 6](http://www.sencha.com/blog/toward-modern-web-apps-with-ecmascript-6/)
 - Dale Schouten, [10 Ecmascript-6 tricks you can perform right now](http://html5hub.com/10-ecmascript-6-tricks-you-can-perform-right-now/)
@@ -176,7 +176,7 @@
 
 - Luke Hoban, [Async Functions for ECMAScript](https://github.com/lukehoban/ecmascript-asyncawait): Async函式的設計思想，與Promise、Gernerator函式的關係
 - Jafar Husain, [Asynchronous Generators for ES7](https://github.com/jhusain/asyncgenerator): Async函式的深入討論
-- Nolan Lawson, [Taming the asynchronous beast with ES7](http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html): async函式通俗的例項講解
+- Nolan Lawson, [Taming the asynchronous beast with ES7](http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html): async函式通俗的實例講解
 - Jafar Husain, [Async Generators](https://docs.google.com/file/d/0B4PVbLpUIdzoMDR5dWstRllXblU/view?sle=true): 對async與Generator混合使用的一些討論
 - Daniel Brain, [Understand promises before you start using async/await](https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8): 討論async/await與Promise的關係
 - Jake Archibald, [Async functions - making promises friendly](https://developers.google.com/web/fundamentals/getting-started/primers/async-functions)
@@ -190,7 +190,7 @@
 - Axel Rauschmayer, [ECMAScript 6: new OOP features besides classes](http://www.2ality.com/2014/12/es6-oop.html)
 - Axel Rauschmayer, [Classes in ECMAScript 6 (final semantics)](http://www.2ality.com/2015/02/es6-classes-final.html): Class語法的詳細介紹和設計思想分析
 - Eric Faust, [ES6 In Depth: Subclassing](https://hacks.mozilla.org/2015/08/es6-in-depth-subclassing/): Class語法的深入介紹
-- Nicolás Bevacqua, [Binding Methods to Class Instance Objects](https://ponyfoo.com/articles/binding-methods-to-class-instance-objects): 如何繫結類的例項中的this
+- Nicolás Bevacqua, [Binding Methods to Class Instance Objects](https://ponyfoo.com/articles/binding-methods-to-class-instance-objects): 如何繫結類的實例中的this
 
 ## Decorator
 

@@ -19,7 +19,7 @@ typeof s
 
 注意，`Symbol`函式前不能使用`new`命令，否則會報錯。這是因為生成的Symbol是一個原始型別的值，不是物件。也就是說，由於Symbol值不是物件，所以不能新增屬性。基本上，它是一種類似於字串的資料型別。
 
-`Symbol`函式可以接受一個字串作為引數，表示對Symbol例項的描述，主要是為了在控制檯顯示，或者轉為字串時，比較容易區分。
+`Symbol`函式可以接受一個字串作為引數，表示對Symbol實例的描述，主要是為了在控制檯顯示，或者轉為字串時，比較容易區分。
 
 ```javascript
 var s1 = Symbol('foo');
@@ -194,7 +194,7 @@ function getComplement(color) {
 
 還有一點需要注意，Symbol值作為屬性名時，該屬性還是公開屬性，不是私有屬性。
 
-## 例項：消除魔術字串
+## 實例：消除魔術字串
 
 魔術字串指的是，在程式碼之中多次出現、與程式碼形成強耦合的某一個具體的字串或者數值。風格良好的程式碼，應該儘量消除魔術字串，該由含義清晰的變數代替。
 
@@ -389,13 +389,13 @@ iframe.contentWindow.Symbol.for('foo') === Symbol.for('foo')
 
 上面程式碼中，iframe 視窗生成的 Symbol 值，可以在主頁面得到。
 
-## 例項：模組的 Singleton 模式
+## 實例：模組的 Singleton 模式
 
-Singleton模式指的是呼叫一個類，任何時候返回的都是同一個例項。
+Singleton模式指的是呼叫一個類，任何時候返回的都是同一個實例。
 
-對於Node來說，模組檔案可以看成是一個類。怎麼保證每次執行這個模組檔案，返回的都是同一個例項呢？
+對於Node來說，模組檔案可以看成是一個類。怎麼保證每次執行這個模組檔案，返回的都是同一個實例呢？
 
-很容易想到，可以把例項放到頂層物件`global`。
+很容易想到，可以把實例放到頂層物件`global`。
 
 ```javascript
 // mod.js
@@ -417,7 +417,7 @@ var a = require('./mod.js');
 console.log(a.foo);
 ```
 
-上面程式碼中，變數`a`任何時候載入的都是`A`的同一個例項。
+上面程式碼中，變數`a`任何時候載入的都是`A`的同一個實例。
 
 但是，這裡有一個問題，全域性變數`global._foo`是可寫的，任何檔案都可以修改。
 
@@ -469,7 +469,7 @@ const FOO_KEY = Symbol('foo');
 
 ### Symbol.hasInstance
 
-物件的`Symbol.hasInstance`屬性，指向一個內部方法。當其他物件使用`instanceof`運算子，判斷是否為該物件的例項時，會呼叫這個方法。比如，`foo instanceof Foo`在語言內部，實際呼叫的是`Foo[Symbol.hasInstance](foo)`。
+物件的`Symbol.hasInstance`屬性，指向一個內部方法。當其他物件使用`instanceof`運算子，判斷是否為該物件的實例時，會呼叫這個方法。比如，`foo instanceof Foo`在語言內部，實際呼叫的是`Foo[Symbol.hasInstance](foo)`。
 
 ```javascript
 class MyClass {
@@ -481,7 +481,7 @@ class MyClass {
 [1, 2, 3] instanceof new MyClass() // true
 ```
 
-上面程式碼中，`MyClass`是一個類，`new MyClass()`會返回一個例項。該例項的`Symbol.hasInstance`方法，會在進行`instanceof`運算時自動呼叫，判斷左側的運運算元是否為`Array`的例項。
+上面程式碼中，`MyClass`是一個類，`new MyClass()`會返回一個實例。該實例的`Symbol.hasInstance`方法，會在進行`instanceof`運算時自動呼叫，判斷左側的運運算元是否為`Array`的實例。
 
 下面是另一個例子。
 
@@ -523,7 +523,7 @@ obj[Symbol.isConcatSpreadable] = true;
 ['a', 'b'].concat(obj, 'e') // ['a', 'b', 'c', 'd', 'e']
 ```
 
-對於一個類來說，`Symbol.isConcatSpreadable`屬性必須寫成例項的屬性。
+對於一個類來說，`Symbol.isConcatSpreadable`屬性必須寫成實例的屬性。
 
 ```javascript
 class A1 extends Array {
@@ -552,7 +552,7 @@ a2[1] = 6;
 
 ### Symbol.species
 
-物件的`Symbol.species`屬性，指向當前物件的建構函式。創造例項時，預設會呼叫這個方法，即使用這個屬性返回的函式當作建構函式，來創造新的例項物件。
+物件的`Symbol.species`屬性，指向當前物件的建構函式。創造實例時，預設會呼叫這個方法，即使用這個屬性返回的函式當作建構函式，來創造新的實例物件。
 
 ```javascript
 class MyArray extends Array {
@@ -561,7 +561,7 @@ class MyArray extends Array {
 }
 ```
 
-上面程式碼中，子類`MyArray`繼承了父類`Array`。建立`MyArray`的例項物件時，本來會呼叫它自己的建構函式（本例中被省略了），但是由於定義了`Symbol.species`屬性，所以會使用這個屬性返回的的函式，建立`MyArray`的例項。
+上面程式碼中，子類`MyArray`繼承了父類`Array`。建立`MyArray`的實例物件時，本來會呼叫它自己的建構函式（本例中被省略了），但是由於定義了`Symbol.species`屬性，所以會使用這個屬性返回的的函式，建立`MyArray`的實例。
 
 這個例子也說明，定義`Symbol.species`屬性要採用`get`讀取器。預設的`Symbol.species`屬性等同於下面的寫法。
 
@@ -584,7 +584,7 @@ mapped instanceof MyArray // false
 mapped instanceof Array // true
 ```
 
-上面程式碼中，由於建構函式被替換成了`Array`。所以，`mapped`物件不是`MyArray`的例項，而是`Array`的例項。
+上面程式碼中，由於建構函式被替換成了`Array`。所以，`mapped`物件不是`MyArray`的實例，而是`Array`的實例。
 
 ### Symbol.match
 

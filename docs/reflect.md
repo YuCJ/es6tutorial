@@ -458,7 +458,7 @@ Reflect.ownKeys(myObject)
 // ['foo', 'bar', Symbol.for('baz'), Symbol.for('bing')]
 ```
 
-## 例項：使用 Proxy 實現觀察者模式
+## 實例：使用 Proxy 實現觀察者模式
 
 觀察者模式（Observer mode）指的是函式自動觀察資料物件，一旦物件有變化，函式就會自動執行。
 

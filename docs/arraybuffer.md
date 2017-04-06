@@ -54,7 +54,7 @@ var buf = new ArrayBuffer(32);
 
 上面程式碼生成了一段32位元組的記憶體區域，每個位元組的值預設都是0。可以看到，`ArrayBuffer`建構函式的引數是所需要的記憶體大小（單位位元組）。
 
-為了讀寫這段內容，需要為它指定檢視。`DataView`檢視的建立，需要提供`ArrayBuffer`物件例項作為引數。
+為了讀寫這段內容，需要為它指定檢視。`DataView`檢視的建立，需要提供`ArrayBuffer`物件實例作為引數。
 
 ```javascript
 var buf = new ArrayBuffer(32);
@@ -79,7 +79,7 @@ x1[0] // 2
 
 上面程式碼對同一段記憶體，分別建立兩種檢視：32位帶符號整數（`Int32Array`建構函式）和8位不帶符號整數（`Uint8Array`建構函式）。由於兩個檢視對應的是同一段記憶體，一個檢視修改底層記憶體，會影響到另一個檢視。
 
-TypedArray檢視的建構函式，除了接受`ArrayBuffer`例項作為引數，還可以接受普通陣列作為引數，直接分配記憶體生成底層的`ArrayBuffer`例項，並同時完成對這段記憶體的賦值。
+TypedArray檢視的建構函式，除了接受`ArrayBuffer`實例作為引數，還可以接受普通陣列作為引數，直接分配記憶體生成底層的`ArrayBuffer`實例，並同時完成對這段記憶體的賦值。
 
 ```javascript
 var typedArray = new Uint8Array([0,1,2]);
@@ -93,7 +93,7 @@ typedArray // [5, 1, 2]
 
 ### ArrayBuffer.prototype.byteLength
 
-`ArrayBuffer`例項的`byteLength`屬性，返回所分配的記憶體區域的位元組長度。
+`ArrayBuffer`實例的`byteLength`屬性，返回所分配的記憶體區域的位元組長度。
 
 ```javascript
 var buffer = new ArrayBuffer(32);
@@ -113,7 +113,7 @@ if (buffer.byteLength === n) {
 
 ### ArrayBuffer.prototype.slice()
 
-`ArrayBuffer`例項有一個`slice`方法，允許將記憶體區域的一部分，拷貝生成一個新的`ArrayBuffer`物件。
+`ArrayBuffer`實例有一個`slice`方法，允許將記憶體區域的一部分，拷貝生成一個新的`ArrayBuffer`物件。
 
 ```javascript
 var buffer = new ArrayBuffer(8);
@@ -128,7 +128,7 @@ var newBuffer = buffer.slice(0, 3);
 
 ### ArrayBuffer.isView()
 
-`ArrayBuffer`有一個靜態方法`isView`，返回一個布林值，表示引數是否為`ArrayBuffer`的檢視例項。這個方法大致相當於判斷引數，是否為TypedArray例項或`DataView`例項。
+`ArrayBuffer`有一個靜態方法`isView`，返回一個布林值，表示引數是否為`ArrayBuffer`的檢視實例。這個方法大致相當於判斷引數，是否為TypedArray實例或`DataView`實例。
 
 ```javascript
 var buffer = new ArrayBuffer(8);
@@ -165,7 +165,7 @@ ArrayBuffer.isView(v) // true
 
 ### 建構函式
 
-TypedArray陣列提供9種建構函式，用來生成相應型別的陣列例項。
+TypedArray陣列提供9種建構函式，用來生成相應型別的陣列實例。
 
 建構函式有多種用法。
 
@@ -224,13 +224,13 @@ f64a[2] = f64a[0] + f64a[1];
 
 **（3）TypedArray(typedArray)**
 
-TypedArray陣列的建構函式，可以接受另一個TypedArray例項作為引數。
+TypedArray陣列的建構函式，可以接受另一個TypedArray實例作為引數。
 
 ```javascript
 var typedArray = new Int8Array(new Uint8Array(4));
 ```
 
-上面程式碼中，`Int8Array`建構函式接受一個`Uint8Array`例項作為引數。
+上面程式碼中，`Int8Array`建構函式接受一個`Uint8Array`實例作為引數。
 
 注意，此時生成的新陣列，只是複製了引數陣列的值，對應的底層記憶體是不一樣的。新陣列會開闢一段新的記憶體儲存資料，不會在原陣列的記憶體之上建立檢視。
 
@@ -260,7 +260,7 @@ y[0] // 2
 
 **（4）TypedArray(arrayLikeObject)**
 
-建構函式的引數也可以是一個普通陣列，然後直接生成TypedArray例項。
+建構函式的引數也可以是一個普通陣列，然後直接生成TypedArray實例。
 
 ```javascript
 var typedArray = new Uint8Array([1, 2, 3, 4]);
@@ -268,7 +268,7 @@ var typedArray = new Uint8Array([1, 2, 3, 4]);
 
 注意，這時TypedArray檢視會重新開闢記憶體，不會在原陣列的記憶體上建立檢視。
 
-上面程式碼從一個普通的陣列，生成一個8位無符號整數的TypedArray例項。
+上面程式碼從一個普通的陣列，生成一個8位無符號整數的TypedArray實例。
 
 TypedArray陣列也可以轉換回普通陣列。
 
@@ -439,7 +439,7 @@ Float32Array.BYTES_PER_ELEMENT // 4
 Float64Array.BYTES_PER_ELEMENT // 8
 ```
 
-這個屬性在TypedArray例項上也能獲取，即有`TypedArray.prototype.BYTES_PER_ELEMENT`。
+這個屬性在TypedArray實例上也能獲取，即有`TypedArray.prototype.BYTES_PER_ELEMENT`。
 
 ### ArrayBuffer與字串的互相轉換
 
@@ -526,7 +526,7 @@ uint8c[0] // 0
 
 ### TypedArray.prototype.buffer
 
-TypedArray例項的`buffer`屬性，返回整段記憶體區域對應的`ArrayBuffer`物件。該屬性為只讀屬性。
+TypedArray實例的`buffer`屬性，返回整段記憶體區域對應的`ArrayBuffer`物件。該屬性為只讀屬性。
 
 ```javascript
 var a = new Float32Array(64);
@@ -606,7 +606,7 @@ b.byteLength // 2
 
 ### TypedArray.prototype.slice()
 
-TypeArray例項的`slice`方法，可以返回一個指定位置的新的TypedArray例項。
+TypeArray實例的`slice`方法，可以返回一個指定位置的新的TypedArray實例。
 
 ```javascript
 let ui8 = Uint8Array.of(0, 1, 2);
@@ -614,13 +614,13 @@ ui8.slice(-1)
 // Uint8Array [ 2 ]
 ```
 
-上面程式碼中，`ui8`是8位無符號整數陣列檢視的一個例項。它的`slice`方法可以從當前檢視之中，返回一個新的檢視例項。
+上面程式碼中，`ui8`是8位無符號整數陣列檢視的一個實例。它的`slice`方法可以從當前檢視之中，返回一個新的檢視實例。
 
 `slice`方法的引數，表示原陣列的具體位置，開始生成新陣列。負值表示逆向的位置，即-1為倒數第一個位置，-2表示倒數第二個位置，以此類推。
 
 ### TypedArray.of()
 
-TypedArray陣列的所有建構函式，都有一個靜態方法`of`，用於將引數轉為一個TypedArray例項。
+TypedArray陣列的所有建構函式，都有一個靜態方法`of`，用於將引數轉為一個TypedArray實例。
 
 ```javascript
 Float32Array.of(0.151, -8, 3.7)
@@ -645,14 +645,14 @@ tarr[2] = 3;
 
 ### TypedArray.from()
 
-靜態方法`from`接受一個可遍歷的資料結構（比如陣列）作為引數，返回一個基於這個結構的TypedArray例項。
+靜態方法`from`接受一個可遍歷的資料結構（比如陣列）作為引數，返回一個基於這個結構的TypedArray實例。
 
 ```javascript
 Uint16Array.from([0, 1, 2])
 // Uint16Array [ 0, 1, 2 ]
 ```
 
-這個方法還可以將一種TypedArray例項，轉為另一種。
+這個方法還可以將一種TypedArray實例，轉為另一種。
 
 ```javascript
 var ui16 = Uint16Array.from(Uint8Array.of(0, 1, 2));
@@ -718,13 +718,13 @@ var buffer = new ArrayBuffer(24);
 var dv = new DataView(buffer);
 ```
 
-`DataView`例項有以下屬性，含義與TypedArray例項的同名方法相同。
+`DataView`實例有以下屬性，含義與TypedArray實例的同名方法相同。
 
 - `DataView.prototype.buffer`：返回對應的ArrayBuffer物件
 - `DataView.prototype.byteLength`：返回佔據的記憶體位元組長度
 - `DataView.prototype.byteOffset`：返回當前檢視從對應的ArrayBuffer物件的哪個位元組開始
 
-`DataView`例項提供8個方法讀取記憶體。
+`DataView`實例提供8個方法讀取記憶體。
 
 - **`getInt8`**：讀取1個位元組，返回一個8位整數。
 - **`getUint8`**：讀取1個位元組，返回一個無符號的8位整數。

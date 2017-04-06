@@ -451,7 +451,7 @@ try {
 
 上面程式碼中，遍歷器物件`i`連續丟擲兩個錯誤。第一個錯誤被Generator函式體內的`catch`語句捕獲。`i`第二次丟擲錯誤，由於Generator函式內部的`catch`語句已經執行過了，不會再捕捉到這個錯誤了，所以這個錯誤就被丟擲了Generator函式體，被函式體外的`catch`語句捕獲。
 
-`throw`方法可以接受一個引數，該引數會被`catch`語句接收，建議丟擲`Error`物件的例項。
+`throw`方法可以接受一個引數，該引數會被`catch`語句接收，建議丟擲`Error`物件的實例。
 
 ```javascript
 var g = function* () {
@@ -1018,7 +1018,7 @@ let obj = {
 
 ## Generator函式的`this`
 
-Generator函式總是返回一個遍歷器，ES6規定這個遍歷器是Generator函式的例項，也繼承了Generator函式的`prototype`物件上的方法。
+Generator函式總是返回一個遍歷器，ES6規定這個遍歷器是Generator函式的實例，也繼承了Generator函式的`prototype`物件上的方法。
 
 ```javascript
 function* g() {}
@@ -1033,7 +1033,7 @@ obj instanceof g // true
 obj.hello() // 'hi!'
 ```
 
-上面程式碼表明，Generator函式`g`返回的遍歷器`obj`，是`g`的例項，而且繼承了`g.prototype`。但是，如果把`g`當作普通的建構函式，並不會生效，因為`g`返回的總是遍歷器物件，而不是`this`物件。
+上面程式碼表明，Generator函式`g`返回的遍歷器`obj`，是`g`的實例，而且繼承了`g.prototype`。但是，如果把`g`當作普通的建構函式，並不會生效，因為`g`返回的總是遍歷器物件，而不是`this`物件。
 
 ```javascript
 function* g() {
@@ -1060,9 +1060,9 @@ new F()
 
 上面程式碼中，`new`命令跟建構函式`F`一起使用，結果報錯，因為`F`不是建構函式。
 
-那麼，有沒有辦法讓Generator函式返回一個正常的物件例項，既可以用`next`方法，又可以獲得正常的`this`？
+那麼，有沒有辦法讓Generator函式返回一個正常的物件實例，既可以用`next`方法，又可以獲得正常的`this`？
 
-下面是一個變通方法。首先，生成一個空物件，使用`call`方法繫結Generator函式內部的`this`。這樣，建構函式呼叫以後，這個空物件就是Generator函式的例項物件了。
+下面是一個變通方法。首先，生成一個空物件，使用`call`方法繫結Generator函式內部的`this`。這樣，建構函式呼叫以後，這個空物件就是Generator函式的例項實例了。
 
 ```javascript
 function* F() {
@@ -1082,9 +1082,9 @@ obj.b // 2
 obj.c // 3
 ```
 
-上面程式碼中，首先是`F`內部的`this`物件繫結`obj`物件，然後呼叫它，返回一個Iterator物件。這個物件執行三次`next`方法（因為`F`內部有兩個`yield`語句），完成F內部所有程式碼的執行。這時，所有內部屬性都繫結在`obj`物件上了，因此`obj`物件也就成了`F`的例項。
+上面程式碼中，首先是`F`內部的`this`物件繫結`obj`物件，然後呼叫它，返回一個Iterator物件。這個物件執行三次`next`方法（因為`F`內部有兩個`yield`語句），完成F內部所有程式碼的執行。這時，所有內部屬性都繫結在`obj`物件上了，因此`obj`物件也就成了`F`的實例。
 
-上面程式碼中，執行的是遍歷器物件`f`，但是生成的物件例項是`obj`，有沒有辦法將這兩個物件統一呢？
+上面程式碼中，執行的是遍歷器物件`f`，但是生成的物件實例是`obj`，有沒有辦法將這兩個物件統一呢？
 
 一個辦法就是將`obj`換成`F.prototype`。
 

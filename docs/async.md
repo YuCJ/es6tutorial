@@ -585,7 +585,7 @@ async function chainAnimationsAsync(elem, animations) {
 
 可以看到Async函式的實現最簡潔，最符合語義，幾乎沒有語義不相關的程式碼。它將Generator寫法中的自動執行器，改在語言層面提供，不暴露給使用者，因此程式碼量最少。如果使用Generator寫法，自動執行器需要使用者自己提供。
 
-## 例項：按順序完成非同步操作
+## 實例：按順序完成非同步操作
 
 實際開發中，經常遇到一組非同步操作，需要按照順序完成。比如，依次遠端讀取一組 URL，然後按照讀取的順序輸出結果。
 
@@ -857,7 +857,7 @@ async function takeAsync(asyncIterable, count=Infinity) {
 
 上面程式碼中，非同步Generator函式產生的非同步遍歷器，會通過`while`迴圈自動執行，每當`await iterator.next()`完成，就會進入下一輪迴圈。
 
-下面是這個自動執行器的一個使用例項。
+下面是這個自動執行器的一個使用實例。
 
 ```javascript
 async function f() {

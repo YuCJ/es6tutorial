@@ -135,7 +135,7 @@ String.fromCodePoint(0x78, 0x1f680, 0x79) === 'x\uD83D\uDE80y'
 
 上面程式碼中，如果`String.fromCodePoint`方法有多個引數，則它們會被合併成一個字串返回。
 
-注意，`fromCodePoint`方法定義在`String`物件上，而`codePointAt`方法定義在字串的例項物件上。
+注意，`fromCodePoint`方法定義在`String`物件上，而`codePointAt`方法定義在字串的實例物件上。
 
 ## 字串的遍歷器介面
 
@@ -180,7 +180,7 @@ ES5對字串物件提供`charAt`方法，返回字串給定位置的字元。該
 
 上面程式碼中，`charAt`方法返回的是UTF-16編碼的第一個位元組，實際上是無法顯示的。
 
-目前，有一個提案，提出字串例項的`at`方法，可以識別Unicode編號大於`0xFFFF`的字元，返回正確的字元。
+目前，有一個提案，提出字串實例的`at`方法，可以識別Unicode編號大於`0xFFFF`的字元，返回正確的字元。
 
 ```javascript
 'abc'.at(0) // "a"
@@ -204,7 +204,7 @@ ES5對字串物件提供`charAt`方法，返回字串給定位置的字元。該
 
 上面程式碼表示，JavaScript將合成字元視為兩個字元，導致兩種表示方法不相等。
 
-ES6提供字串例項的`normalize()`方法，用來將字元的不同表示方法統一為同樣的形式，這稱為Unicode正規化。
+ES6提供字串實例的`normalize()`方法，用來將字元的不同表示方法統一為同樣的形式，這稱為Unicode正規化。
 
 ```javascript
 '\u01D1'.normalize() === '\u004F\u030C'.normalize()
@@ -528,9 +528,9 @@ let func = eval.call(null, str);
 func('Jack') // "Hello Jack!"
 ```
 
-## 例項：模板編譯
+## 實例：模板編譯
 
-下面，我們來看一個通過模板字串，生成正式模板的例項。
+下面，我們來看一個通過模板字串，生成正式模板的實例。
 
 ```javascript
 var template = `

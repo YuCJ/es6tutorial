@@ -37,7 +37,7 @@ class Point {
 }
 ```
 
-上面程式碼定義了一個“類”，可以看到裡面有一個`constructor`方法，這就是構造方法，而`this`關鍵字則代表例項物件。也就是說，ES5的建構函式`Point`，對應ES6的`Point`類的構造方法。
+上面程式碼定義了一個“類”，可以看到裡面有一個`constructor`方法，這就是構造方法，而`this`關鍵字則代表實例物件。也就是說，ES5的建構函式`Point`，對應ES6的`Point`類的構造方法。
 
 `Point`類除了構造方法，還定義了一個`toString`方法。注意，定義“類”的方法的時候，前面不需要加上`function`這個關鍵字，直接把函式定義放進去了就可以了。另外，方法之間不需要逗號分隔，加了會報錯。
 
@@ -92,7 +92,7 @@ Point.prototype = {
 };
 ```
 
-在類的例項上面呼叫方法，其實就是呼叫原型上的方法。
+在類的實例上面呼叫方法，其實就是呼叫原型上的方法。
 
 ```javascript
 class B {}
@@ -101,7 +101,7 @@ let b = new B();
 b.constructor === B.prototype.constructor // true
 ```
 
-上面程式碼中，`b`是B類的例項，它的`constructor`方法就是B類原型的`constructor`方法。
+上面程式碼中，`b`是B類的實例，它的`constructor`方法就是B類原型的`constructor`方法。
 
 由於類的方法都定義在`prototype`物件上面，所以類的新方法可以新增在`prototype`物件上面。`Object.assign`方法可以很方便地一次向類新增多個方法。
 
@@ -181,13 +181,13 @@ class Square{
 
 ### constructor方法
 
-`constructor`方法是類的預設方法，通過`new`命令生成物件例項時，自動呼叫該方法。一個類必須有`constructor`方法，如果沒有顯式定義，一個空的`constructor`方法會被預設新增。
+`constructor`方法是類的預設方法，通過`new`命令生成物件實例時，自動呼叫該方法。一個類必須有`constructor`方法，如果沒有顯式定義，一個空的`constructor`方法會被預設新增。
 
 ```javascript
 constructor() {}
 ```
 
-`constructor`方法預設返回例項物件（即`this`），完全可以指定返回另外一個物件。
+`constructor`方法預設返回實例物件（即`this`），完全可以指定返回另外一個物件。
 
 ```javascript
 class Foo {
@@ -200,7 +200,7 @@ new Foo() instanceof Foo
 // false
 ```
 
-上面程式碼中，`constructor`函式返回一個全新的物件，結果導致例項物件不是`Foo`類的例項。
+上面程式碼中，`constructor`函式返回一個全新的物件，結果導致實例物件不是`Foo`類的實例。
 
 類的建構函式，不使用`new`是沒法呼叫的，會報錯。這是它跟普通建構函式的一個主要區別，後者不用`new`也可以執行。
 
@@ -215,9 +215,9 @@ Foo()
 // TypeError: Class constructor Foo cannot be invoked without 'new'
 ```
 
-### 類的例項物件
+### 類的實例物件
 
-生成類的例項物件的寫法，與ES5完全一樣，也是使用`new`命令。如果忘記加上`new`，像函式那樣呼叫`Class`，將會報錯。
+生成類的實例物件的寫法，與ES5完全一樣，也是使用`new`命令。如果忘記加上`new`，像函式那樣呼叫`Class`，將會報錯。
 
 ```javascript
 // 報錯
@@ -227,7 +227,7 @@ var point = Point(2, 3);
 var point = new Point(2, 3);
 ```
 
-與ES5一樣，例項的屬性除非顯式定義在其本身（即定義在`this`物件上），否則都是定義在原型上（即定義在`class`上）。
+與ES5一樣，實例的屬性除非顯式定義在其本身（即定義在`this`物件上），否則都是定義在原型上（即定義在`class`上）。
 
 ```javascript
 //定義類
@@ -254,9 +254,9 @@ point.hasOwnProperty('toString') // false
 point.__proto__.hasOwnProperty('toString') // true
 ```
 
-上面程式碼中，`x`和`y`都是例項物件`point`自身的屬性（因為定義在`this`變數上），所以`hasOwnProperty`方法返回`true`，而`toString`是原型物件的屬性（因為定義在`Point`類上），所以`hasOwnProperty`方法返回`false`。這些都與ES5的行為保持一致。
+上面程式碼中，`x`和`y`都是實例物件`point`自身的屬性（因為定義在`this`變數上），所以`hasOwnProperty`方法返回`true`，而`toString`是原型物件的屬性（因為定義在`Point`類上），所以`hasOwnProperty`方法返回`false`。這些都與ES5的行為保持一致。
 
-與ES5一樣，類的所有例項共享一個原型物件。
+與ES5一樣，類的所有實例共享一個原型物件。
 
 ```javascript
 var p1 = new Point(2,3);
@@ -266,9 +266,9 @@ p1.__proto__ === p2.__proto__
 //true
 ```
 
-上面程式碼中，`p1`和`p2`都是Point的例項，它們的原型都是Point.prototype，所以`__proto__`屬性是相等的。
+上面程式碼中，`p1`和`p2`都是Point的實例，它們的原型都是Point.prototype，所以`__proto__`屬性是相等的。
 
-這也意味著，可以通過例項的`__proto__`屬性為Class新增方法。
+這也意味著，可以通過實例的`__proto__`屬性為Class新增方法。
 
 ```javascript
 var p1 = new Point(2,3);
@@ -283,7 +283,7 @@ var p3 = new Point(4,2);
 p3.printName() // "Oops"
 ```
 
-上面程式碼在`p1`的原型上添加了一個`printName`方法，由於`p1`的原型就是`p2`的原型，因此`p2`也可以呼叫這個方法。而且，此後新建的例項`p3`也可以呼叫這個方法。這意味著，使用例項的`__proto__`屬性改寫原型，必須相當謹慎，不推薦使用，因為這會改變Class的原始定義，影響到所有例項。
+上面程式碼在`p1`的原型上添加了一個`printName`方法，由於`p1`的原型就是`p2`的原型，因此`p2`也可以呼叫這個方法。而且，此後新建的實例`p3`也可以呼叫這個方法。這意味著，使用實例的`__proto__`屬性改寫原型，必須相當謹慎，不推薦使用，因為這會改變Class的原始定義，影響到所有實例。
 
 ### 不存在變數提升
 
@@ -350,7 +350,7 @@ let person = new class {
 person.sayName(); // "張三"
 ```
 
-上面程式碼中，`person`是一個立即執行的類的例項。
+上面程式碼中，`person`是一個立即執行的類的實例。
 
 ### 私有方法
 
@@ -421,7 +421,7 @@ export default class myClass{
 
 ### this的指向
 
-類的方法內部如果含有`this`，它預設指向類的例項。但是，必須非常小心，一旦單獨使用該方法，很可能報錯。
+類的方法內部如果含有`this`，它預設指向類的實例。但是，必須非常小心，一旦單獨使用該方法，很可能報錯。
 
 ```javascript
 class Logger {
@@ -439,7 +439,7 @@ const { printName } = logger;
 printName(); // TypeError: Cannot read property 'print' of undefined
 ```
 
-上面程式碼中，`printName`方法中的`this`，預設指向`Logger`類的例項。但是，如果將這個方法提取出來單獨使用，`this`會指向該方法執行時所在的環境，因為找不到`print`方法而導致報錯。
+上面程式碼中，`printName`方法中的`this`，預設指向`Logger`類的實例。但是，如果將這個方法提取出來單獨使用，`this`會指向該方法執行時所在的環境，因為找不到`print`方法而導致報錯。
 
 一個比較簡單的解決方法是，在構造方法中繫結`this`，這樣就不會找不到`print`方法了。
 
@@ -535,7 +535,7 @@ class ColorPoint extends Point {
 
 上面程式碼中，`constructor`方法和`toString`方法之中，都出現了`super`關鍵字，它在這裡表示父類的建構函式，用來新建父類的`this`物件。
 
-子類必須在`constructor`方法中呼叫`super`方法，否則新建例項時會報錯。這是因為子類沒有自己的`this`物件，而是繼承父類的`this`物件，然後對其進行加工。如果不呼叫`super`方法，子類就得不到`this`物件。
+子類必須在`constructor`方法中呼叫`super`方法，否則新建實例時會報錯。這是因為子類沒有自己的`this`物件，而是繼承父類的`this`物件，然後對其進行加工。如果不呼叫`super`方法，子類就得不到`this`物件。
 
 ```javascript
 class Point { /* ... */ }
@@ -548,9 +548,9 @@ class ColorPoint extends Point {
 let cp = new ColorPoint(); // ReferenceError
 ```
 
-上面程式碼中，`ColorPoint`繼承了父類`Point`，但是它的建構函式沒有呼叫`super`方法，導致新建例項時報錯。
+上面程式碼中，`ColorPoint`繼承了父類`Point`，但是它的建構函式沒有呼叫`super`方法，導致新建實例時報錯。
 
-ES5的繼承，實質是先創造子類的例項物件`this`，然後再將父類的方法新增到`this`上面（`Parent.apply(this)`）。ES6的繼承機制完全不同，實質是先創造父類的例項物件`this`（所以必須先呼叫`super`方法），然後再用子類的建構函式修改`this`。
+ES5的繼承，實質是先創造子類的實例物件`this`，然後再將父類的方法新增到`this`上面（`Parent.apply(this)`）。ES6的繼承機制完全不同，實質是先創造父類的實例物件`this`（所以必須先呼叫`super`方法），然後再用子類的建構函式修改`this`。
 
 如果子類沒有定義`constructor`方法，這個方法會被預設新增，程式碼如下。也就是說，不管有沒有顯式定義，任何一個子類都有`constructor`方法。
 
@@ -560,7 +560,7 @@ constructor(...args) {
 }
 ```
 
-另一個需要注意的地方是，在子類的建構函式中，只有呼叫`super`之後，才可以使用`this`關鍵字，否則會報錯。這是因為子類例項的構建，是基於對父類例項加工，只有`super`方法才能返回父類例項。
+另一個需要注意的地方是，在子類的建構函式中，只有呼叫`super`之後，才可以使用`this`關鍵字，否則會報錯。這是因為子類實例的構建，是基於對父類實例加工，只有`super`方法才能返回父類實例。
 
 ```javascript
 class Point {
@@ -581,7 +581,7 @@ class ColorPoint extends Point {
 
 上面程式碼中，子類的`constructor`方法沒有呼叫`super`之前，就使用`this`關鍵字，結果報錯，而放在`super`方法之後就是正確的。
 
-下面是生成子類例項的程式碼。
+下面是生成子類實例的程式碼。
 
 ```javascript
 let cp = new ColorPoint(25, 8, 'green');
@@ -590,7 +590,7 @@ cp instanceof ColorPoint // true
 cp instanceof Point // true
 ```
 
-上面程式碼中，例項物件`cp`同時是`ColorPoint`和`Point`兩個類的例項，這與ES5的行為完全一致。
+上面程式碼中，實例物件`cp`同時是`ColorPoint`和`Point`兩個類的實例，這與ES5的行為完全一致。
 
 ### 類的prototype屬性和\_\_proto\_\_屬性
 
@@ -622,11 +622,11 @@ class A {
 class B {
 }
 
-// B的例項繼承A的例項
+// B的實例繼承A的實例
 Object.setPrototypeOf(B.prototype, A.prototype);
 const b = new B();
 
-// B的例項繼承A的靜態屬性
+// B的實例繼承A的靜態屬性
 Object.setPrototypeOf(B, A);
 const b = new B();
 ```
@@ -652,7 +652,7 @@ Object.setPrototypeOf(B, A);
 B.__proto__ = A;
 ```
 
-這兩條繼承鏈，可以這樣理解：作為一個物件，子類（`B`）的原型（`__proto__`屬性）是父類（`A`）；作為一個建構函式，子類（`B`）的原型（`prototype`屬性）是父類的例項。
+這兩條繼承鏈，可以這樣理解：作為一個物件，子類（`B`）的原型（`__proto__`屬性）是父類（`A`）；作為一個建構函式，子類（`B`）的原型（`prototype`屬性）是父類的實例。
 
 ```javascript
 Object.create(A.prototype);
@@ -683,7 +683,7 @@ A.__proto__ === Object // true
 A.prototype.__proto__ === Object.prototype // true
 ```
 
-這種情況下，`A`其實就是建構函式`Object`的複製，`A`的例項就是`Object`的例項。
+這種情況下，`A`其實就是建構函式`Object`的複製，`A`的實例就是`Object`的實例。
 
 第二種特殊情況，不存在任何繼承。
 
@@ -695,7 +695,7 @@ A.__proto__ === Function.prototype // true
 A.prototype.__proto__ === Object.prototype // true
 ```
 
-這種情況下，A作為一個基類（即不存在任何繼承），就是一個普通函式，所以直接繼承`Funciton.prototype`。但是，`A`呼叫後返回一個空物件（即`Object`例項），所以`A.prototype.__proto__`指向建構函式（`Object`）的`prototype`屬性。
+這種情況下，A作為一個基類（即不存在任何繼承），就是一個普通函式，所以直接繼承`Funciton.prototype`。但是，`A`呼叫後返回一個空物件（即`Object`實例），所以`A.prototype.__proto__`指向建構函式（`Object`）的`prototype`屬性。
 
 第三種特殊情況，子類繼承`null`。
 
@@ -744,7 +744,7 @@ class B extends A {
 
 上面程式碼中，子類`B`的建構函式之中的`super()`，代表呼叫父類的建構函式。這是必須的，否則 JavaScript 引擎會報錯。
 
-注意，`super`雖然代表了父類`A`的建構函式，但是返回的是子類`B`的例項，即`super`內部的`this`指的是`B`，因此`super()`在這裡相當於`A.prototype.constructor.call(this)`。
+注意，`super`雖然代表了父類`A`的建構函式，但是返回的是子類`B`的實例，即`super`內部的`this`指的是`B`，因此`super()`在這裡相當於`A.prototype.constructor.call(this)`。
 
 ```javascript
 class A {
@@ -798,7 +798,7 @@ let b = new B();
 
 上面程式碼中，子類`B`當中的`super.p()`，就是將`super`當作一個物件使用。這時，`super`在普通方法之中，指向`A.prototype`，所以`super.p()`就相當於`A.prototype.p()`。
 
-這裡需要注意，由於`super`指向父類的原型物件，所以定義在父類例項上的方法或屬性，是無法通過`super`呼叫的。
+這裡需要注意，由於`super`指向父類的原型物件，所以定義在父類實例上的方法或屬性，是無法通過`super`呼叫的。
 
 ```javascript
 class A {
@@ -817,7 +817,7 @@ let b = new B();
 b.m // undefined
 ```
 
-上面程式碼中，`p`是父類`A`例項的屬性，`super.p`就引用不到它。
+上面程式碼中，`p`是父類`A`實例的屬性，`super.p`就引用不到它。
 
 如果屬性定義在父類的原型物件上，`super`就可以取到。
 
@@ -865,7 +865,7 @@ b.m() // 2
 
 上面程式碼中，`super.print()`雖然呼叫的是`A.prototype.print()`，但是`A.prototype.print()`會繫結子類`B`的`this`，導致輸出的是`2`，而不是`1`。也就是說，實際上執行的是`super.print.call(this)`。
 
-由於繫結子類的`this`，所以如果通過`super`對某個屬性賦值，這時`super`就是`this`，賦值的屬性會變成子類例項的屬性。
+由於繫結子類的`this`，所以如果通過`super`對某個屬性賦值，這時`super`就是`this`，賦值的屬性會變成子類實例的屬性。
 
 ```javascript
 class A {
@@ -948,7 +948,7 @@ class B extends A {
 let b = new B();
 ```
 
-上面程式碼中，`super.valueOf()`表明`super`是一個物件，因此就不會報錯。同時，由於`super`繫結`B`的`this`，所以`super.valueOf()`返回的是一個`B`的例項。
+上面程式碼中，`super.valueOf()`表明`super`是一個物件，因此就不會報錯。同時，由於`super`繫結`B`的`this`，所以`super.valueOf()`返回的是一個`B`的實例。
 
 最後，由於物件總是繼承其他物件的，所以可以在任意一個物件中，使用`super`關鍵字。
 
@@ -962,9 +962,9 @@ var obj = {
 obj.toString(); // MyObject: [object Object]
 ```
 
-### 例項的\_\_proto\_\_屬性
+### 實例的\_\_proto\_\_屬性
 
-子類例項的\_\_proto\_\_屬性的\_\_proto\_\_屬性，指向父類例項的\_\_proto\_\_屬性。也就是說，子類的原型的原型，是父類的原型。
+子類實例的\_\_proto\_\_屬性的\_\_proto\_\_屬性，指向父類實例的\_\_proto\_\_屬性。也就是說，子類的原型的原型，是父類的原型。
 
 ```javascript
 var p1 = new Point(2, 3);
@@ -976,7 +976,7 @@ p2.__proto__.__proto__ === p1.__proto__ // true
 
 上面程式碼中，`ColorPoint`繼承了`Point`，導致前者原型的原型是後者的原型。
 
-因此，通過子類例項的`__proto__.__proto__`屬性，可以修改父類例項的行為。
+因此，通過子類實例的`__proto__.__proto__`屬性，可以修改父類實例的行為。
 
 ```javascript
 p2.__proto__.__proto__.printName = function () {
@@ -986,7 +986,7 @@ p2.__proto__.__proto__.printName = function () {
 p1.printName() // "Ha"
 ```
 
-上面程式碼在`ColorPoint`的例項`p2`上向`Point`類新增方法，結果影響到了`Point`的例項`p1`。
+上面程式碼在`ColorPoint`的實例`p2`上向`Point`類新增方法，結果影響到了`Point`的實例`p1`。
 
 ## 原生建構函式的繼承
 
@@ -1032,7 +1032,7 @@ colors[0]  // "red"
 
 之所以會發生這種情況，是因為子類無法獲得原生建構函式的內部屬性，通過`Array.apply()`或者分配給原型物件都不行。原生建構函式會忽略`apply`方法傳入的`this`，也就是說，原生建構函式的`this`無法繫結，導致拿不到內部屬性。
 
-ES5是先新建子類的例項物件`this`，再將父類的屬性新增到子類上，由於父類的內部屬性無法獲取，導致無法繼承原生的建構函式。比如，Array建構函式有一個內部屬性`[[DefineOwnProperty]]`，用來定義新屬性時，更新`length`屬性，這個內部屬性無法在子類獲取，導致子類的`length`屬性行為不正常。
+ES5是先新建子類的實例物件`this`，再將父類的屬性新增到子類上，由於父類的內部屬性無法獲取，導致無法繼承原生的建構函式。比如，Array建構函式有一個內部屬性`[[DefineOwnProperty]]`，用來定義新屬性時，更新`length`屬性，這個內部屬性無法在子類獲取，導致子類的`length`屬性行為不正常。
 
 下面的例子中，我們想讓一個普通物件繼承`Error`物件。
 
@@ -1046,9 +1046,9 @@ Object.getOwnPropertyNames(e)
 // []
 ```
 
-上面程式碼中，我們想通過`Error.call(e)`這種寫法，讓普通物件`e`具有`Error`物件的例項屬性。但是，`Error.call()`完全忽略傳入的第一個引數，而是返回一個新物件，`e`本身沒有任何變化。這證明了`Error.call(e)`這種寫法，無法繼承原生建構函式。
+上面程式碼中，我們想通過`Error.call(e)`這種寫法，讓普通物件`e`具有`Error`物件的實例屬性。但是，`Error.call()`完全忽略傳入的第一個引數，而是返回一個新物件，`e`本身沒有任何變化。這證明了`Error.call(e)`這種寫法，無法繼承原生建構函式。
 
-ES6允許繼承原生建構函式定義子類，因為ES6是先新建父類的例項物件`this`，然後再用子類的建構函式修飾`this`，使得父類的所有行為都可以繼承。下面是一個繼承`Array`的例子。
+ES6允許繼承原生建構函式定義子類，因為ES6是先新建父類的實例物件`this`，然後再用子類的建構函式修飾`this`，使得父類的所有行為都可以繼承。下面是一個繼承`Array`的例子。
 
 ```javascript
 class MyArray extends Array {
@@ -1065,7 +1065,7 @@ arr.length = 0;
 arr[0] // undefined
 ```
 
-上面程式碼定義了一個`MyArray`類，繼承了`Array`建構函式，因此就可以從`MyArray`生成陣列的例項。這意味著，ES6可以自定義原生資料結構（比如Array、String等）的子類，這是ES5無法做到的。
+上面程式碼定義了一個`MyArray`類，繼承了`Array`建構函式，因此就可以從`MyArray`生成陣列的實例。這意味著，ES6可以自定義原生資料結構（比如Array、String等）的子類，這是ES5無法做到的。
 
 上面這個例子也說明，`extends`關鍵字不僅可以用來繼承類，還可以用來繼承原生的建構函式。因此可以在原生資料結構的基礎上，定義自己的資料結構。下面就是定義了一個帶版本功能的陣列。
 
@@ -1223,7 +1223,7 @@ for (let x of new Foo('hello', 'world')) {
 
 ## Class 的靜態方法
 
-類相當於例項的原型，所有在類中定義的方法，都會被例項繼承。如果在一個方法前，加上`static`關鍵字，就表示該方法不會被例項繼承，而是直接通過類來呼叫，這就稱為“靜態方法”。
+類相當於實例的原型，所有在類中定義的方法，都會被實例繼承。如果在一個方法前，加上`static`關鍵字，就表示該方法不會被實例繼承，而是直接通過類來呼叫，這就稱為“靜態方法”。
 
 ```javascript
 class Foo {
@@ -1239,7 +1239,7 @@ foo.classMethod()
 // TypeError: foo.classMethod is not a function
 ```
 
-上面程式碼中，`Foo`類的`classMethod`方法前有`static`關鍵字，表明該方法是一個靜態方法，可以直接在`Foo`類上呼叫（`Foo.classMethod()`），而不是在`Foo`類的例項上呼叫。如果在例項上呼叫靜態方法，會丟擲一個錯誤，表示不存在該方法。
+上面程式碼中，`Foo`類的`classMethod`方法前有`static`關鍵字，表明該方法是一個靜態方法，可以直接在`Foo`類上呼叫（`Foo.classMethod()`），而不是在`Foo`類的實例上呼叫。如果在實例上呼叫靜態方法，會丟擲一個錯誤，表示不存在該方法。
 
 父類的靜態方法，可以被子類繼承。
 
@@ -1276,9 +1276,9 @@ class Bar extends Foo {
 Bar.classMethod();
 ```
 
-## Class的靜態屬性和例項屬性
+## Class的靜態屬性和實例屬性
 
-靜態屬性指的是Class本身的屬性，即`Class.propname`，而不是定義在例項物件（`this`）上的屬性。
+靜態屬性指的是Class本身的屬性，即`Class.propname`，而不是定義在實例物件（`this`）上的屬性。
 
 ```javascript
 class Foo {
@@ -1307,11 +1307,11 @@ Foo.prop // undefined
 
 ES7有一個靜態屬性的[提案](https://github.com/jeffmo/es-class-properties)，目前Babel轉碼器支援。
 
-這個提案對例項屬性和靜態屬性，都規定了新的寫法。
+這個提案對實例屬性和靜態屬性，都規定了新的寫法。
 
-（1）類的例項屬性
+（1）類的實例屬性
 
-類的例項屬性可以用等式，寫入類的定義之中。
+類的實例屬性可以用等式，寫入類的定義之中。
 
 ```javascript
 class MyClass {
@@ -1323,9 +1323,9 @@ class MyClass {
 }
 ```
 
-上面程式碼中，`myProp`就是`MyClass`的例項屬性。在`MyClass`的例項上，可以讀取這個屬性。
+上面程式碼中，`myProp`就是`MyClass`的實例屬性。在`MyClass`的實例上，可以讀取這個屬性。
 
-以前，我們定義例項屬性，只能寫在類的`constructor`方法裡面。
+以前，我們定義實例屬性，只能寫在類的`constructor`方法裡面。
 
 ```javascript
 class ReactCounter extends React.Component {
@@ -1352,7 +1352,7 @@ class ReactCounter extends React.Component {
 
 這種寫法比以前更清晰。
 
-為了可讀性的目的，對於那些在`constructor`裡面已經定義的例項屬性，新寫法允許直接列出。
+為了可讀性的目的，對於那些在`constructor`裡面已經定義的實例屬性，新寫法允許直接列出。
 
 ```javascript
 class ReactCounter extends React.Component {
@@ -1368,7 +1368,7 @@ class ReactCounter extends React.Component {
 
 （2）類的靜態屬性
 
-類的靜態屬性只要在上面的例項屬性寫法前面，加上`static`關鍵字就可以了。
+類的靜態屬性只要在上面的實例屬性寫法前面，加上`static`關鍵字就可以了。
 
 ```javascript
 class MyClass {
@@ -1413,7 +1413,7 @@ class Point {
 }
 ```
 
-上面程式碼中，`#x`就表示私有屬性`x`，在`Point`類之外是讀取不到這個屬性的。還可以看到，私有屬性與例項的屬性是可以同名的（比如，`#x`與`get x()`）。
+上面程式碼中，`#x`就表示私有屬性`x`，在`Point`類之外是讀取不到這個屬性的。還可以看到，私有屬性與實例的屬性是可以同名的（比如，`#x`與`get x()`）。
 
 私有屬性可以指定初始值，在建構函式執行時進行初始化。
 
@@ -1442,14 +1442,14 @@ class Foo {
 
 ## new.target屬性
 
-`new`是從建構函式生成例項的命令。ES6為`new`命令引入了一個`new.target`屬性，（在建構函式中）返回`new`命令作用於的那個建構函式。如果建構函式不是通過`new`命令呼叫的，`new.target`會返回`undefined`，因此這個屬性可以用來確定建構函式是怎麼呼叫的。
+`new`是從建構函式生成實例的命令。ES6為`new`命令引入了一個`new.target`屬性，（在建構函式中）返回`new`命令作用於的那個建構函式。如果建構函式不是通過`new`命令呼叫的，`new.target`會返回`undefined`，因此這個屬性可以用來確定建構函式是怎麼呼叫的。
 
 ```javascript
 function Person(name) {
   if (new.target !== undefined) {
     this.name = name;
   } else {
-    throw new Error('必須使用new生成例項');
+    throw new Error('必須使用new生成實例');
   }
 }
 
@@ -1458,7 +1458,7 @@ function Person(name) {
   if (new.target === Person) {
     this.name = name;
   } else {
-    throw new Error('必須使用new生成例項');
+    throw new Error('必須使用new生成實例');
   }
 }
 
@@ -1509,7 +1509,7 @@ var obj = new Square(3); // 輸出 false
 class Shape {
   constructor() {
     if (new.target === Shape) {
-      throw new Error('本類不能例項化');
+      throw new Error('本類不能實例化');
     }
   }
 }
@@ -1525,7 +1525,7 @@ var x = new Shape();  // 報錯
 var y = new Rectangle(3, 4);  // 正確
 ```
 
-上面程式碼中，`Shape`類不能被例項化，只能用於繼承。
+上面程式碼中，`Shape`類不能被實例化，只能用於繼承。
 
 注意，在函式外部，使用`new.target`會報錯。
 
